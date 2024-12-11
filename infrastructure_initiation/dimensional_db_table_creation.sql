@@ -22,7 +22,15 @@ CREATE TABLE DimCustomers (
     CustomerKey INT IDENTITY(1,1) PRIMARY KEY, -- Surrogate Key
     CustomerID INT,                            -- Natural Key
     CustomerName NVARCHAR(255),
-    ContactInfo NVARCHAR(MAX),
+    ContactName NVARCHAR(255),
+    ContactTitle NVARCHAR(255),
+    Address NVARCHAR(255),
+    City NVARCHAR(255),
+    Region NVARCHAR(255),
+    PostalCode NVARCHAR(255),
+    Country NVARCHAR(255),
+    Phone NVARCHAR(255),
+    Fax NVARCHAR(255),
     EffectiveDate DATE,                        -- Start of validity
     ExpirationDate DATE                        -- End of validity
 );
@@ -36,8 +44,22 @@ CREATE TABLE DimCustomers (
 CREATE TABLE DimEmployees (
     EmployeeKey INT IDENTITY(1,1) PRIMARY KEY, -- Surrogate Key
     EmployeeID INT,                            -- Natural Key
-    EmployeeName NVARCHAR(255),
-    ReportsTo INT                              -- Foreign key reference to EmployeeID
+    LastName NVARCHAR(255),
+    FirstName NVARCHAR(255),
+    Title NVARCHAR(255),
+    TitleOfCourtesy NVARCHAR(255),
+    BirthDate DATE,
+    HireDate DATE,
+    Address NVARCHAR(255),
+    City NVARCHAR(255),
+    Region NVARCHAR(255),
+    PostalCode NVARCHAR(255),
+    Country NVARCHAR(255),
+    HomePhone NVARCHAR(255),
+    Extension INT,
+    Notes NVARCHAR(255),
+    ReportsTo INT,                             -- Foreign key reference to EmployeeID
+    PhotoPath NVARCHAR(255),
 );
 -- SCD1 with Delete: Only current data is stored, and inactive records are removed.
 
@@ -53,7 +75,11 @@ CREATE TABLE DimProducts (
     SupplierID INT,
     CategoryID INT,
     QuantityPerUnit NVARCHAR(255),
-    UnitPrice DECIMAL(18,2)
+    UnitPrice DECIMAL(18,2),
+    UnitsInStock INT,
+    UnitsOnOrder INT,
+    ReorderLevel INT,
+    Discontinued BIT,
 );
 -- SCD1: Only current data is stored, with no history tracking.
 
@@ -66,6 +92,8 @@ CREATE TABLE DimRegion (
     RegionKey INT IDENTITY(1,1) PRIMARY KEY,   -- Surrogate Key
     RegionID INT,                              -- Natural Key
     RegionDescription NVARCHAR(255),
+    RegionCategory NVARCHAR(255),
+    RegionImportance NVARCHAR(255),
     SnapshotDate DATE                          -- Tracks snapshot versions
 );
 -- SCD4: Historical snapshots are stored, with each snapshot having a unique SnapshotDate.
@@ -78,7 +106,7 @@ CREATE TABLE DimRegion (
 CREATE TABLE DimShippers (
     ShipperKey INT IDENTITY(1,1) PRIMARY KEY,  -- Surrogate Key
     ShipperID INT,                             -- Natural Key
-    ShipperName NVARCHAR(255),
+    CompanyName NVARCHAR(255),
     Phone NVARCHAR(50)
 );
 -- SCD1 with Delete: Only current data is stored, and inactive records are removed.
@@ -91,8 +119,17 @@ CREATE TABLE DimShippers (
 CREATE TABLE DimSuppliers (
     SupplierKey INT IDENTITY(1,1) PRIMARY KEY, -- Surrogate Key
     SupplierID INT,                            -- Natural Key
-    SupplierName NVARCHAR(255),
-    CurrentContactInfo NVARCHAR(MAX),          -- Current version of contact info
+    CompanyName NVARCHAR(255),
+    ContactName NVARCHAR(MAX),          -- Current version of contact info
+    ContactTitle NVARCHAR(255),
+    Address NVARCHAR(255),
+    City NVARCHAR(255),
+    Region NVARCHAR(255),
+    PostalCode NVARCHAR(255),
+    Country NVARCHAR(255),
+    Phone NVARCHAR(255),
+    Fax NVARCHAR(255),
+    HomePage NVARCHAR(255),
     PreviousContactInfo NVARCHAR(MAX)          -- Previous version of contact info
 );
 -- SCD3: Tracks one historical version by keeping current and previous values.
@@ -106,6 +143,7 @@ CREATE TABLE DimTerritories (
     TerritoryKey INT IDENTITY(1,1) PRIMARY KEY, -- Surrogate Key
     TerritoryID INT,                            -- Natural Key
     TerritoryDescription NVARCHAR(255),
+    TerritoryCode NVARCHAR(255),
     RegionID INT,
     SnapshotDate DATE                           -- Tracks snapshot versions
 );
