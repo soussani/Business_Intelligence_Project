@@ -3344,3 +3344,193 @@ USE ...
 2024-12-13 19:22:14,412 - INFO - Execution completed!
 2024-12-13 19:22:14,412 - INFO - Final Pipeline Status: {'create_tables': {'success': True}, 'ingest_fact': {'success': True}, 'ingest_fact_error': {'success': True}}
 >>>>>>> Stashed changes
+2024-12-13 20:25:41,518 - INFO - Resetting the database...
+2024-12-13 20:25:41,727 - INFO - Database reset successfully.
+2024-12-13 20:25:41,727 - INFO - Creating tables...
+2024-12-13 20:25:41,809 - INFO - Connecting to the database...
+2024-12-13 20:25:41,810 - INFO - Connection established successfully.
+2024-12-13 20:25:41,810 - INFO - Loaded SQL script from: infrastructure_initiation/staging_raw_table_creation.sql
+2024-12-13 20:25:41,810 - INFO - SQL script contains 12 statements.
+2024-12-13 20:25:41,810 - DEBUG - Executing statement 1: CREATE TABLE StagingCategories (
+    Staging_Raw_I...
+2024-12-13 20:25:41,813 - INFO - Statement 1 executed successfully.
+2024-12-13 20:25:41,814 - DEBUG - Executing statement 2: -- Staging Table for Customers
+CREATE TABLE Stagin...
+2024-12-13 20:25:41,817 - INFO - Statement 2 executed successfully.
+2024-12-13 20:25:41,817 - DEBUG - Executing statement 3: -- Staging Table for Employees
+CREATE TABLE Stagin...
+2024-12-13 20:25:41,820 - INFO - Statement 3 executed successfully.
+2024-12-13 20:25:41,821 - DEBUG - Executing statement 4: -- Staging Table for Products
+CREATE TABLE Staging...
+2024-12-13 20:25:41,824 - INFO - Statement 4 executed successfully.
+2024-12-13 20:25:41,824 - DEBUG - Executing statement 5: -- Staging Table for Region
+CREATE TABLE Staging_R...
+2024-12-13 20:25:41,828 - INFO - Statement 5 executed successfully.
+2024-12-13 20:25:41,828 - DEBUG - Executing statement 6: -- Staging Table for Shippers
+CREATE TABLE Staging...
+2024-12-13 20:25:41,831 - INFO - Statement 6 executed successfully.
+2024-12-13 20:25:41,831 - DEBUG - Executing statement 7: -- Staging Table for Suppliers
+CREATE TABLE Stagin...
+2024-12-13 20:25:41,835 - INFO - Statement 7 executed successfully.
+2024-12-13 20:25:41,835 - DEBUG - Executing statement 8: -- Staging Table for Territories
+CREATE TABLE Stag...
+2024-12-13 20:25:41,839 - INFO - Statement 8 executed successfully.
+2024-12-13 20:25:41,839 - DEBUG - Executing statement 9: -- Staging Table for Orders
+CREATE TABLE Staging_O...
+2024-12-13 20:25:41,844 - INFO - Statement 9 executed successfully.
+2024-12-13 20:25:41,844 - DEBUG - Executing statement 10: -- Staging Table for Order Details
+CREATE TABLE St...
+2024-12-13 20:25:41,847 - INFO - Statement 10 executed successfully.
+2024-12-13 20:25:41,847 - DEBUG - Executing statement 11: -- For task 8 adding new FactError table
+
+CREATE T...
+2024-12-13 20:25:41,851 - INFO - Statement 11 executed successfully.
+2024-12-13 20:25:41,851 - INFO - All statements executed successfully from: infrastructure_initiation/staging_raw_table_creation.sql
+2024-12-13 20:25:41,852 - INFO - Loading raw data into staging tables...
+2024-12-13 20:25:41,852 - INFO - Connected to the database.
+2024-12-13 20:25:41,867 - ERROR - Error loading raw data to staging: [Errno 2] No such file or directory: 'cleaned_raw_data.xlsx'
+Traceback (most recent call last):
+  File "/Users/inakarapetyan/Desktop/Business_Intelligence_Project/utils.py", line 126, in load_raw_data_to_staging
+    excel_data = pd.ExcelFile(raw_data_path)
+  File "/opt/anaconda3/lib/python3.9/site-packages/pandas/io/excel/_base.py", line 1191, in __init__
+    ext = inspect_excel_format(
+  File "/opt/anaconda3/lib/python3.9/site-packages/pandas/io/excel/_base.py", line 1070, in inspect_excel_format
+    with get_handle(
+  File "/opt/anaconda3/lib/python3.9/site-packages/pandas/io/common.py", line 711, in get_handle
+    handle = open(handle, ioargs.mode)
+FileNotFoundError: [Errno 2] No such file or directory: 'cleaned_raw_data.xlsx'
+2024-12-13 20:25:41,880 - INFO - Database connection closed.
+2024-12-13 20:25:41,881 - INFO - Starting pipeline execution from 2023-01-01 to 2024-12-31.
+2024-12-13 20:25:41,882 - INFO - Starting Dimensional Data Flow Execution ID: 8b9ab480-cdf7-43ef-bd09-905a99b20438
+2024-12-13 20:25:41,885 - INFO - Connecting to the database...
+2024-12-13 20:25:41,885 - INFO - Connection established successfully.
+2024-12-13 20:25:41,886 - INFO - Loaded SQL script from: infrastructure_initiation/dimensional_db_table_creation.sql
+2024-12-13 20:25:41,886 - INFO - SQL script contains 12 statements.
+2024-12-13 20:25:41,886 - DEBUG - Executing statement 1: USE ORDER_DDS...
+2024-12-13 20:25:41,889 - INFO - Statement 1 executed successfully.
+2024-12-13 20:25:41,889 - DEBUG - Executing statement 2: -- ===============================================...
+2024-12-13 20:25:41,893 - INFO - Statement 2 executed successfully.
+2024-12-13 20:25:41,893 - DEBUG - Executing statement 3: -- SCD1: Only current data is stored, with no hist...
+2024-12-13 20:25:41,897 - INFO - Statement 3 executed successfully.
+2024-12-13 20:25:41,897 - DEBUG - Executing statement 4: -- SCD2: Tracks historical changes by adding new r...
+2024-12-13 20:25:41,901 - INFO - Statement 4 executed successfully.
+2024-12-13 20:25:41,901 - DEBUG - Executing statement 5: -- SCD1 with Delete: Only current data is stored, ...
+2024-12-13 20:25:41,905 - INFO - Statement 5 executed successfully.
+2024-12-13 20:25:41,906 - DEBUG - Executing statement 6: -- SCD1: Only current data is stored, with no hist...
+2024-12-13 20:25:41,910 - INFO - Statement 6 executed successfully.
+2024-12-13 20:25:41,910 - DEBUG - Executing statement 7: -- SCD4: Historical snapshots are stored, with eac...
+2024-12-13 20:25:41,914 - INFO - Statement 7 executed successfully.
+2024-12-13 20:25:41,915 - DEBUG - Executing statement 8: -- SCD1 with Delete: Only current data is stored, ...
+2024-12-13 20:25:41,919 - INFO - Statement 8 executed successfully.
+2024-12-13 20:25:41,919 - DEBUG - Executing statement 9: -- SCD3: Tracks one historical version by keeping ...
+2024-12-13 20:25:41,924 - INFO - Statement 9 executed successfully.
+2024-12-13 20:25:41,924 - DEBUG - Executing statement 10: -- SCD4: Historical snapshots are stored, with eac...
+2024-12-13 20:25:41,927 - INFO - Statement 10 executed successfully.
+2024-12-13 20:25:41,927 - DEBUG - Executing statement 11: -- Dim_SOR: Used for tracking staging raw data and...
+2024-12-13 20:25:41,935 - INFO - Statement 11 executed successfully.
+2024-12-13 20:25:41,935 - DEBUG - Executing statement 12: -- FactOrders: Captures transactional data and lin...
+2024-12-13 20:25:41,937 - INFO - Statement 12 executed successfully.
+2024-12-13 20:25:41,938 - INFO - All statements executed successfully from: infrastructure_initiation/dimensional_db_table_creation.sql
+2024-12-13 20:25:41,938 - INFO - Tables created successfully from: infrastructure_initiation/dimensional_db_table_creation.sql
+2024-12-13 20:25:41,938 - INFO - Table creation completed successfully.
+2024-12-13 20:25:41,948 - INFO - Data successfully ingested from: pipeline_dimensional_data/queries/update_fact.sql
+2024-12-13 20:25:41,948 - INFO - Fact table ingestion completed successfully.
+2024-12-13 20:25:41,956 - INFO - Faulty rows ingested from: pipeline_dimensional_data/queries/update_fact_error.sql
+2024-12-13 20:25:41,957 - INFO - FactError table ingestion completed successfully.
+2024-12-13 20:25:41,957 - INFO - Execution 8b9ab480-cdf7-43ef-bd09-905a99b20438 completed successfully!
+2024-12-13 20:25:41,957 - INFO - Execution completed!
+2024-12-13 20:25:41,957 - INFO - Final Pipeline Status: {'create_tables': {'success': True}, 'ingest_fact': {'success': True}, 'ingest_fact_error': {'success': True}}
+2024-12-13 20:26:08,053 - INFO - Resetting the database...
+2024-12-13 20:26:08,180 - INFO - Database reset successfully.
+2024-12-13 20:26:08,180 - INFO - Creating tables...
+2024-12-13 20:26:08,228 - INFO - Connecting to the database...
+2024-12-13 20:26:08,228 - INFO - Connection established successfully.
+2024-12-13 20:26:08,229 - INFO - Loaded SQL script from: infrastructure_initiation/staging_raw_table_creation.sql
+2024-12-13 20:26:08,229 - INFO - SQL script contains 12 statements.
+2024-12-13 20:26:08,229 - DEBUG - Executing statement 1: CREATE TABLE StagingCategories (
+    Staging_Raw_I...
+2024-12-13 20:26:08,232 - INFO - Statement 1 executed successfully.
+2024-12-13 20:26:08,232 - DEBUG - Executing statement 2: -- Staging Table for Customers
+CREATE TABLE Stagin...
+2024-12-13 20:26:08,235 - INFO - Statement 2 executed successfully.
+2024-12-13 20:26:08,235 - DEBUG - Executing statement 3: -- Staging Table for Employees
+CREATE TABLE Stagin...
+2024-12-13 20:26:08,238 - INFO - Statement 3 executed successfully.
+2024-12-13 20:26:08,238 - DEBUG - Executing statement 4: -- Staging Table for Products
+CREATE TABLE Staging...
+2024-12-13 20:26:08,241 - INFO - Statement 4 executed successfully.
+2024-12-13 20:26:08,241 - DEBUG - Executing statement 5: -- Staging Table for Region
+CREATE TABLE Staging_R...
+2024-12-13 20:26:08,244 - INFO - Statement 5 executed successfully.
+2024-12-13 20:26:08,244 - DEBUG - Executing statement 6: -- Staging Table for Shippers
+CREATE TABLE Staging...
+2024-12-13 20:26:08,246 - INFO - Statement 6 executed successfully.
+2024-12-13 20:26:08,247 - DEBUG - Executing statement 7: -- Staging Table for Suppliers
+CREATE TABLE Stagin...
+2024-12-13 20:26:08,250 - INFO - Statement 7 executed successfully.
+2024-12-13 20:26:08,250 - DEBUG - Executing statement 8: -- Staging Table for Territories
+CREATE TABLE Stag...
+2024-12-13 20:26:08,253 - INFO - Statement 8 executed successfully.
+2024-12-13 20:26:08,253 - DEBUG - Executing statement 9: -- Staging Table for Orders
+CREATE TABLE Staging_O...
+2024-12-13 20:26:08,258 - INFO - Statement 9 executed successfully.
+2024-12-13 20:26:08,258 - DEBUG - Executing statement 10: -- Staging Table for Order Details
+CREATE TABLE St...
+2024-12-13 20:26:08,262 - INFO - Statement 10 executed successfully.
+2024-12-13 20:26:08,262 - DEBUG - Executing statement 11: -- For task 8 adding new FactError table
+
+CREATE T...
+2024-12-13 20:26:08,265 - INFO - Statement 11 executed successfully.
+2024-12-13 20:26:08,265 - INFO - All statements executed successfully from: infrastructure_initiation/staging_raw_table_creation.sql
+2024-12-13 20:26:08,265 - INFO - Loading raw data into staging tables...
+2024-12-13 20:26:08,265 - INFO - Connected to the database.
+2024-12-13 20:26:08,644 - INFO - Loading data from sheet: Categories into table: StagingCategories
+2024-12-13 20:26:08,686 - INFO - Data successfully loaded into StagingCategories.
+2024-12-13 20:26:08,686 - INFO - StagingCategories has 8 rows after insertion.
+2024-12-13 20:26:08,686 - INFO - Loading data from sheet: Customers into table: StagingCustomers
+2024-12-13 20:26:08,818 - ERROR - Error loading raw data to staging: ('42000', '[42000] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]The incoming tabular data stream (TDS) remote procedure call (RPC) protocol stream is incorrect. Parameter 11 (""): The supplied value is not a valid instance of data type float. Check the source data for invalid values. An example of an invalid value is data of numeric type with scale greater than precision. (8023) (SQLExecDirectW)')
+Traceback (most recent call last):
+  File "/Users/inakarapetyan/Desktop/Business_Intelligence_Project/utils.py", line 155, in load_raw_data_to_staging
+    cursor.execute(insert_query, tuple(row))
+pyodbc.ProgrammingError: ('42000', '[42000] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]The incoming tabular data stream (TDS) remote procedure call (RPC) protocol stream is incorrect. Parameter 11 (""): The supplied value is not a valid instance of data type float. Check the source data for invalid values. An example of an invalid value is data of numeric type with scale greater than precision. (8023) (SQLExecDirectW)')
+2024-12-13 20:26:08,819 - INFO - Database connection closed.
+2024-12-13 20:26:08,820 - INFO - Starting pipeline execution from 2023-01-01 to 2024-12-31.
+2024-12-13 20:26:08,820 - INFO - Starting Dimensional Data Flow Execution ID: f4d85ca2-12df-479e-8bd9-d8fe9c106d40
+2024-12-13 20:26:08,822 - INFO - Connecting to the database...
+2024-12-13 20:26:08,822 - INFO - Connection established successfully.
+2024-12-13 20:26:08,823 - INFO - Loaded SQL script from: infrastructure_initiation/dimensional_db_table_creation.sql
+2024-12-13 20:26:08,823 - INFO - SQL script contains 12 statements.
+2024-12-13 20:26:08,823 - DEBUG - Executing statement 1: USE ORDER_DDS...
+2024-12-13 20:26:08,826 - INFO - Statement 1 executed successfully.
+2024-12-13 20:26:08,826 - DEBUG - Executing statement 2: -- ===============================================...
+2024-12-13 20:26:08,829 - INFO - Statement 2 executed successfully.
+2024-12-13 20:26:08,829 - DEBUG - Executing statement 3: -- SCD1: Only current data is stored, with no hist...
+2024-12-13 20:26:08,833 - INFO - Statement 3 executed successfully.
+2024-12-13 20:26:08,833 - DEBUG - Executing statement 4: -- SCD2: Tracks historical changes by adding new r...
+2024-12-13 20:26:08,837 - INFO - Statement 4 executed successfully.
+2024-12-13 20:26:08,837 - DEBUG - Executing statement 5: -- SCD1 with Delete: Only current data is stored, ...
+2024-12-13 20:26:08,840 - INFO - Statement 5 executed successfully.
+2024-12-13 20:26:08,840 - DEBUG - Executing statement 6: -- SCD1: Only current data is stored, with no hist...
+2024-12-13 20:26:08,844 - INFO - Statement 6 executed successfully.
+2024-12-13 20:26:08,844 - DEBUG - Executing statement 7: -- SCD4: Historical snapshots are stored, with eac...
+2024-12-13 20:26:08,847 - INFO - Statement 7 executed successfully.
+2024-12-13 20:26:08,848 - DEBUG - Executing statement 8: -- SCD1 with Delete: Only current data is stored, ...
+2024-12-13 20:26:08,851 - INFO - Statement 8 executed successfully.
+2024-12-13 20:26:08,851 - DEBUG - Executing statement 9: -- SCD3: Tracks one historical version by keeping ...
+2024-12-13 20:26:08,855 - INFO - Statement 9 executed successfully.
+2024-12-13 20:26:08,855 - DEBUG - Executing statement 10: -- SCD4: Historical snapshots are stored, with eac...
+2024-12-13 20:26:08,858 - INFO - Statement 10 executed successfully.
+2024-12-13 20:26:08,858 - DEBUG - Executing statement 11: -- Dim_SOR: Used for tracking staging raw data and...
+2024-12-13 20:26:08,863 - INFO - Statement 11 executed successfully.
+2024-12-13 20:26:08,863 - DEBUG - Executing statement 12: -- FactOrders: Captures transactional data and lin...
+2024-12-13 20:26:08,866 - INFO - Statement 12 executed successfully.
+2024-12-13 20:26:08,866 - INFO - All statements executed successfully from: infrastructure_initiation/dimensional_db_table_creation.sql
+2024-12-13 20:26:08,866 - INFO - Tables created successfully from: infrastructure_initiation/dimensional_db_table_creation.sql
+2024-12-13 20:26:08,866 - INFO - Table creation completed successfully.
+2024-12-13 20:26:08,875 - INFO - Data successfully ingested from: pipeline_dimensional_data/queries/update_fact.sql
+2024-12-13 20:26:08,875 - INFO - Fact table ingestion completed successfully.
+2024-12-13 20:26:08,882 - INFO - Faulty rows ingested from: pipeline_dimensional_data/queries/update_fact_error.sql
+2024-12-13 20:26:08,882 - INFO - FactError table ingestion completed successfully.
+2024-12-13 20:26:08,882 - INFO - Execution f4d85ca2-12df-479e-8bd9-d8fe9c106d40 completed successfully!
+2024-12-13 20:26:08,882 - INFO - Execution completed!
+2024-12-13 20:26:08,882 - INFO - Final Pipeline Status: {'create_tables': {'success': True}, 'ingest_fact': {'success': True}, 'ingest_fact_error': {'success': True}}

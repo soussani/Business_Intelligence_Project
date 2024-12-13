@@ -2,12 +2,8 @@ import sys
 import argparse
 from pipeline_dimensional_data.flow import DimensionalDataFlow
 from loggings import logger
-<<<<<<< Updated upstream
-from utils import reset_db
-=======
 from pipeline_dimensional_data.tasks import reset_db
 from utils import get_db_connection, execute_sql_script_from_file, load_raw_data_to_staging
->>>>>>> Stashed changes
 
 
 def get_args():
@@ -32,11 +28,10 @@ def main():
         # Run table creation scripts
         logger.info("Creating tables...")
         execute_sql_script_from_file("infrastructure_initiation/staging_raw_table_creation.sql")
-        #execute_sql_script_from_file("infrastructure_initiation/dimensional_db_table_creation.sql")
 
         # Load raw data
         logger.info("Loading raw data into staging tables...")
-        load_raw_data_to_staging("cleaned_raw_data.xlsx")
+        load_raw_data_to_staging("raw_data_source.xlsx")
 
         # Parse arguments
         args = get_args()

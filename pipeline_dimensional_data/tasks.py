@@ -1,11 +1,6 @@
 from pipeline_dimensional_data.config_db import get_db_connection, ensure_database_exists
 from utils import execute_sql_script_from_file
 from loggings import logger
-<<<<<<< Updated upstream
-
-=======
-from utils import get_db_connection 
->>>>>>> Stashed changes
 
 # Task 1: Create Tables
 def create_tables_task(sql_file_path: str):
@@ -51,7 +46,6 @@ def ingest_fact_error_task(sql_file_path: str, start_date: str, end_date: str):
         with open(sql_file_path, 'r', encoding='utf-8') as sql_file:
             sql_script = sql_file.read()
 
-        # Execute SQL with parameters
         with conn.cursor() as cursor:
             cursor.execute(sql_script, start_date, end_date)
             conn.commit()
@@ -95,3 +89,42 @@ def run_pipeline(start_date: str, end_date: str):
 
     logger.info("Pipeline completed successfully!")
     return tasks_status
+
+# pipeline_dimensional_data/tasks.py
+
+from utils import get_db_connection
+from loggings import logger
+
+def reset_db():
+    """
+    Drops all tables and constraints from the database.
+    """
+    try:
+        conn = get_db_connection()
+        cursor = conn.cursor()
+
+        # Drop all constraints
+        cursor.execute("""
+            DECLARE @sql NVARCHAR(MAX) = N'';
+            SELECT @sql += N'ALTER TABLE ' + QUOTENAME(s.name) + '.' + QUOTENAME(t.name) +
+                          ' DROP CONSTRAINT ' + QUOTENAME(fk.name) + ';'
+            FROM sys.foreign_keys fk
+            INNER JOIN sys.tables t ON fk.parent_object_id = t.object_id
+            INNER JOIN sys.schemas s ON t.schema_id = s.schema_id;
+            EXEC sp_executesql @sql;
+        """)
+
+        # Drop all tables
+        cursor.execute("""
+            DECLARE @sql NVARCHAR(MAX) = N'';
+            SELECT @sql += N'DROP TABLE ' + QUOTENAME(s.name) + '.' + QUOTENAME(t.name) + ';'
+            FROM sys.tables t
+            INNER JOIN sys.schemas s ON t.schema_id = s.schema_id;
+            EXEC sp_executesql @sql;
+        """)
+
+        conn.commit()
+        logger.info("Database reset successfully.")
+    except Exception as e:
+        logger.error(f"Failed to reset the database: {e}", exc_info=True)
+
