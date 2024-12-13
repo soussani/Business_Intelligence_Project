@@ -1,8 +1,8 @@
-# Required Libraries
 import os
 from datetime import datetime
 from utils import get_db_config, execute_sql_script_from_file
 import pyodbc
+from loggings import logger
 
 
 # Database connection handler
@@ -16,7 +16,7 @@ def get_db_connection():
         f"UID={db_config['user']};"
         f"PWD={db_config['password']};"
         f"TrustServerCertificate=yes;"
-        )
+    )
     return pyodbc.connect(connection_string)
 
 
@@ -27,10 +27,10 @@ def create_tables_task(sql_file_path: str):
     """
     try:
         execute_sql_script_from_file(sql_file_path)
-        print(f"Tables created successfully from: {sql_file_path}")
+        logger.info(f"Tables created successfully from: {sql_file_path}")
         return {'success': True}
     except Exception as e:
-        print(f"Table creation failed: {e}")
+        logger.error(f"Table creation failed: {e}", exc_info=True)
         return {'success': False, 'error': str(e)}
 
 
@@ -48,10 +48,10 @@ def ingest_fact_table_task(sql_file_path: str, start_date: str, end_date: str):
         with conn.cursor() as cursor:
             cursor.execute(sql_script, start_date, end_date)
             conn.commit()
-            print(f"Data successfully ingested from: {sql_file_path}")
+            logger.info(f"Data successfully ingested from: {sql_file_path}")
         return {'success': True}
     except Exception as e:
-        print(f"Data ingestion failed: {e}")
+        logger.error(f"Data ingestion failed: {e}", exc_info=True)
         return {'success': False, 'error': str(e)}
 
 
@@ -69,56 +69,40 @@ def ingest_fact_error_task(sql_file_path: str, start_date: str, end_date: str):
         with conn.cursor() as cursor:
             cursor.execute(sql_script, start_date, end_date)
             conn.commit()
-            print(f"Faulty rows ingested from: {sql_file_path}")
+            logger.info(f"Faulty rows ingested from: {sql_file_path}")
         return {'success': True}
     except Exception as e:
-        print(f"FactError ingestion failed: {e}")
+        logger.error(f"FactError ingestion failed: {e}", exc_info=True)
         return {'success': False, 'error': str(e)}
 
 
 # Main Pipeline Execution
-def run_pipeline():
-    """
-    Main function to run the entire ETL pipeline in sequence.
-    """
+def run_pipeline(start_date: str, end_date: str):
 
     # Define SQL file paths
     create_tables_file = "pipeline_dimensional_data/queries/create_tables.sql"
     update_fact_file = "pipeline_dimensional_data/queries/update_fact.sql"
     update_fact_error_file = "pipeline_dimensional_data/queries/update_fact_error.sql"
 
-    # Define date parameters
-    start_date = "2023-01-01"
-    end_date = "2024-12-31"
-
-    # Run pipeline tasks in sequence
     tasks_status = {}
 
-    print("Starting ETL pipeline...")
+    logger.info("Starting ETL pipeline...")
 
-    # Task 1: Create Tables
     tasks_status['create_tables'] = create_tables_task(create_tables_file)
     if not tasks_status['create_tables']['success']:
-        print("Pipeline terminated: Table creation failed.")
+        logger.error("Pipeline terminated: Table creation failed.")
         return tasks_status
 
-    # Task 2: Ingest Fact Table
     tasks_status['ingest_fact'] = ingest_fact_table_task(update_fact_file, start_date, end_date)
     if not tasks_status['ingest_fact']['success']:
-        print("Pipeline terminated: Fact table ingestion failed.")
+        logger.error("Pipeline terminated: Fact table ingestion failed.")
         return tasks_status
 
-    # Task 3: Ingest FactError Table
     tasks_status['ingest_fact_error'] = ingest_fact_error_task(update_fact_error_file, start_date, end_date)
     if not tasks_status['ingest_fact_error']['success']:
-        print("Pipeline terminated: FactError ingestion failed.")
+        logger.error("Pipeline terminated: FactError ingestion failed.")
         return tasks_status
 
-    print("Pipeline completed successfully!")
+    logger.info("Pipeline completed successfully!")
     return tasks_status
 
-
-# Execute pipeline when running the script directly
-if __name__ == "__main__":
-    pipeline_status = run_pipeline()
-    print("Final pipeline status:", pipeline_status)
