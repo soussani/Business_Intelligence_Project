@@ -1,7 +1,7 @@
-import configparser
 import pyodbc
 import uuid
 from loggings import logger
+from pipeline_dimensional_data.config import get_db_config
 
 # Generate unique UUID for task execution tracking
 def generate_uuid() -> str:
@@ -11,31 +11,6 @@ def generate_uuid() -> str:
         str: A unique UUID string.
     """
     return str(uuid.uuid4())
-
-
-# Database configuration loader
-def get_db_config(config_file='./sql_server_config.cfg'):
-    """
-    Reads database configuration from a config file.
-
-    Args:
-        config_file (str): Path to the configuration file.
-
-    Returns:
-        dict: Database connection parameters.
-    """
-    config = configparser.ConfigParser()
-    config.read(config_file)
-    if 'SQL_SERVER' not in config:
-        raise KeyError("'SQL_SERVER' section not found in the configuration file.")
-    db_config = {
-        'driver': config['SQL_SERVER']['driver'],
-        'server': config['SQL_SERVER']['server'],
-        'database': config['SQL_SERVER']['database'],
-        'user': config['SQL_SERVER']['user'],
-        'password': config['SQL_SERVER']['password']
-    }
-    return db_config
 
 
 # SQL execution utility
