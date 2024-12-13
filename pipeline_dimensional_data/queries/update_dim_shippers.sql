@@ -7,7 +7,7 @@ USING (
     SELECT 
         ss.Staging_Raw_ID,
         ss.ShipperID,
-        ss.ShipperName,
+        ss.CompanyName,
         ss.Phone,
         ds.SORKey
     FROM Staging_Shippers ss
@@ -17,9 +17,9 @@ ON target.ShipperID = source.ShipperID
 
 WHEN MATCHED THEN
     UPDATE SET 
-        target.ShipperName = source.ShipperName,
+        target.CompanyName = source.CompanyName,
         target.Phone = source.Phone
 
 WHEN NOT MATCHED BY TARGET THEN
-    INSERT (ShipperID, ShipperName, Phone)
-    VALUES (source.ShipperID, source.ShipperName, source.Phone);
+    INSERT (ShipperID, CompanyName, Phone)
+    VALUES (source.ShipperID, source.CompanyName, source.Phone);

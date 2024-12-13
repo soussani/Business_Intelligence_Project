@@ -10,6 +10,6 @@ SELECT
     sc.ContactInfo,
     GETDATE() AS EffectiveDate,      -- Start of validity
     NULL AS ExpirationDate           -- Open-ended validity
-FROM Staging_Customers sc
+FROM StagingCustomers sc
 LEFT JOIN DimCustomers dc ON sc.CustomerID = dc.CustomerID
 WHERE dc.CustomerID IS NULL;        -- Only insert if not already present

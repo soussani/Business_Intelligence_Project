@@ -8,6 +8,6 @@ SELECT
     sr.RegionID,
     sr.RegionDescription,
     GETDATE() AS SnapshotDate
-FROM Staging_Regions sr
+FROM Staging_Region sr
 LEFT JOIN DimRegion dr ON sr.RegionID = dr.RegionID
 WHERE dr.RegionID IS NULL;

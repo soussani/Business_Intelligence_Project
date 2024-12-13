@@ -25,11 +25,13 @@ USING (
         ds.ShipperKey,                    -- Foreign Key from DimShippers
         dp.ProductKey,                    -- Foreign Key from DimProducts
         so.OrderDate,                     -- Date of the order
-        so.Quantity,                      -- Quantity of products ordered
-        so.TotalAmount,                   -- Total order amount
-        so.Discount,                      -- Discount applied to the order
+        sod.Quantity,                      -- Quantity of products ordered
+--         so.TotalAmount,                   -- Total order amount
+        sod.Discount,                      -- Discount applied to the order
         sor.SORKey                        -- Surrogate key from Dim_SOR
     FROM dbo.Staging_Orders so            -- Staging table containing raw order data
+    JOIN dbo.Staging_OrderDetails sod
+        ON sod.OrderID = so.OrderID
     JOIN dbo.Dim_SOR sor
         ON sor.StagingTableName = 'Staging_Orders' -- Link staging table with the surrogate key
     JOIN dbo.DimCustomers dc
@@ -39,7 +41,7 @@ USING (
     JOIN dbo.DimShippers ds
         ON so.ShipVia = ds.ShipperID              -- Match ShipperID with DimShippers
     JOIN dbo.DimProducts dp
-        ON so.ProductID = dp.ProductID            -- Match ProductID with DimProducts
+        ON sod.ProductID = dp.ProductID            -- Match ProductID with DimProducts
 
     -- Filter data by the provided date range
     WHERE so.OrderDate BETWEEN ? AND ?            -- Dynamic date range for filtering
@@ -56,10 +58,10 @@ WHEN MATCHED THEN
         target.ProductKey = source.ProductKey,   -- Update ProductKey
         target.OrderDate = source.OrderDate,     -- Update OrderDate
         target.Quantity = source.Quantity,       -- Update Quantity
-        target.TotalAmount = source.TotalAmount, -- Update TotalAmount
+--         target.TotalAmount = source.TotalAmount, -- Update TotalAmount
         target.Discount = source.Discount        -- Update Discount
 
 -- Insert new fact table records if they do not exist
 WHEN NOT MATCHED BY TARGET THEN
-    INSERT (OrderID, CustomerKey, EmployeeKey, ShipperKey, ProductKey, OrderDate, Quantity, TotalAmount, Discount)
-    VALUES (source.OrderID, source.CustomerKey, source.EmployeeKey, source.ShipperKey, source.ProductKey, source.OrderDate, source.Quantity, source.TotalAmount, source.Discount);
+    INSERT (OrderID, CustomerKey, EmployeeKey, ShipperKey, ProductKey, OrderDate, Quantity, Discount)
+    VALUES (source.OrderID, source.CustomerKey, source.EmployeeKey, source.ShipperKey, source.ProductKey, source.OrderDate, source.Quantity, source.Discount);

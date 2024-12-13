@@ -7,8 +7,8 @@ USING (
     SELECT 
         ss.Staging_Raw_ID,
         ss.SupplierID,
-        ss.SupplierName,
-        ss.ContactInfo,
+        ss.CompanyName,
+        ss.ContactName,
         ds.SORKey
     FROM Staging_Suppliers ss
     JOIN Dim_SOR ds 
@@ -17,13 +17,13 @@ USING (
 ON target.SupplierID = source.SupplierID
 
 -- Update existing records with history
-WHEN MATCHED AND target.CurrentContactInfo <> source.ContactInfo THEN
+WHEN MATCHED AND target.ContactName <> source.ContactName THEN
     UPDATE SET 
-        target.PreviousContactInfo = target.CurrentContactInfo,
-        target.CurrentContactInfo = source.ContactInfo
+        target.PreviousContactInfo = target.ContactName,
+        target.ContactName = source.ContactName
 
 -- Insert new records
 WHEN NOT MATCHED BY TARGET THEN
-    INSERT (SupplierID, SupplierName, CurrentContactInfo, PreviousContactInfo)
-    VALUES (source.SupplierID, source.SupplierName, source.ContactInfo, NULL);
+    INSERT (SupplierID, CompanyName, ContactName, PreviousContactInfo)
+    VALUES (source.SupplierID, source.CompanyName, source.ContactName, NULL);
 

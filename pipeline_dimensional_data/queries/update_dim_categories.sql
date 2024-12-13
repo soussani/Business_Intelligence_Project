@@ -10,9 +10,9 @@ USING (
         sc.CategoryName,
         sc.Description,
         ds.SORKey
-    FROM Staging_Categories sc
+    FROM StagingCategories sc
     JOIN Dim_SOR ds 
-        ON ds.StagingTableName = 'Staging_Categories'
+        ON ds.StagingTableName = 'StagingCategories'
 ) AS source
 ON target.CategoryID = source.CategoryID
 

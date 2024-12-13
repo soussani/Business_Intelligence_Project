@@ -37,7 +37,7 @@ def main():
 
         # Load raw data
         logger.info("Loading raw data into staging tables...")
-        load_raw_data_to_staging("raw_data_source.xlsx", conn)
+        load_raw_data_to_staging("raw_data_source.xlsx")
 
         # Parse arguments
         args = get_args()

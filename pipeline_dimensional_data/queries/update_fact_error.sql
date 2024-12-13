@@ -23,7 +23,7 @@ INSERT INTO dbo.FactError (
     ProductID,            -- Missing product
     OrderDate,            -- Date of the order
     Quantity,             -- Invalid quantity
-    TotalAmount,          -- Invalid amount
+--     TotalAmount,          -- Invalid amount
     Discount,             -- Invalid discount
     ErrorReason,          -- Reason for failure
     SORKey                -- Surrogate key from Dim_SOR
@@ -35,23 +35,25 @@ SELECT
     so.CustomerID,                     -- Invalid customer reference
     so.EmployeeID,                     -- Invalid employee reference
     so.ShipVia,                        -- Invalid shipper reference
-    so.ProductID,                      -- Invalid product reference
+    sod.ProductID,                      -- Invalid product reference
     so.OrderDate,                      -- Order date
-    so.Quantity,                       -- Quantity ordered
-    so.TotalAmount,                    -- Total amount of the order
-    so.Discount,                       -- Discount applied
+    sod.Quantity,                       -- Quantity ordered
+--     so.TotalAmount,                    -- Total amount of the order
+    sod.Discount,                       -- Discount applied
     CASE
         WHEN dc.CustomerKey IS NULL THEN 'Missing Customer'
         WHEN de.EmployeeKey IS NULL THEN 'Missing Employee'
         WHEN ds.ShipperKey IS NULL THEN 'Missing Shipper'
         WHEN dp.ProductKey IS NULL THEN 'Missing Product'
-        WHEN so.Quantity <= 0 THEN 'Invalid Quantity'
-        WHEN so.TotalAmount <= 0 THEN 'Invalid Amount'
-        WHEN so.Discount < 0 THEN 'Invalid Discount'
+        WHEN sod.Quantity <= 0 THEN 'Invalid Quantity'
+--         WHEN sod.TotalAmount <= 0 THEN 'Invalid Amount'
+        WHEN sod.Discount < 0 THEN 'Invalid Discount'
         ELSE 'Unknown Error'
     END AS ErrorReason,
     sor.SORKey                        -- Surrogate key from Dim_SOR
 FROM dbo.Staging_Orders so
+JOIN dbo.Staging_OrderDetails sod
+    ON sod.OrderID = so.OrderID
 LEFT JOIN dbo.Dim_SOR sor
     ON sor.StagingTableName = 'Staging_Orders'
 
@@ -63,7 +65,7 @@ LEFT JOIN dbo.DimEmployees de
 LEFT JOIN dbo.DimShippers ds
     ON so.ShipVia = ds.ShipperID
 LEFT JOIN dbo.DimProducts dp
-    ON so.ProductID = dp.ProductID
+    ON sod.ProductID = dp.ProductID
 
 -- Filter by Date Range
 WHERE so.OrderDate BETWEEN ? AND ? -- Dynamic date range for filtering
@@ -73,7 +75,7 @@ AND (
     de.EmployeeKey IS NULL OR
     ds.ShipperKey IS NULL OR
     dp.ProductKey IS NULL OR
-    so.Quantity <= 0 OR
-    so.TotalAmount <= 0 OR
-    so.Discount < 0
+    sod.Quantity <= 0 OR
+--     so.TotalAmount <= 0 OR
+    sod.Discount < 0
 );

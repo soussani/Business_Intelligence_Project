@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="SqlDialectMappings">
+    <file url="file://$PROJECT_DIR$/infrastructure_initiation/dimensional_db_creation.sql" dialect="TSQL" />
+    <file url="file://$PROJECT_DIR$/infrastructure_initiation/dimensional_db_table_creation.sql" dialect="TSQL" />
+    <file url="file://$PROJECT_DIR$/infrastructure_initiation/staging_raw_table_creation.sql" dialect="TSQL" />
+    <file url="file://$PROJECT_DIR$/pipeline_dimensional_data/queries/update_dim_categories.sql" dialect="TSQL" />
+    <file url="file://$PROJECT_DIR$/pipeline_dimensional_data/queries/update_dim_customers.sql" dialect="TSQL" />
+    <file url="file://$PROJECT_DIR$/pipeline_dimensional_data/queries/update_dim_employees.sql" dialect="TSQL" />
+    <file url="file://$PROJECT_DIR$/pipeline_dimensional_data/queries/update_dim_products.sql" dialect="TSQL" />
+    <file url="file://$PROJECT_DIR$/pipeline_dimensional_data/queries/update_dim_region.sql" dialect="TSQL" />
+    <file url="file://$PROJECT_DIR$/pipeline_dimensional_data/queries/update_dim_shippers.sql" dialect="TSQL" />
+    <file url="file://$PROJECT_DIR$/pipeline_dimensional_data/queries/update_dim_suppliers.sql" dialect="TSQL" />
+    <file url="file://$PROJECT_DIR$/pipeline_dimensional_data/queries/update_dim_territories.sql" dialect="TSQL" />
+    <file url="file://$PROJECT_DIR$/pipeline_dimensional_data/queries/update_fact.sql" dialect="TSQL" />
+    <file url="file://$PROJECT_DIR$/pipeline_dimensional_data/queries/update_fact_error.sql" dialect="TSQL" />
+  </component>
+</project>

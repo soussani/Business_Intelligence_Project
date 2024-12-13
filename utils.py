@@ -17,6 +17,7 @@ def generate_uuid() -> str:
 # Database connection handler
 def get_db_connection():
     """Establishes a database connection using config."""
+    ensure_database_exists()
     db_config = get_db_config()
     connection_string = (
         f"Driver={db_config['driver']};"
@@ -95,10 +96,11 @@ def execute_sql_inserts(df, table_name, conn):
     conn.commit()
     logger.info(f"Inserted {len(df)} rows into {table_name}.")
 
-def load_raw_data_to_staging(raw_data_path: str, conn):
+def load_raw_data_to_staging(raw_data_path: str):
     """
     Loads raw data from an Excel file into staging tables in the database.
     """
+    conn = get_db_connection()
     try:
         # Load data from Excel sheets
         df_products = pd.read_excel(raw_data_path, sheet_name='Products')
