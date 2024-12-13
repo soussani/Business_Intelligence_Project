@@ -2,7 +2,7 @@ import sys
 import argparse
 from pipeline_dimensional_data.flow import DimensionalDataFlow
 from loggings import logger
-from pipeline_dimensional_data.tasks import reset_db
+from utils import reset_db
 
 
 def get_args():

@@ -1,21 +1,6 @@
-from utils import get_db_config, execute_sql_script_from_file
-import pyodbc
+from pipeline_dimensional_data.config_db import get_db_connection, ensure_database_exists
+from utils import execute_sql_script_from_file
 from loggings import logger
-
-
-# Database connection handler
-def get_db_connection():
-    """Establishes a database connection using config."""
-    db_config = get_db_config()
-    connection_string = (
-        f"Driver={db_config['driver']};"
-        f"Server={db_config['server']};"
-        f"Database={db_config['database']};"
-        f"UID={db_config['user']};"
-        f"PWD={db_config['password']};"
-        f"TrustServerCertificate=yes;"
-    )
-    return pyodbc.connect(connection_string)
 
 
 # Task 1: Create Tables
@@ -42,7 +27,6 @@ def ingest_fact_table_task(sql_file_path: str, start_date: str, end_date: str):
         with open(sql_file_path, 'r', encoding='utf-8') as sql_file:
             sql_script = sql_file.read()
 
-        # Execute SQL with parameters
         with conn.cursor() as cursor:
             cursor.execute(sql_script, start_date, end_date)
             conn.commit()
@@ -76,8 +60,12 @@ def ingest_fact_error_task(sql_file_path: str, start_date: str, end_date: str):
 
 # Main Pipeline Execution
 def run_pipeline(start_date: str, end_date: str):
+    try:
+        ensure_database_exists()
+    except Exception as e:
+        logger.error(f"Pipeline terminated: Database creation/check failed. {e}")
+        return {'success': False, 'error': str(e)}
 
-    # Define SQL file paths
     create_tables_file = "infrastructure_initiation/dimensional_db_table_creation.sql"
     update_fact_file = "pipeline_dimensional_data/queries/update_fact.sql"
     update_fact_error_file = "pipeline_dimensional_data/queries/update_fact_error.sql"
@@ -103,35 +91,3 @@ def run_pipeline(start_date: str, end_date: str):
 
     logger.info("Pipeline completed successfully!")
     return tasks_status
-
-
-def reset_db():
-    """
-    Drops all tables in the database, resetting it completely.
-    """
-    try:
-        conn = get_db_connection()
-        cursor = conn.cursor()
-
-        cursor.execute("""
-                DECLARE @sql NVARCHAR(MAX) = N'';
-                SELECT @sql += N'ALTER TABLE ' + QUOTENAME(s.name) + '.' + QUOTENAME(t.name) + 
-                              ' DROP CONSTRAINT ' + QUOTENAME(fk.name) + ';'
-                FROM sys.foreign_keys fk
-                INNER JOIN sys.tables t ON fk.parent_object_id = t.object_id
-                INNER JOIN sys.schemas s ON t.schema_id = s.schema_id;
-                EXEC sp_executesql @sql;
-                """)
-        cursor.execute("""
-                DECLARE @sql NVARCHAR(MAX) = N'';
-                SELECT @sql += N'DROP TABLE ' + QUOTENAME(s.name) + '.' + QUOTENAME(t.name) + ';'
-                FROM sys.tables t
-                INNER JOIN sys.schemas s ON t.schema_id = s.schema_id;
-                EXEC sp_executesql @sql;
-                """)
-        conn.commit()
-        print("All tables and constraints dropped successfully.")
-        return {'success': True}
-    except Exception as e:
-        print(f"Failed to drop database tables: {e}")
-        return {'success': False, 'error': str(e)}

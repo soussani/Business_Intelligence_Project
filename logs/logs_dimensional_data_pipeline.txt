@@ -296,3 +296,948 @@ pyodbc.ProgrammingError: ('42S01', "[42S01] [Microsoft][ODBC Driver 18 for SQL S
 2024-12-13 17:26:48,405 - INFO - Execution 507950e1-d8b8-4de6-876f-524d0389ac89 completed successfully!
 2024-12-13 17:26:48,405 - INFO - Execution completed!
 2024-12-13 17:26:48,405 - INFO - Final Pipeline Status: {'create_tables': {'success': True}, 'ingest_fact': {'success': True}, 'ingest_fact_error': {'success': True}}
+2024-12-13 17:40:59,648 - INFO - Starting pipeline execution from 2023-01-01 to 2024-12-31.
+2024-12-13 17:40:59,650 - INFO - Starting Dimensional Data Flow Execution ID: 531b4afb-485f-40ba-90d5-452f24516eca
+2024-12-13 17:40:59,650 - INFO - Connecting to the database...
+2024-12-13 17:40:59,650 - INFO - Connection established successfully.
+2024-12-13 17:40:59,651 - INFO - Loaded SQL script from: infrastructure_initiation/dimensional_db_table_creation.sql
+2024-12-13 17:40:59,651 - INFO - SQL script contains 12 statements.
+2024-12-13 17:40:59,651 - DEBUG - Executing statement 1: USE ORDER_DDS...
+2024-12-13 17:40:59,653 - INFO - Statement 1 executed successfully.
+2024-12-13 17:40:59,653 - DEBUG - Executing statement 2: -- ===============================================...
+2024-12-13 17:40:59,659 - INFO - Statement 2 executed successfully.
+2024-12-13 17:40:59,659 - DEBUG - Executing statement 3: -- SCD1: Only current data is stored, with no hist...
+2024-12-13 17:40:59,665 - INFO - Statement 3 executed successfully.
+2024-12-13 17:40:59,666 - DEBUG - Executing statement 4: -- SCD2: Tracks historical changes by adding new r...
+2024-12-13 17:40:59,670 - INFO - Statement 4 executed successfully.
+2024-12-13 17:40:59,670 - DEBUG - Executing statement 5: -- SCD1 with Delete: Only current data is stored, ...
+2024-12-13 17:40:59,676 - INFO - Statement 5 executed successfully.
+2024-12-13 17:40:59,676 - DEBUG - Executing statement 6: -- SCD1: Only current data is stored, with no hist...
+2024-12-13 17:40:59,679 - INFO - Statement 6 executed successfully.
+2024-12-13 17:40:59,679 - DEBUG - Executing statement 7: -- SCD4: Historical snapshots are stored, with eac...
+2024-12-13 17:40:59,686 - INFO - Statement 7 executed successfully.
+2024-12-13 17:40:59,686 - DEBUG - Executing statement 8: -- SCD1 with Delete: Only current data is stored, ...
+2024-12-13 17:40:59,689 - INFO - Statement 8 executed successfully.
+2024-12-13 17:40:59,689 - DEBUG - Executing statement 9: -- SCD3: Tracks one historical version by keeping ...
+2024-12-13 17:40:59,693 - INFO - Statement 9 executed successfully.
+2024-12-13 17:40:59,693 - DEBUG - Executing statement 10: -- SCD4: Historical snapshots are stored, with eac...
+2024-12-13 17:40:59,696 - INFO - Statement 10 executed successfully.
+2024-12-13 17:40:59,696 - DEBUG - Executing statement 11: -- Dim_SOR: Used for tracking staging raw data and...
+2024-12-13 17:40:59,703 - INFO - Statement 11 executed successfully.
+2024-12-13 17:40:59,704 - DEBUG - Executing statement 12: -- FactOrders: Captures transactional data and lin...
+2024-12-13 17:40:59,705 - INFO - Statement 12 executed successfully.
+2024-12-13 17:40:59,705 - INFO - All statements executed successfully from: infrastructure_initiation/dimensional_db_table_creation.sql
+2024-12-13 17:40:59,705 - INFO - Tables created successfully from: infrastructure_initiation/dimensional_db_table_creation.sql
+2024-12-13 17:40:59,705 - INFO - Table creation completed successfully.
+2024-12-13 17:40:59,712 - INFO - Data successfully ingested from: pipeline_dimensional_data/queries/update_fact.sql
+2024-12-13 17:40:59,712 - INFO - Fact table ingestion completed successfully.
+2024-12-13 17:40:59,717 - INFO - Faulty rows ingested from: pipeline_dimensional_data/queries/update_fact_error.sql
+2024-12-13 17:40:59,717 - INFO - FactError table ingestion completed successfully.
+2024-12-13 17:40:59,717 - INFO - Execution 531b4afb-485f-40ba-90d5-452f24516eca completed successfully!
+2024-12-13 17:40:59,717 - INFO - Execution completed!
+2024-12-13 17:40:59,717 - INFO - Final Pipeline Status: {'create_tables': {'success': True}, 'ingest_fact': {'success': True}, 'ingest_fact_error': {'success': True}}
+2024-12-13 18:34:31,631 - INFO - Starting pipeline execution from 2023-01-01 to 2024-12-31.
+2024-12-13 18:34:31,632 - INFO - Starting Dimensional Data Flow Execution ID: 075c39a6-b2c5-485d-a885-92c57547ad41
+2024-12-13 18:34:31,633 - INFO - Connecting to the database...
+2024-12-13 18:34:31,760 - INFO - Connection established successfully.
+2024-12-13 18:34:31,762 - INFO - Loaded SQL script from: infrastructure_initiation/dimensional_db_table_creation.sql
+2024-12-13 18:34:31,762 - INFO - SQL script contains 12 statements.
+2024-12-13 18:34:31,763 - DEBUG - Executing statement 1: USE ORDER_DDS...
+2024-12-13 18:34:31,767 - INFO - Statement 1 executed successfully.
+2024-12-13 18:34:31,767 - DEBUG - Executing statement 2: -- ===============================================...
+2024-12-13 18:34:31,772 - ERROR - Error executing statement 2: ('42S01', "[42S01] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]There is already an object named 'DimCategories' in the database. (2714) (SQLExecDirectW)")
+Traceback (most recent call last):
+  File "/Users/hrag03/Downloads/Business_Intelligence_Project/utils.py", line 58, in execute_sql_script_from_file
+    cursor.execute(statement)
+pyodbc.ProgrammingError: ('42S01', "[42S01] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]There is already an object named 'DimCategories' in the database. (2714) (SQLExecDirectW)")
+2024-12-13 18:34:31,774 - DEBUG - Executing statement 3: -- SCD1: Only current data is stored, with no hist...
+2024-12-13 18:34:31,777 - ERROR - Error executing statement 3: ('42S01', "[42S01] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]There is already an object named 'DimCustomers' in the database. (2714) (SQLExecDirectW)")
+Traceback (most recent call last):
+  File "/Users/hrag03/Downloads/Business_Intelligence_Project/utils.py", line 58, in execute_sql_script_from_file
+    cursor.execute(statement)
+pyodbc.ProgrammingError: ('42S01', "[42S01] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]There is already an object named 'DimCustomers' in the database. (2714) (SQLExecDirectW)")
+2024-12-13 18:34:31,777 - DEBUG - Executing statement 4: -- SCD2: Tracks historical changes by adding new r...
+2024-12-13 18:34:31,782 - ERROR - Error executing statement 4: ('42S01', "[42S01] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]There is already an object named 'DimEmployees' in the database. (2714) (SQLExecDirectW)")
+Traceback (most recent call last):
+  File "/Users/hrag03/Downloads/Business_Intelligence_Project/utils.py", line 58, in execute_sql_script_from_file
+    cursor.execute(statement)
+pyodbc.ProgrammingError: ('42S01', "[42S01] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]There is already an object named 'DimEmployees' in the database. (2714) (SQLExecDirectW)")
+2024-12-13 18:34:31,782 - DEBUG - Executing statement 5: -- SCD1 with Delete: Only current data is stored, ...
+2024-12-13 18:34:31,786 - ERROR - Error executing statement 5: ('42S01', "[42S01] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]There is already an object named 'DimProducts' in the database. (2714) (SQLExecDirectW)")
+Traceback (most recent call last):
+  File "/Users/hrag03/Downloads/Business_Intelligence_Project/utils.py", line 58, in execute_sql_script_from_file
+    cursor.execute(statement)
+pyodbc.ProgrammingError: ('42S01', "[42S01] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]There is already an object named 'DimProducts' in the database. (2714) (SQLExecDirectW)")
+2024-12-13 18:34:31,786 - DEBUG - Executing statement 6: -- SCD1: Only current data is stored, with no hist...
+2024-12-13 18:34:31,791 - ERROR - Error executing statement 6: ('42S01', "[42S01] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]There is already an object named 'DimRegion' in the database. (2714) (SQLExecDirectW)")
+Traceback (most recent call last):
+  File "/Users/hrag03/Downloads/Business_Intelligence_Project/utils.py", line 58, in execute_sql_script_from_file
+    cursor.execute(statement)
+pyodbc.ProgrammingError: ('42S01', "[42S01] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]There is already an object named 'DimRegion' in the database. (2714) (SQLExecDirectW)")
+2024-12-13 18:34:31,791 - DEBUG - Executing statement 7: -- SCD4: Historical snapshots are stored, with eac...
+2024-12-13 18:34:31,796 - ERROR - Error executing statement 7: ('42S01', "[42S01] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]There is already an object named 'DimShippers' in the database. (2714) (SQLExecDirectW)")
+Traceback (most recent call last):
+  File "/Users/hrag03/Downloads/Business_Intelligence_Project/utils.py", line 58, in execute_sql_script_from_file
+    cursor.execute(statement)
+pyodbc.ProgrammingError: ('42S01', "[42S01] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]There is already an object named 'DimShippers' in the database. (2714) (SQLExecDirectW)")
+2024-12-13 18:34:31,797 - DEBUG - Executing statement 8: -- SCD1 with Delete: Only current data is stored, ...
+2024-12-13 18:34:31,800 - ERROR - Error executing statement 8: ('42S01', "[42S01] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]There is already an object named 'DimSuppliers' in the database. (2714) (SQLExecDirectW)")
+Traceback (most recent call last):
+  File "/Users/hrag03/Downloads/Business_Intelligence_Project/utils.py", line 58, in execute_sql_script_from_file
+    cursor.execute(statement)
+pyodbc.ProgrammingError: ('42S01', "[42S01] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]There is already an object named 'DimSuppliers' in the database. (2714) (SQLExecDirectW)")
+2024-12-13 18:34:31,800 - DEBUG - Executing statement 9: -- SCD3: Tracks one historical version by keeping ...
+2024-12-13 18:34:31,803 - ERROR - Error executing statement 9: ('42S01', "[42S01] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]There is already an object named 'DimTerritories' in the database. (2714) (SQLExecDirectW)")
+Traceback (most recent call last):
+  File "/Users/hrag03/Downloads/Business_Intelligence_Project/utils.py", line 58, in execute_sql_script_from_file
+    cursor.execute(statement)
+pyodbc.ProgrammingError: ('42S01', "[42S01] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]There is already an object named 'DimTerritories' in the database. (2714) (SQLExecDirectW)")
+2024-12-13 18:34:31,803 - DEBUG - Executing statement 10: -- SCD4: Historical snapshots are stored, with eac...
+2024-12-13 18:34:31,807 - ERROR - Error executing statement 10: ('42S01', "[42S01] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]There is already an object named 'Dim_SOR' in the database. (2714) (SQLExecDirectW)")
+Traceback (most recent call last):
+  File "/Users/hrag03/Downloads/Business_Intelligence_Project/utils.py", line 58, in execute_sql_script_from_file
+    cursor.execute(statement)
+pyodbc.ProgrammingError: ('42S01', "[42S01] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]There is already an object named 'Dim_SOR' in the database. (2714) (SQLExecDirectW)")
+2024-12-13 18:34:31,807 - DEBUG - Executing statement 11: -- Dim_SOR: Used for tracking staging raw data and...
+2024-12-13 18:34:31,811 - ERROR - Error executing statement 11: ('42S01', "[42S01] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]There is already an object named 'FactOrders' in the database. (2714) (SQLExecDirectW)")
+Traceback (most recent call last):
+  File "/Users/hrag03/Downloads/Business_Intelligence_Project/utils.py", line 58, in execute_sql_script_from_file
+    cursor.execute(statement)
+pyodbc.ProgrammingError: ('42S01', "[42S01] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]There is already an object named 'FactOrders' in the database. (2714) (SQLExecDirectW)")
+2024-12-13 18:34:31,812 - DEBUG - Executing statement 12: -- FactOrders: Captures transactional data and lin...
+2024-12-13 18:34:31,814 - INFO - Statement 12 executed successfully.
+2024-12-13 18:34:31,815 - INFO - All statements executed successfully from: infrastructure_initiation/dimensional_db_table_creation.sql
+2024-12-13 18:34:31,816 - INFO - Tables created successfully from: infrastructure_initiation/dimensional_db_table_creation.sql
+2024-12-13 18:34:31,816 - INFO - Table creation completed successfully.
+2024-12-13 18:34:31,816 - ERROR - Data ingestion failed: name 'get_db_connection' is not defined
+Traceback (most recent call last):
+  File "/Users/hrag03/Downloads/Business_Intelligence_Project/pipeline_dimensional_data/tasks.py", line 25, in ingest_fact_table_task
+    conn = get_db_connection()
+NameError: name 'get_db_connection' is not defined
+2024-12-13 18:34:31,817 - ERROR - Execution 075c39a6-b2c5-485d-a885-92c57547ad41 failed: Fact table ingestion failed.
+Traceback (most recent call last):
+  File "/Users/hrag03/Downloads/Business_Intelligence_Project/pipeline_dimensional_data/flow.py", line 57, in exec
+    raise Exception("Fact table ingestion failed.")
+Exception: Fact table ingestion failed.
+2024-12-13 18:34:31,818 - INFO - Execution completed!
+2024-12-13 18:34:31,818 - INFO - Final Pipeline Status: {'create_tables': {'success': True}, 'ingest_fact': {'success': False, 'error': "name 'get_db_connection' is not defined"}, 'error': 'Fact table ingestion failed.'}
+2024-12-13 18:36:37,898 - INFO - Starting pipeline execution from 2023-01-01 to 2024-12-31.
+2024-12-13 18:36:37,900 - INFO - Starting Dimensional Data Flow Execution ID: 14dc86c9-cc11-4a12-bef1-4f05a32faacd
+2024-12-13 18:36:37,902 - INFO - Connecting to the database...
+2024-12-13 18:36:38,048 - INFO - Connection established successfully.
+2024-12-13 18:36:38,050 - INFO - Loaded SQL script from: infrastructure_initiation/dimensional_db_table_creation.sql
+2024-12-13 18:36:38,051 - INFO - SQL script contains 12 statements.
+2024-12-13 18:36:38,051 - DEBUG - Executing statement 1: USE ORDER_DDS...
+2024-12-13 18:36:38,056 - INFO - Statement 1 executed successfully.
+2024-12-13 18:36:38,056 - DEBUG - Executing statement 2: -- ===============================================...
+2024-12-13 18:36:38,060 - ERROR - Error executing statement 2: ('42S01', "[42S01] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]There is already an object named 'DimCategories' in the database. (2714) (SQLExecDirectW)")
+Traceback (most recent call last):
+  File "/Users/hrag03/Downloads/Business_Intelligence_Project/utils.py", line 58, in execute_sql_script_from_file
+    cursor.execute(statement)
+pyodbc.ProgrammingError: ('42S01', "[42S01] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]There is already an object named 'DimCategories' in the database. (2714) (SQLExecDirectW)")
+2024-12-13 18:36:38,062 - DEBUG - Executing statement 3: -- SCD1: Only current data is stored, with no hist...
+2024-12-13 18:36:38,067 - ERROR - Error executing statement 3: ('42S01', "[42S01] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]There is already an object named 'DimCustomers' in the database. (2714) (SQLExecDirectW)")
+Traceback (most recent call last):
+  File "/Users/hrag03/Downloads/Business_Intelligence_Project/utils.py", line 58, in execute_sql_script_from_file
+    cursor.execute(statement)
+pyodbc.ProgrammingError: ('42S01', "[42S01] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]There is already an object named 'DimCustomers' in the database. (2714) (SQLExecDirectW)")
+2024-12-13 18:36:38,067 - DEBUG - Executing statement 4: -- SCD2: Tracks historical changes by adding new r...
+2024-12-13 18:36:38,070 - ERROR - Error executing statement 4: ('42S01', "[42S01] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]There is already an object named 'DimEmployees' in the database. (2714) (SQLExecDirectW)")
+Traceback (most recent call last):
+  File "/Users/hrag03/Downloads/Business_Intelligence_Project/utils.py", line 58, in execute_sql_script_from_file
+    cursor.execute(statement)
+pyodbc.ProgrammingError: ('42S01', "[42S01] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]There is already an object named 'DimEmployees' in the database. (2714) (SQLExecDirectW)")
+2024-12-13 18:36:38,071 - DEBUG - Executing statement 5: -- SCD1 with Delete: Only current data is stored, ...
+2024-12-13 18:36:38,075 - ERROR - Error executing statement 5: ('42S01', "[42S01] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]There is already an object named 'DimProducts' in the database. (2714) (SQLExecDirectW)")
+Traceback (most recent call last):
+  File "/Users/hrag03/Downloads/Business_Intelligence_Project/utils.py", line 58, in execute_sql_script_from_file
+    cursor.execute(statement)
+pyodbc.ProgrammingError: ('42S01', "[42S01] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]There is already an object named 'DimProducts' in the database. (2714) (SQLExecDirectW)")
+2024-12-13 18:36:38,076 - DEBUG - Executing statement 6: -- SCD1: Only current data is stored, with no hist...
+2024-12-13 18:36:38,079 - ERROR - Error executing statement 6: ('42S01', "[42S01] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]There is already an object named 'DimRegion' in the database. (2714) (SQLExecDirectW)")
+Traceback (most recent call last):
+  File "/Users/hrag03/Downloads/Business_Intelligence_Project/utils.py", line 58, in execute_sql_script_from_file
+    cursor.execute(statement)
+pyodbc.ProgrammingError: ('42S01', "[42S01] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]There is already an object named 'DimRegion' in the database. (2714) (SQLExecDirectW)")
+2024-12-13 18:36:38,080 - DEBUG - Executing statement 7: -- SCD4: Historical snapshots are stored, with eac...
+2024-12-13 18:36:38,085 - ERROR - Error executing statement 7: ('42S01', "[42S01] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]There is already an object named 'DimShippers' in the database. (2714) (SQLExecDirectW)")
+Traceback (most recent call last):
+  File "/Users/hrag03/Downloads/Business_Intelligence_Project/utils.py", line 58, in execute_sql_script_from_file
+    cursor.execute(statement)
+pyodbc.ProgrammingError: ('42S01', "[42S01] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]There is already an object named 'DimShippers' in the database. (2714) (SQLExecDirectW)")
+2024-12-13 18:36:38,086 - DEBUG - Executing statement 8: -- SCD1 with Delete: Only current data is stored, ...
+2024-12-13 18:36:38,090 - ERROR - Error executing statement 8: ('42S01', "[42S01] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]There is already an object named 'DimSuppliers' in the database. (2714) (SQLExecDirectW)")
+Traceback (most recent call last):
+  File "/Users/hrag03/Downloads/Business_Intelligence_Project/utils.py", line 58, in execute_sql_script_from_file
+    cursor.execute(statement)
+pyodbc.ProgrammingError: ('42S01', "[42S01] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]There is already an object named 'DimSuppliers' in the database. (2714) (SQLExecDirectW)")
+2024-12-13 18:36:38,091 - DEBUG - Executing statement 9: -- SCD3: Tracks one historical version by keeping ...
+2024-12-13 18:36:38,096 - ERROR - Error executing statement 9: ('42S01', "[42S01] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]There is already an object named 'DimTerritories' in the database. (2714) (SQLExecDirectW)")
+Traceback (most recent call last):
+  File "/Users/hrag03/Downloads/Business_Intelligence_Project/utils.py", line 58, in execute_sql_script_from_file
+    cursor.execute(statement)
+pyodbc.ProgrammingError: ('42S01', "[42S01] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]There is already an object named 'DimTerritories' in the database. (2714) (SQLExecDirectW)")
+2024-12-13 18:36:38,097 - DEBUG - Executing statement 10: -- SCD4: Historical snapshots are stored, with eac...
+2024-12-13 18:36:38,101 - ERROR - Error executing statement 10: ('42S01', "[42S01] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]There is already an object named 'Dim_SOR' in the database. (2714) (SQLExecDirectW)")
+Traceback (most recent call last):
+  File "/Users/hrag03/Downloads/Business_Intelligence_Project/utils.py", line 58, in execute_sql_script_from_file
+    cursor.execute(statement)
+pyodbc.ProgrammingError: ('42S01', "[42S01] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]There is already an object named 'Dim_SOR' in the database. (2714) (SQLExecDirectW)")
+2024-12-13 18:36:38,101 - DEBUG - Executing statement 11: -- Dim_SOR: Used for tracking staging raw data and...
+2024-12-13 18:36:38,107 - ERROR - Error executing statement 11: ('42S01', "[42S01] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]There is already an object named 'FactOrders' in the database. (2714) (SQLExecDirectW)")
+Traceback (most recent call last):
+  File "/Users/hrag03/Downloads/Business_Intelligence_Project/utils.py", line 58, in execute_sql_script_from_file
+    cursor.execute(statement)
+pyodbc.ProgrammingError: ('42S01', "[42S01] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]There is already an object named 'FactOrders' in the database. (2714) (SQLExecDirectW)")
+2024-12-13 18:36:38,107 - DEBUG - Executing statement 12: -- FactOrders: Captures transactional data and lin...
+2024-12-13 18:36:38,111 - INFO - Statement 12 executed successfully.
+2024-12-13 18:36:38,112 - INFO - All statements executed successfully from: infrastructure_initiation/dimensional_db_table_creation.sql
+2024-12-13 18:36:38,112 - INFO - Tables created successfully from: infrastructure_initiation/dimensional_db_table_creation.sql
+2024-12-13 18:36:38,112 - INFO - Table creation completed successfully.
+2024-12-13 18:36:38,123 - INFO - Data successfully ingested from: pipeline_dimensional_data/queries/update_fact.sql
+2024-12-13 18:36:38,124 - INFO - Fact table ingestion completed successfully.
+2024-12-13 18:36:38,133 - INFO - Faulty rows ingested from: pipeline_dimensional_data/queries/update_fact_error.sql
+2024-12-13 18:36:38,133 - INFO - FactError table ingestion completed successfully.
+2024-12-13 18:36:38,133 - INFO - Execution 14dc86c9-cc11-4a12-bef1-4f05a32faacd completed successfully!
+2024-12-13 18:36:38,134 - INFO - Execution completed!
+2024-12-13 18:36:38,134 - INFO - Final Pipeline Status: {'create_tables': {'success': True}, 'ingest_fact': {'success': True}, 'ingest_fact_error': {'success': True}}
+2024-12-13 18:37:04,403 - INFO - Starting pipeline execution from 2023-01-01 to 2024-12-31.
+2024-12-13 18:37:04,404 - INFO - Starting Dimensional Data Flow Execution ID: 0c6ba805-a5cb-44b6-8754-685b87537412
+2024-12-13 18:37:04,405 - INFO - Connecting to the database...
+2024-12-13 18:37:04,405 - INFO - Connection established successfully.
+2024-12-13 18:37:04,406 - INFO - Loaded SQL script from: infrastructure_initiation/dimensional_db_table_creation.sql
+2024-12-13 18:37:04,406 - INFO - SQL script contains 12 statements.
+2024-12-13 18:37:04,407 - DEBUG - Executing statement 1: USE ORDER_DDS...
+2024-12-13 18:37:04,410 - INFO - Statement 1 executed successfully.
+2024-12-13 18:37:04,410 - DEBUG - Executing statement 2: -- ===============================================...
+2024-12-13 18:37:04,416 - INFO - Statement 2 executed successfully.
+2024-12-13 18:37:04,416 - DEBUG - Executing statement 3: -- SCD1: Only current data is stored, with no hist...
+2024-12-13 18:37:04,426 - INFO - Statement 3 executed successfully.
+2024-12-13 18:37:04,427 - DEBUG - Executing statement 4: -- SCD2: Tracks historical changes by adding new r...
+2024-12-13 18:37:04,436 - INFO - Statement 4 executed successfully.
+2024-12-13 18:37:04,436 - DEBUG - Executing statement 5: -- SCD1 with Delete: Only current data is stored, ...
+2024-12-13 18:37:04,445 - INFO - Statement 5 executed successfully.
+2024-12-13 18:37:04,445 - DEBUG - Executing statement 6: -- SCD1: Only current data is stored, with no hist...
+2024-12-13 18:37:04,453 - INFO - Statement 6 executed successfully.
+2024-12-13 18:37:04,453 - DEBUG - Executing statement 7: -- SCD4: Historical snapshots are stored, with eac...
+2024-12-13 18:37:04,463 - INFO - Statement 7 executed successfully.
+2024-12-13 18:37:04,464 - DEBUG - Executing statement 8: -- SCD1 with Delete: Only current data is stored, ...
+2024-12-13 18:37:04,474 - INFO - Statement 8 executed successfully.
+2024-12-13 18:37:04,474 - DEBUG - Executing statement 9: -- SCD3: Tracks one historical version by keeping ...
+2024-12-13 18:37:04,482 - INFO - Statement 9 executed successfully.
+2024-12-13 18:37:04,482 - DEBUG - Executing statement 10: -- SCD4: Historical snapshots are stored, with eac...
+2024-12-13 18:37:04,492 - INFO - Statement 10 executed successfully.
+2024-12-13 18:37:04,492 - DEBUG - Executing statement 11: -- Dim_SOR: Used for tracking staging raw data and...
+2024-12-13 18:37:04,500 - INFO - Statement 11 executed successfully.
+2024-12-13 18:37:04,501 - DEBUG - Executing statement 12: -- FactOrders: Captures transactional data and lin...
+2024-12-13 18:37:04,503 - INFO - Statement 12 executed successfully.
+2024-12-13 18:37:04,503 - INFO - All statements executed successfully from: infrastructure_initiation/dimensional_db_table_creation.sql
+2024-12-13 18:37:04,504 - INFO - Tables created successfully from: infrastructure_initiation/dimensional_db_table_creation.sql
+2024-12-13 18:37:04,504 - INFO - Table creation completed successfully.
+2024-12-13 18:37:04,517 - INFO - Data successfully ingested from: pipeline_dimensional_data/queries/update_fact.sql
+2024-12-13 18:37:04,518 - INFO - Fact table ingestion completed successfully.
+2024-12-13 18:37:04,525 - INFO - Faulty rows ingested from: pipeline_dimensional_data/queries/update_fact_error.sql
+2024-12-13 18:37:04,525 - INFO - FactError table ingestion completed successfully.
+2024-12-13 18:37:04,526 - INFO - Execution 0c6ba805-a5cb-44b6-8754-685b87537412 completed successfully!
+2024-12-13 18:37:04,526 - INFO - Execution completed!
+2024-12-13 18:37:04,526 - INFO - Final Pipeline Status: {'create_tables': {'success': True}, 'ingest_fact': {'success': True}, 'ingest_fact_error': {'success': True}}
+2024-12-13 18:38:01,292 - INFO - Starting pipeline execution from 2023-01-01 to 2024-12-31.
+2024-12-13 18:38:01,293 - INFO - Starting Dimensional Data Flow Execution ID: d7f33e7c-c3ba-42f7-aa48-3e1c42f8dc4f
+2024-12-13 18:38:01,294 - INFO - Connecting to the database...
+2024-12-13 18:38:01,294 - INFO - Connection established successfully.
+2024-12-13 18:38:01,296 - INFO - Loaded SQL script from: infrastructure_initiation/dimensional_db_table_creation.sql
+2024-12-13 18:38:01,296 - INFO - SQL script contains 12 statements.
+2024-12-13 18:38:01,297 - DEBUG - Executing statement 1: USE ORDER_DDS...
+2024-12-13 18:38:01,300 - INFO - Statement 1 executed successfully.
+2024-12-13 18:38:01,301 - DEBUG - Executing statement 2: -- ===============================================...
+2024-12-13 18:38:01,305 - INFO - Statement 2 executed successfully.
+2024-12-13 18:38:01,305 - DEBUG - Executing statement 3: -- SCD1: Only current data is stored, with no hist...
+2024-12-13 18:38:01,311 - INFO - Statement 3 executed successfully.
+2024-12-13 18:38:01,311 - DEBUG - Executing statement 4: -- SCD2: Tracks historical changes by adding new r...
+2024-12-13 18:38:01,318 - INFO - Statement 4 executed successfully.
+2024-12-13 18:38:01,319 - DEBUG - Executing statement 5: -- SCD1 with Delete: Only current data is stored, ...
+2024-12-13 18:38:01,329 - INFO - Statement 5 executed successfully.
+2024-12-13 18:38:01,329 - DEBUG - Executing statement 6: -- SCD1: Only current data is stored, with no hist...
+2024-12-13 18:38:01,335 - INFO - Statement 6 executed successfully.
+2024-12-13 18:38:01,335 - DEBUG - Executing statement 7: -- SCD4: Historical snapshots are stored, with eac...
+2024-12-13 18:38:01,344 - INFO - Statement 7 executed successfully.
+2024-12-13 18:38:01,344 - DEBUG - Executing statement 8: -- SCD1 with Delete: Only current data is stored, ...
+2024-12-13 18:38:01,353 - INFO - Statement 8 executed successfully.
+2024-12-13 18:38:01,353 - DEBUG - Executing statement 9: -- SCD3: Tracks one historical version by keeping ...
+2024-12-13 18:38:01,360 - INFO - Statement 9 executed successfully.
+2024-12-13 18:38:01,360 - DEBUG - Executing statement 10: -- SCD4: Historical snapshots are stored, with eac...
+2024-12-13 18:38:01,364 - INFO - Statement 10 executed successfully.
+2024-12-13 18:38:01,364 - DEBUG - Executing statement 11: -- Dim_SOR: Used for tracking staging raw data and...
+2024-12-13 18:38:01,373 - INFO - Statement 11 executed successfully.
+2024-12-13 18:38:01,374 - DEBUG - Executing statement 12: -- FactOrders: Captures transactional data and lin...
+2024-12-13 18:38:01,377 - INFO - Statement 12 executed successfully.
+2024-12-13 18:38:01,377 - INFO - All statements executed successfully from: infrastructure_initiation/dimensional_db_table_creation.sql
+2024-12-13 18:38:01,377 - INFO - Tables created successfully from: infrastructure_initiation/dimensional_db_table_creation.sql
+2024-12-13 18:38:01,377 - INFO - Table creation completed successfully.
+2024-12-13 18:38:01,393 - INFO - Data successfully ingested from: pipeline_dimensional_data/queries/update_fact.sql
+2024-12-13 18:38:01,394 - INFO - Fact table ingestion completed successfully.
+2024-12-13 18:38:01,401 - INFO - Faulty rows ingested from: pipeline_dimensional_data/queries/update_fact_error.sql
+2024-12-13 18:38:01,401 - INFO - FactError table ingestion completed successfully.
+2024-12-13 18:38:01,402 - INFO - Execution d7f33e7c-c3ba-42f7-aa48-3e1c42f8dc4f completed successfully!
+2024-12-13 18:38:01,402 - INFO - Execution completed!
+2024-12-13 18:38:01,402 - INFO - Final Pipeline Status: {'create_tables': {'success': True}, 'ingest_fact': {'success': True}, 'ingest_fact_error': {'success': True}}
+2024-12-13 18:40:35,481 - INFO - Starting pipeline execution from 2023-01-01 to 2024-12-31.
+2024-12-13 18:40:35,482 - INFO - Starting Dimensional Data Flow Execution ID: e2be5057-26bf-4b10-a7a9-c0f0fd460283
+2024-12-13 18:40:35,483 - INFO - Connecting to the database...
+2024-12-13 18:40:35,549 - ERROR - Database connection or execution failed: ('42000', '[42000] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]Cannot open database "ORDER_DDS" requested by the login. The login failed. (4060) (SQLDriverConnect)')
+Traceback (most recent call last):
+  File "/Users/hrag03/Downloads/Business_Intelligence_Project/utils.py", line 42, in execute_sql_script_from_file
+    with pyodbc.connect(connection_string, autocommit=True) as conn:
+pyodbc.ProgrammingError: ('42000', '[42000] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]Cannot open database "ORDER_DDS" requested by the login. The login failed. (4060) (SQLDriverConnect)')
+2024-12-13 18:40:35,551 - INFO - Tables created successfully from: infrastructure_initiation/dimensional_db_table_creation.sql
+2024-12-13 18:40:35,551 - INFO - Table creation completed successfully.
+2024-12-13 18:40:35,627 - ERROR - Data ingestion failed: ('42000', '[42000] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]Cannot open database "ORDER_DDS" requested by the login. The login failed. (4060) (SQLDriverConnect)')
+Traceback (most recent call last):
+  File "/Users/hrag03/Downloads/Business_Intelligence_Project/pipeline_dimensional_data/tasks.py", line 25, in ingest_fact_table_task
+    conn = get_db_connection()
+  File "/Users/hrag03/Downloads/Business_Intelligence_Project/pipeline_dimensional_data/config_db.py", line 42, in get_db_connection
+    return pyodbc.connect(connection_string)
+pyodbc.ProgrammingError: ('42000', '[42000] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]Cannot open database "ORDER_DDS" requested by the login. The login failed. (4060) (SQLDriverConnect)')
+2024-12-13 18:40:35,630 - ERROR - Execution e2be5057-26bf-4b10-a7a9-c0f0fd460283 failed: Fact table ingestion failed.
+Traceback (most recent call last):
+  File "/Users/hrag03/Downloads/Business_Intelligence_Project/pipeline_dimensional_data/flow.py", line 57, in exec
+    raise Exception("Fact table ingestion failed.")
+Exception: Fact table ingestion failed.
+2024-12-13 18:40:35,631 - INFO - Execution completed!
+2024-12-13 18:40:35,631 - INFO - Final Pipeline Status: {'create_tables': {'success': True}, 'ingest_fact': {'success': False, 'error': '(\'42000\', \'[42000] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]Cannot open database "ORDER_DDS" requested by the login. The login failed. (4060) (SQLDriverConnect)\')'}, 'error': 'Fact table ingestion failed.'}
+2024-12-13 18:46:12,539 - INFO - Starting pipeline execution from 2023-01-01 to 2024-12-31.
+2024-12-13 18:46:12,539 - INFO - Starting Dimensional Data Flow Execution ID: b93dfdaf-4fa9-404d-986e-13353d3211ef
+2024-12-13 18:46:12,539 - INFO - Connecting to the database...
+2024-12-13 18:46:12,583 - ERROR - Database connection or execution failed: ('42000', '[42000] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]Cannot open database "ORDER_DDS" requested by the login. The login failed. (4060) (SQLDriverConnect)')
+Traceback (most recent call last):
+  File "/Users/hrag03/Downloads/Business_Intelligence_Project/utils.py", line 42, in execute_sql_script_from_file
+    with pyodbc.connect(connection_string, autocommit=True) as conn:
+pyodbc.ProgrammingError: ('42000', '[42000] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]Cannot open database "ORDER_DDS" requested by the login. The login failed. (4060) (SQLDriverConnect)')
+2024-12-13 18:46:12,583 - INFO - Tables created successfully from: infrastructure_initiation/dimensional_db_table_creation.sql
+2024-12-13 18:46:12,583 - INFO - Table creation completed successfully.
+2024-12-13 18:46:12,624 - ERROR - Data ingestion failed: ('42000', '[42000] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]Cannot open database "ORDER_DDS" requested by the login. The login failed. (4060) (SQLDriverConnect)')
+Traceback (most recent call last):
+  File "/Users/hrag03/Downloads/Business_Intelligence_Project/pipeline_dimensional_data/tasks.py", line 25, in ingest_fact_table_task
+    conn = get_db_connection()
+  File "/Users/hrag03/Downloads/Business_Intelligence_Project/pipeline_dimensional_data/config_db.py", line 42, in get_db_connection
+    return pyodbc.connect(connection_string)
+pyodbc.ProgrammingError: ('42000', '[42000] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]Cannot open database "ORDER_DDS" requested by the login. The login failed. (4060) (SQLDriverConnect)')
+2024-12-13 18:46:12,625 - ERROR - Execution b93dfdaf-4fa9-404d-986e-13353d3211ef failed: Fact table ingestion failed.
+Traceback (most recent call last):
+  File "/Users/hrag03/Downloads/Business_Intelligence_Project/pipeline_dimensional_data/flow.py", line 57, in exec
+    raise Exception("Fact table ingestion failed.")
+Exception: Fact table ingestion failed.
+2024-12-13 18:46:12,625 - INFO - Execution completed!
+2024-12-13 18:46:12,626 - INFO - Final Pipeline Status: {'create_tables': {'success': True}, 'ingest_fact': {'success': False, 'error': '(\'42000\', \'[42000] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]Cannot open database "ORDER_DDS" requested by the login. The login failed. (4060) (SQLDriverConnect)\')'}, 'error': 'Fact table ingestion failed.'}
+2024-12-13 18:48:57,501 - INFO - Starting pipeline execution from 2023-01-01 to 2024-12-31.
+2024-12-13 18:48:57,502 - INFO - Starting Dimensional Data Flow Execution ID: d2689e6f-c8e5-4ed4-a7ed-ac3495ecda36
+2024-12-13 18:48:57,503 - ERROR - Table creation failed: 'database'
+Traceback (most recent call last):
+  File "/Users/hrag03/Downloads/Business_Intelligence_Project/pipeline_dimensional_data/tasks.py", line 11, in create_tables_task
+    execute_sql_script_from_file(sql_file_path)
+  File "/Users/hrag03/Downloads/Business_Intelligence_Project/utils.py", line 29, in execute_sql_script_from_file
+    db_config = get_db_config(config_file)
+  File "/Users/hrag03/Downloads/Business_Intelligence_Project/pipeline_dimensional_data/config_db.py", line 23, in get_db_config
+    'database': config['SQL_SERVER']['database'],
+  File "/Library/Frameworks/Python.framework/Versions/3.9/lib/python3.9/configparser.py", line 1257, in __getitem__
+    raise KeyError(key)
+KeyError: 'database'
+2024-12-13 18:48:57,507 - ERROR - Execution d2689e6f-c8e5-4ed4-a7ed-ac3495ecda36 failed: Table creation failed.
+Traceback (most recent call last):
+  File "/Users/hrag03/Downloads/Business_Intelligence_Project/pipeline_dimensional_data/flow.py", line 51, in exec
+    raise Exception("Table creation failed.")
+Exception: Table creation failed.
+2024-12-13 18:48:57,508 - INFO - Execution completed!
+2024-12-13 18:48:57,508 - INFO - Final Pipeline Status: {'create_tables': {'success': False, 'error': "'database'"}, 'error': 'Table creation failed.'}
+2024-12-13 18:53:26,120 - INFO - Starting pipeline execution from 2023-01-01 to 2024-12-31.
+2024-12-13 18:53:26,121 - INFO - Starting Dimensional Data Flow Execution ID: 81159828-e650-4e43-b852-27c651599fc6
+2024-12-13 18:53:26,122 - INFO - Connecting to the database...
+2024-12-13 18:53:26,163 - ERROR - Database connection or execution failed: ('42000', '[42000] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]Cannot open database "ORDER_DDS" requested by the login. The login failed. (4060) (SQLDriverConnect)')
+Traceback (most recent call last):
+  File "/Users/hrag03/Downloads/Business_Intelligence_Project/utils.py", line 42, in execute_sql_script_from_file
+    with pyodbc.connect(connection_string, autocommit=True) as conn:
+pyodbc.ProgrammingError: ('42000', '[42000] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]Cannot open database "ORDER_DDS" requested by the login. The login failed. (4060) (SQLDriverConnect)')
+2024-12-13 18:53:26,164 - INFO - Tables created successfully from: infrastructure_initiation/dimensional_db_table_creation.sql
+2024-12-13 18:53:26,164 - INFO - Table creation completed successfully.
+2024-12-13 18:53:26,215 - ERROR - Data ingestion failed: ('42000', '[42000] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]Cannot open database "ORDER_DDS" requested by the login. The login failed. (4060) (SQLDriverConnect)')
+Traceback (most recent call last):
+  File "/Users/hrag03/Downloads/Business_Intelligence_Project/pipeline_dimensional_data/tasks.py", line 25, in ingest_fact_table_task
+    conn = get_db_connection()
+  File "/Users/hrag03/Downloads/Business_Intelligence_Project/pipeline_dimensional_data/config_db.py", line 47, in get_db_connection
+    return pyodbc.connect(connection_string)
+pyodbc.ProgrammingError: ('42000', '[42000] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]Cannot open database "ORDER_DDS" requested by the login. The login failed. (4060) (SQLDriverConnect)')
+2024-12-13 18:53:26,216 - ERROR - Execution 81159828-e650-4e43-b852-27c651599fc6 failed: Fact table ingestion failed.
+Traceback (most recent call last):
+  File "/Users/hrag03/Downloads/Business_Intelligence_Project/pipeline_dimensional_data/flow.py", line 57, in exec
+    raise Exception("Fact table ingestion failed.")
+Exception: Fact table ingestion failed.
+2024-12-13 18:53:26,217 - INFO - Execution completed!
+2024-12-13 18:53:26,217 - INFO - Final Pipeline Status: {'create_tables': {'success': True}, 'ingest_fact': {'success': False, 'error': '(\'42000\', \'[42000] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]Cannot open database "ORDER_DDS" requested by the login. The login failed. (4060) (SQLDriverConnect)\')'}, 'error': 'Fact table ingestion failed.'}
+2024-12-13 18:58:26,096 - INFO - Starting pipeline execution from 2023-01-01 to 2024-12-31.
+2024-12-13 18:58:26,098 - INFO - Starting Dimensional Data Flow Execution ID: ea6b838c-95e2-40f4-afbc-0c098d2b7050
+2024-12-13 18:58:26,099 - INFO - Connecting to the database...
+2024-12-13 18:58:26,149 - ERROR - Database connection or execution failed: ('42000', '[42000] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]Cannot open database "ORDER_DDS" requested by the login. The login failed. (4060) (SQLDriverConnect)')
+Traceback (most recent call last):
+  File "/Users/hrag03/Downloads/Business_Intelligence_Project/utils.py", line 42, in execute_sql_script_from_file
+    with pyodbc.connect(connection_string, autocommit=True) as conn:
+pyodbc.ProgrammingError: ('42000', '[42000] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]Cannot open database "ORDER_DDS" requested by the login. The login failed. (4060) (SQLDriverConnect)')
+2024-12-13 18:58:26,150 - INFO - Tables created successfully from: infrastructure_initiation/dimensional_db_table_creation.sql
+2024-12-13 18:58:26,150 - INFO - Table creation completed successfully.
+2024-12-13 18:58:26,203 - ERROR - Data ingestion failed: ('42000', '[42000] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]Cannot open database "ORDER_DDS" requested by the login. The login failed. (4060) (SQLDriverConnect)')
+Traceback (most recent call last):
+  File "/Users/hrag03/Downloads/Business_Intelligence_Project/pipeline_dimensional_data/tasks.py", line 25, in ingest_fact_table_task
+    conn = get_db_connection()
+  File "/Users/hrag03/Downloads/Business_Intelligence_Project/pipeline_dimensional_data/config_db.py", line 48, in get_db_connection
+    return pyodbc.connect(connection_string)
+pyodbc.ProgrammingError: ('42000', '[42000] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]Cannot open database "ORDER_DDS" requested by the login. The login failed. (4060) (SQLDriverConnect)')
+2024-12-13 18:58:26,204 - ERROR - Execution ea6b838c-95e2-40f4-afbc-0c098d2b7050 failed: Fact table ingestion failed.
+Traceback (most recent call last):
+  File "/Users/hrag03/Downloads/Business_Intelligence_Project/pipeline_dimensional_data/flow.py", line 57, in exec
+    raise Exception("Fact table ingestion failed.")
+Exception: Fact table ingestion failed.
+2024-12-13 18:58:26,205 - INFO - Execution completed!
+2024-12-13 18:58:26,206 - INFO - Final Pipeline Status: {'create_tables': {'success': True}, 'ingest_fact': {'success': False, 'error': '(\'42000\', \'[42000] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]Cannot open database "ORDER_DDS" requested by the login. The login failed. (4060) (SQLDriverConnect)\')'}, 'error': 'Fact table ingestion failed.'}
+2024-12-13 19:01:36,340 - INFO - Starting pipeline execution from 2023-01-01 to 2024-12-31.
+2024-12-13 19:01:36,341 - INFO - Starting Dimensional Data Flow Execution ID: d2bd820e-b343-47f5-bf75-775c974c9873
+2024-12-13 19:01:36,342 - INFO - Connecting to the database...
+2024-12-13 19:01:36,398 - ERROR - Database connection or execution failed: ('42000', '[42000] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]Cannot open database "ORDER_DDS" requested by the login. The login failed. (4060) (SQLDriverConnect)')
+Traceback (most recent call last):
+  File "/Users/hrag03/Downloads/Business_Intelligence_Project/utils.py", line 42, in execute_sql_script_from_file
+    with pyodbc.connect(connection_string, autocommit=True) as conn:
+pyodbc.ProgrammingError: ('42000', '[42000] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]Cannot open database "ORDER_DDS" requested by the login. The login failed. (4060) (SQLDriverConnect)')
+2024-12-13 19:01:36,399 - INFO - Tables created successfully from: infrastructure_initiation/dimensional_db_table_creation.sql
+2024-12-13 19:01:36,399 - INFO - Table creation completed successfully.
+2024-12-13 19:01:36,451 - ERROR - Data ingestion failed: ('42000', '[42000] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]Cannot open database "ORDER_DDS" requested by the login. The login failed. (4060) (SQLDriverConnect)')
+Traceback (most recent call last):
+  File "/Users/hrag03/Downloads/Business_Intelligence_Project/pipeline_dimensional_data/tasks.py", line 25, in ingest_fact_table_task
+    conn = get_db_connection()
+  File "/Users/hrag03/Downloads/Business_Intelligence_Project/pipeline_dimensional_data/config_db.py", line 48, in get_db_connection
+    return pyodbc.connect(connection_string)
+pyodbc.ProgrammingError: ('42000', '[42000] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]Cannot open database "ORDER_DDS" requested by the login. The login failed. (4060) (SQLDriverConnect)')
+2024-12-13 19:01:36,452 - ERROR - Execution d2bd820e-b343-47f5-bf75-775c974c9873 failed: Fact table ingestion failed.
+Traceback (most recent call last):
+  File "/Users/hrag03/Downloads/Business_Intelligence_Project/pipeline_dimensional_data/flow.py", line 57, in exec
+    raise Exception("Fact table ingestion failed.")
+Exception: Fact table ingestion failed.
+2024-12-13 19:01:36,454 - INFO - Execution completed!
+2024-12-13 19:01:36,454 - INFO - Final Pipeline Status: {'create_tables': {'success': True}, 'ingest_fact': {'success': False, 'error': '(\'42000\', \'[42000] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]Cannot open database "ORDER_DDS" requested by the login. The login failed. (4060) (SQLDriverConnect)\')'}, 'error': 'Fact table ingestion failed.'}
+2024-12-13 19:02:29,048 - INFO - Starting pipeline execution from 2023-01-01 to 2024-12-31.
+2024-12-13 19:02:29,049 - INFO - Starting Dimensional Data Flow Execution ID: 2c302e71-12b2-4641-9026-c5a5b2a73299
+2024-12-13 19:02:29,050 - INFO - Connecting to the database...
+2024-12-13 19:02:29,103 - ERROR - Database connection or execution failed: ('42000', '[42000] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]Cannot open database "ORDER_DDS" requested by the login. The login failed. (4060) (SQLDriverConnect)')
+Traceback (most recent call last):
+  File "/Users/hrag03/Downloads/Business_Intelligence_Project/utils.py", line 42, in execute_sql_script_from_file
+    with pyodbc.connect(connection_string, autocommit=True) as conn:
+pyodbc.ProgrammingError: ('42000', '[42000] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]Cannot open database "ORDER_DDS" requested by the login. The login failed. (4060) (SQLDriverConnect)')
+2024-12-13 19:02:29,104 - INFO - Tables created successfully from: infrastructure_initiation/dimensional_db_table_creation.sql
+2024-12-13 19:02:29,104 - INFO - Table creation completed successfully.
+2024-12-13 19:02:29,157 - ERROR - Data ingestion failed: ('42000', '[42000] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]Cannot open database "ORDER_DDS" requested by the login. The login failed. (4060) (SQLDriverConnect)')
+Traceback (most recent call last):
+  File "/Users/hrag03/Downloads/Business_Intelligence_Project/pipeline_dimensional_data/tasks.py", line 25, in ingest_fact_table_task
+    conn = get_db_connection()
+  File "/Users/hrag03/Downloads/Business_Intelligence_Project/pipeline_dimensional_data/config_db.py", line 48, in get_db_connection
+    return pyodbc.connect(connection_string)
+pyodbc.ProgrammingError: ('42000', '[42000] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]Cannot open database "ORDER_DDS" requested by the login. The login failed. (4060) (SQLDriverConnect)')
+2024-12-13 19:02:29,158 - ERROR - Execution 2c302e71-12b2-4641-9026-c5a5b2a73299 failed: Fact table ingestion failed.
+Traceback (most recent call last):
+  File "/Users/hrag03/Downloads/Business_Intelligence_Project/pipeline_dimensional_data/flow.py", line 57, in exec
+    raise Exception("Fact table ingestion failed.")
+Exception: Fact table ingestion failed.
+2024-12-13 19:02:29,159 - INFO - Execution completed!
+2024-12-13 19:02:29,159 - INFO - Final Pipeline Status: {'create_tables': {'success': True}, 'ingest_fact': {'success': False, 'error': '(\'42000\', \'[42000] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]Cannot open database "ORDER_DDS" requested by the login. The login failed. (4060) (SQLDriverConnect)\')'}, 'error': 'Fact table ingestion failed.'}
+2024-12-13 19:09:06,842 - INFO - Starting pipeline execution from 2023-01-01 to 2024-12-31.
+2024-12-13 19:09:06,843 - INFO - Starting Dimensional Data Flow Execution ID: 73c48f68-9eaf-4b49-b0c1-67d25d7f8fdf
+2024-12-13 19:09:06,844 - INFO - Connecting to the database...
+2024-12-13 19:09:06,906 - ERROR - Database connection or execution failed: ('42000', '[42000] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]Cannot open database "ORDER_DDS" requested by the login. The login failed. (4060) (SQLDriverConnect)')
+Traceback (most recent call last):
+  File "/Users/hrag03/Downloads/Business_Intelligence_Project/utils.py", line 42, in execute_sql_script_from_file
+    with pyodbc.connect(connection_string, autocommit=True) as conn:
+pyodbc.ProgrammingError: ('42000', '[42000] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]Cannot open database "ORDER_DDS" requested by the login. The login failed. (4060) (SQLDriverConnect)')
+2024-12-13 19:09:06,907 - INFO - Tables created successfully from: infrastructure_initiation/dimensional_db_table_creation.sql
+2024-12-13 19:09:06,908 - INFO - Table creation completed successfully.
+2024-12-13 19:09:06,961 - ERROR - Data ingestion failed: ('42000', '[42000] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]Cannot open database "ORDER_DDS" requested by the login. The login failed. (4060) (SQLDriverConnect)')
+Traceback (most recent call last):
+  File "/Users/hrag03/Downloads/Business_Intelligence_Project/pipeline_dimensional_data/tasks.py", line 26, in ingest_fact_table_task
+    conn = get_db_connection()
+  File "/Users/hrag03/Downloads/Business_Intelligence_Project/pipeline_dimensional_data/config_db.py", line 48, in get_db_connection
+    return pyodbc.connect(connection_string)
+pyodbc.ProgrammingError: ('42000', '[42000] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]Cannot open database "ORDER_DDS" requested by the login. The login failed. (4060) (SQLDriverConnect)')
+2024-12-13 19:09:06,962 - ERROR - Execution 73c48f68-9eaf-4b49-b0c1-67d25d7f8fdf failed: Fact table ingestion failed.
+Traceback (most recent call last):
+  File "/Users/hrag03/Downloads/Business_Intelligence_Project/pipeline_dimensional_data/flow.py", line 57, in exec
+    raise Exception("Fact table ingestion failed.")
+Exception: Fact table ingestion failed.
+2024-12-13 19:09:06,963 - INFO - Execution completed!
+2024-12-13 19:09:06,963 - INFO - Final Pipeline Status: {'create_tables': {'success': True}, 'ingest_fact': {'success': False, 'error': '(\'42000\', \'[42000] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]Cannot open database "ORDER_DDS" requested by the login. The login failed. (4060) (SQLDriverConnect)\')'}, 'error': 'Fact table ingestion failed.'}
+2024-12-13 19:10:26,079 - INFO - Starting pipeline execution from 2023-01-01 to 2024-12-31.
+2024-12-13 19:10:26,080 - INFO - Starting Dimensional Data Flow Execution ID: eea5e92f-e78f-4739-b143-8e272283751e
+2024-12-13 19:10:26,081 - INFO - Connecting to the database...
+2024-12-13 19:10:26,184 - ERROR - Database connection or execution failed: ('42000', '[42000] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]Cannot open database "ORDER_DDS" requested by the login. The login failed. (4060) (SQLDriverConnect)')
+Traceback (most recent call last):
+  File "/Users/hrag03/Downloads/Business_Intelligence_Project/utils.py", line 42, in execute_sql_script_from_file
+    with pyodbc.connect(connection_string, autocommit=True) as conn:
+pyodbc.ProgrammingError: ('42000', '[42000] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]Cannot open database "ORDER_DDS" requested by the login. The login failed. (4060) (SQLDriverConnect)')
+2024-12-13 19:10:26,185 - INFO - Tables created successfully from: infrastructure_initiation/dimensional_db_table_creation.sql
+2024-12-13 19:10:26,185 - INFO - Table creation completed successfully.
+2024-12-13 19:10:26,241 - ERROR - Data ingestion failed: ('42000', '[42000] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]Cannot open database "ORDER_DDS" requested by the login. The login failed. (4060) (SQLDriverConnect)')
+Traceback (most recent call last):
+  File "/Users/hrag03/Downloads/Business_Intelligence_Project/pipeline_dimensional_data/tasks.py", line 26, in ingest_fact_table_task
+    conn = get_db_connection()
+  File "/Users/hrag03/Downloads/Business_Intelligence_Project/pipeline_dimensional_data/config_db.py", line 48, in get_db_connection
+    return pyodbc.connect(connection_string)
+pyodbc.ProgrammingError: ('42000', '[42000] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]Cannot open database "ORDER_DDS" requested by the login. The login failed. (4060) (SQLDriverConnect)')
+2024-12-13 19:10:26,242 - ERROR - Execution eea5e92f-e78f-4739-b143-8e272283751e failed: Fact table ingestion failed.
+Traceback (most recent call last):
+  File "/Users/hrag03/Downloads/Business_Intelligence_Project/pipeline_dimensional_data/flow.py", line 57, in exec
+    raise Exception("Fact table ingestion failed.")
+Exception: Fact table ingestion failed.
+2024-12-13 19:10:26,243 - INFO - Execution completed!
+2024-12-13 19:10:26,244 - INFO - Final Pipeline Status: {'create_tables': {'success': True}, 'ingest_fact': {'success': False, 'error': '(\'42000\', \'[42000] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]Cannot open database "ORDER_DDS" requested by the login. The login failed. (4060) (SQLDriverConnect)\')'}, 'error': 'Fact table ingestion failed.'}
+2024-12-13 19:11:24,216 - INFO - Starting pipeline execution from 2023-01-01 to 2024-12-31.
+2024-12-13 19:11:24,217 - INFO - Starting Dimensional Data Flow Execution ID: a4224330-d122-47a5-93d4-b54c281428cb
+2024-12-13 19:11:24,219 - INFO - Connecting to the database...
+2024-12-13 19:11:24,323 - ERROR - Database connection or execution failed: ('42000', '[42000] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]Cannot open database "ORDER_DDS" requested by the login. The login failed. (4060) (SQLDriverConnect)')
+Traceback (most recent call last):
+  File "/Users/hrag03/Downloads/Business_Intelligence_Project/utils.py", line 42, in execute_sql_script_from_file
+    with pyodbc.connect(connection_string, autocommit=True) as conn:
+pyodbc.ProgrammingError: ('42000', '[42000] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]Cannot open database "ORDER_DDS" requested by the login. The login failed. (4060) (SQLDriverConnect)')
+2024-12-13 19:11:24,324 - INFO - Tables created successfully from: infrastructure_initiation/dimensional_db_table_creation.sql
+2024-12-13 19:11:24,324 - INFO - Table creation completed successfully.
+2024-12-13 19:11:24,381 - ERROR - Data ingestion failed: ('42000', '[42000] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]Cannot open database "ORDER_DDS" requested by the login. The login failed. (4060) (SQLDriverConnect)')
+Traceback (most recent call last):
+  File "/Users/hrag03/Downloads/Business_Intelligence_Project/pipeline_dimensional_data/tasks.py", line 26, in ingest_fact_table_task
+    conn = get_db_connection()
+  File "/Users/hrag03/Downloads/Business_Intelligence_Project/pipeline_dimensional_data/config_db.py", line 48, in get_db_connection
+    return pyodbc.connect(connection_string)
+pyodbc.ProgrammingError: ('42000', '[42000] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]Cannot open database "ORDER_DDS" requested by the login. The login failed. (4060) (SQLDriverConnect)')
+2024-12-13 19:11:24,382 - ERROR - Execution a4224330-d122-47a5-93d4-b54c281428cb failed: Fact table ingestion failed.
+Traceback (most recent call last):
+  File "/Users/hrag03/Downloads/Business_Intelligence_Project/pipeline_dimensional_data/flow.py", line 57, in exec
+    raise Exception("Fact table ingestion failed.")
+Exception: Fact table ingestion failed.
+2024-12-13 19:11:24,382 - INFO - Execution completed!
+2024-12-13 19:11:24,382 - INFO - Final Pipeline Status: {'create_tables': {'success': True}, 'ingest_fact': {'success': False, 'error': '(\'42000\', \'[42000] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]Cannot open database "ORDER_DDS" requested by the login. The login failed. (4060) (SQLDriverConnect)\')'}, 'error': 'Fact table ingestion failed.'}
+2024-12-13 19:12:47,990 - INFO - Starting pipeline execution from 2023-01-01 to 2024-12-31.
+2024-12-13 19:12:47,991 - INFO - Starting Dimensional Data Flow Execution ID: f072d442-184f-4638-8db3-488a25c790ee
+2024-12-13 19:12:47,991 - ERROR - Pipeline execution failed: Expected a dictionary, got <class 'NoneType'>
+Traceback (most recent call last):
+  File "/Users/hrag03/Downloads/Business_Intelligence_Project/main.py", line 39, in main
+    raise TypeError(f"Expected a dictionary, got {type(pipeline_status)}")
+TypeError: Expected a dictionary, got <class 'NoneType'>
+2024-12-13 19:13:19,922 - INFO - Starting pipeline execution from 2023-01-01 to 2024-12-31.
+2024-12-13 19:13:19,923 - INFO - Starting Dimensional Data Flow Execution ID: be109a74-24a4-4703-9c41-33f9679d0b45
+2024-12-13 19:13:19,924 - ERROR - Pipeline execution failed: Expected a dictionary, got <class 'NoneType'>
+Traceback (most recent call last):
+  File "/Users/hrag03/Downloads/Business_Intelligence_Project/main.py", line 39, in main
+    raise TypeError(f"Expected a dictionary, got {type(pipeline_status)}")
+TypeError: Expected a dictionary, got <class 'NoneType'>
+2024-12-13 19:17:22,459 - INFO - Starting pipeline execution from 2023-01-01 to 2024-12-31.
+2024-12-13 19:17:22,459 - INFO - Starting Dimensional Data Flow Execution ID: b722361f-1774-4093-aeb4-9c0996425ac1
+2024-12-13 19:17:24,829 - INFO - Connecting to the database...
+2024-12-13 19:17:24,945 - INFO - Connection established successfully.
+2024-12-13 19:17:24,947 - INFO - Loaded SQL script from: infrastructure_initiation/dimensional_db_table_creation.sql
+2024-12-13 19:17:24,947 - INFO - SQL script contains 12 statements.
+2024-12-13 19:17:24,947 - DEBUG - Executing statement 1: USE ORDER_DDS...
+2024-12-13 19:17:24,950 - INFO - Statement 1 executed successfully.
+2024-12-13 19:17:24,951 - DEBUG - Executing statement 2: -- ===============================================...
+2024-12-13 19:17:24,970 - INFO - Statement 2 executed successfully.
+2024-12-13 19:17:24,970 - DEBUG - Executing statement 3: -- SCD1: Only current data is stored, with no hist...
+2024-12-13 19:17:24,979 - INFO - Statement 3 executed successfully.
+2024-12-13 19:17:24,979 - DEBUG - Executing statement 4: -- SCD2: Tracks historical changes by adding new r...
+2024-12-13 19:17:24,985 - INFO - Statement 4 executed successfully.
+2024-12-13 19:17:24,985 - DEBUG - Executing statement 5: -- SCD1 with Delete: Only current data is stored, ...
+2024-12-13 19:17:24,994 - INFO - Statement 5 executed successfully.
+2024-12-13 19:17:24,994 - DEBUG - Executing statement 6: -- SCD1: Only current data is stored, with no hist...
+2024-12-13 19:17:25,003 - INFO - Statement 6 executed successfully.
+2024-12-13 19:17:25,003 - DEBUG - Executing statement 7: -- SCD4: Historical snapshots are stored, with eac...
+2024-12-13 19:17:25,012 - INFO - Statement 7 executed successfully.
+2024-12-13 19:17:25,012 - DEBUG - Executing statement 8: -- SCD1 with Delete: Only current data is stored, ...
+2024-12-13 19:17:25,022 - INFO - Statement 8 executed successfully.
+2024-12-13 19:17:25,022 - DEBUG - Executing statement 9: -- SCD3: Tracks one historical version by keeping ...
+2024-12-13 19:17:25,028 - INFO - Statement 9 executed successfully.
+2024-12-13 19:17:25,028 - DEBUG - Executing statement 10: -- SCD4: Historical snapshots are stored, with eac...
+2024-12-13 19:17:25,033 - INFO - Statement 10 executed successfully.
+2024-12-13 19:17:25,033 - DEBUG - Executing statement 11: -- Dim_SOR: Used for tracking staging raw data and...
+2024-12-13 19:17:25,045 - INFO - Statement 11 executed successfully.
+2024-12-13 19:17:25,046 - DEBUG - Executing statement 12: -- FactOrders: Captures transactional data and lin...
+2024-12-13 19:17:25,048 - INFO - Statement 12 executed successfully.
+2024-12-13 19:17:25,048 - INFO - All statements executed successfully from: infrastructure_initiation/dimensional_db_table_creation.sql
+2024-12-13 19:17:25,048 - INFO - Tables created successfully from: infrastructure_initiation/dimensional_db_table_creation.sql
+2024-12-13 19:17:25,048 - INFO - Table creation completed successfully.
+2024-12-13 19:17:25,074 - INFO - Data successfully ingested from: pipeline_dimensional_data/queries/update_fact.sql
+2024-12-13 19:17:25,075 - INFO - Fact table ingestion completed successfully.
+2024-12-13 19:17:25,081 - INFO - Faulty rows ingested from: pipeline_dimensional_data/queries/update_fact_error.sql
+2024-12-13 19:17:25,081 - INFO - FactError table ingestion completed successfully.
+2024-12-13 19:17:25,082 - INFO - Execution b722361f-1774-4093-aeb4-9c0996425ac1 completed successfully!
+2024-12-13 19:17:25,082 - INFO - Execution completed!
+2024-12-13 19:17:25,082 - INFO - Final Pipeline Status: {'create_tables': {'success': True}, 'ingest_fact': {'success': True}, 'ingest_fact_error': {'success': True}}
+2024-12-13 19:17:54,579 - INFO - Starting pipeline execution from 2023-01-01 to 2024-12-31.
+2024-12-13 19:17:54,580 - INFO - Starting Dimensional Data Flow Execution ID: 2a0df120-ead2-413c-8115-02abbd9dc75f
+2024-12-13 19:17:54,663 - INFO - Connecting to the database...
+2024-12-13 19:17:54,699 - INFO - Connection established successfully.
+2024-12-13 19:17:54,700 - INFO - Loaded SQL script from: infrastructure_initiation/dimensional_db_table_creation.sql
+2024-12-13 19:17:54,700 - INFO - SQL script contains 12 statements.
+2024-12-13 19:17:54,700 - DEBUG - Executing statement 1: USE ORDER_DDS...
+2024-12-13 19:17:54,708 - INFO - Statement 1 executed successfully.
+2024-12-13 19:17:54,708 - DEBUG - Executing statement 2: -- ===============================================...
+2024-12-13 19:17:54,721 - ERROR - Error executing statement 2: ('42S01', "[42S01] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]There is already an object named 'DimCategories' in the database. (2714) (SQLExecDirectW)")
+Traceback (most recent call last):
+  File "/Users/hrag03/Downloads/Business_Intelligence_Project/utils.py", line 60, in execute_sql_script_from_file
+    cursor.execute(statement)
+pyodbc.ProgrammingError: ('42S01', "[42S01] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]There is already an object named 'DimCategories' in the database. (2714) (SQLExecDirectW)")
+2024-12-13 19:17:54,722 - DEBUG - Executing statement 3: -- SCD1: Only current data is stored, with no hist...
+2024-12-13 19:17:54,725 - ERROR - Error executing statement 3: ('42S01', "[42S01] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]There is already an object named 'DimCustomers' in the database. (2714) (SQLExecDirectW)")
+Traceback (most recent call last):
+  File "/Users/hrag03/Downloads/Business_Intelligence_Project/utils.py", line 60, in execute_sql_script_from_file
+    cursor.execute(statement)
+pyodbc.ProgrammingError: ('42S01', "[42S01] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]There is already an object named 'DimCustomers' in the database. (2714) (SQLExecDirectW)")
+2024-12-13 19:17:54,725 - DEBUG - Executing statement 4: -- SCD2: Tracks historical changes by adding new r...
+2024-12-13 19:17:54,728 - ERROR - Error executing statement 4: ('42S01', "[42S01] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]There is already an object named 'DimEmployees' in the database. (2714) (SQLExecDirectW)")
+Traceback (most recent call last):
+  File "/Users/hrag03/Downloads/Business_Intelligence_Project/utils.py", line 60, in execute_sql_script_from_file
+    cursor.execute(statement)
+pyodbc.ProgrammingError: ('42S01', "[42S01] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]There is already an object named 'DimEmployees' in the database. (2714) (SQLExecDirectW)")
+2024-12-13 19:17:54,728 - DEBUG - Executing statement 5: -- SCD1 with Delete: Only current data is stored, ...
+2024-12-13 19:17:54,730 - ERROR - Error executing statement 5: ('42S01', "[42S01] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]There is already an object named 'DimProducts' in the database. (2714) (SQLExecDirectW)")
+Traceback (most recent call last):
+  File "/Users/hrag03/Downloads/Business_Intelligence_Project/utils.py", line 60, in execute_sql_script_from_file
+    cursor.execute(statement)
+pyodbc.ProgrammingError: ('42S01', "[42S01] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]There is already an object named 'DimProducts' in the database. (2714) (SQLExecDirectW)")
+2024-12-13 19:17:54,730 - DEBUG - Executing statement 6: -- SCD1: Only current data is stored, with no hist...
+2024-12-13 19:17:54,732 - ERROR - Error executing statement 6: ('42S01', "[42S01] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]There is already an object named 'DimRegion' in the database. (2714) (SQLExecDirectW)")
+Traceback (most recent call last):
+  File "/Users/hrag03/Downloads/Business_Intelligence_Project/utils.py", line 60, in execute_sql_script_from_file
+    cursor.execute(statement)
+pyodbc.ProgrammingError: ('42S01', "[42S01] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]There is already an object named 'DimRegion' in the database. (2714) (SQLExecDirectW)")
+2024-12-13 19:17:54,733 - DEBUG - Executing statement 7: -- SCD4: Historical snapshots are stored, with eac...
+2024-12-13 19:17:54,735 - ERROR - Error executing statement 7: ('42S01', "[42S01] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]There is already an object named 'DimShippers' in the database. (2714) (SQLExecDirectW)")
+Traceback (most recent call last):
+  File "/Users/hrag03/Downloads/Business_Intelligence_Project/utils.py", line 60, in execute_sql_script_from_file
+    cursor.execute(statement)
+pyodbc.ProgrammingError: ('42S01', "[42S01] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]There is already an object named 'DimShippers' in the database. (2714) (SQLExecDirectW)")
+2024-12-13 19:17:54,737 - DEBUG - Executing statement 8: -- SCD1 with Delete: Only current data is stored, ...
+2024-12-13 19:17:54,739 - ERROR - Error executing statement 8: ('42S01', "[42S01] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]There is already an object named 'DimSuppliers' in the database. (2714) (SQLExecDirectW)")
+Traceback (most recent call last):
+  File "/Users/hrag03/Downloads/Business_Intelligence_Project/utils.py", line 60, in execute_sql_script_from_file
+    cursor.execute(statement)
+pyodbc.ProgrammingError: ('42S01', "[42S01] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]There is already an object named 'DimSuppliers' in the database. (2714) (SQLExecDirectW)")
+2024-12-13 19:17:54,739 - DEBUG - Executing statement 9: -- SCD3: Tracks one historical version by keeping ...
+2024-12-13 19:17:54,742 - ERROR - Error executing statement 9: ('42S01', "[42S01] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]There is already an object named 'DimTerritories' in the database. (2714) (SQLExecDirectW)")
+Traceback (most recent call last):
+  File "/Users/hrag03/Downloads/Business_Intelligence_Project/utils.py", line 60, in execute_sql_script_from_file
+    cursor.execute(statement)
+pyodbc.ProgrammingError: ('42S01', "[42S01] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]There is already an object named 'DimTerritories' in the database. (2714) (SQLExecDirectW)")
+2024-12-13 19:17:54,742 - DEBUG - Executing statement 10: -- SCD4: Historical snapshots are stored, with eac...
+2024-12-13 19:17:54,746 - ERROR - Error executing statement 10: ('42S01', "[42S01] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]There is already an object named 'Dim_SOR' in the database. (2714) (SQLExecDirectW)")
+Traceback (most recent call last):
+  File "/Users/hrag03/Downloads/Business_Intelligence_Project/utils.py", line 60, in execute_sql_script_from_file
+    cursor.execute(statement)
+pyodbc.ProgrammingError: ('42S01', "[42S01] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]There is already an object named 'Dim_SOR' in the database. (2714) (SQLExecDirectW)")
+2024-12-13 19:17:54,746 - DEBUG - Executing statement 11: -- Dim_SOR: Used for tracking staging raw data and...
+2024-12-13 19:17:54,749 - ERROR - Error executing statement 11: ('42S01', "[42S01] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]There is already an object named 'FactOrders' in the database. (2714) (SQLExecDirectW)")
+Traceback (most recent call last):
+  File "/Users/hrag03/Downloads/Business_Intelligence_Project/utils.py", line 60, in execute_sql_script_from_file
+    cursor.execute(statement)
+pyodbc.ProgrammingError: ('42S01', "[42S01] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]There is already an object named 'FactOrders' in the database. (2714) (SQLExecDirectW)")
+2024-12-13 19:17:54,750 - DEBUG - Executing statement 12: -- FactOrders: Captures transactional data and lin...
+2024-12-13 19:17:54,751 - INFO - Statement 12 executed successfully.
+2024-12-13 19:17:54,751 - INFO - All statements executed successfully from: infrastructure_initiation/dimensional_db_table_creation.sql
+2024-12-13 19:17:54,751 - INFO - Tables created successfully from: infrastructure_initiation/dimensional_db_table_creation.sql
+2024-12-13 19:17:54,751 - INFO - Table creation completed successfully.
+2024-12-13 19:17:54,763 - INFO - Data successfully ingested from: pipeline_dimensional_data/queries/update_fact.sql
+2024-12-13 19:17:54,763 - INFO - Fact table ingestion completed successfully.
+2024-12-13 19:17:54,768 - INFO - Faulty rows ingested from: pipeline_dimensional_data/queries/update_fact_error.sql
+2024-12-13 19:17:54,768 - INFO - FactError table ingestion completed successfully.
+2024-12-13 19:17:54,768 - INFO - Execution 2a0df120-ead2-413c-8115-02abbd9dc75f completed successfully!
+2024-12-13 19:17:54,768 - INFO - Execution completed!
+2024-12-13 19:17:54,768 - INFO - Final Pipeline Status: {'create_tables': {'success': True}, 'ingest_fact': {'success': True}, 'ingest_fact_error': {'success': True}}
+2024-12-13 19:18:48,236 - INFO - Starting pipeline execution from 2023-01-01 to 2024-12-31.
+2024-12-13 19:18:48,237 - INFO - Starting Dimensional Data Flow Execution ID: 9a818578-222c-4fa8-914f-b2c435d70357
+2024-12-13 19:18:48,241 - INFO - Connecting to the database...
+2024-12-13 19:18:48,241 - INFO - Connection established successfully.
+2024-12-13 19:18:48,242 - INFO - Loaded SQL script from: infrastructure_initiation/dimensional_db_table_creation.sql
+2024-12-13 19:18:48,242 - INFO - SQL script contains 12 statements.
+2024-12-13 19:18:48,242 - DEBUG - Executing statement 1: USE ORDER_DDS...
+2024-12-13 19:18:48,244 - INFO - Statement 1 executed successfully.
+2024-12-13 19:18:48,244 - DEBUG - Executing statement 2: -- ===============================================...
+2024-12-13 19:18:48,248 - INFO - Statement 2 executed successfully.
+2024-12-13 19:18:48,248 - DEBUG - Executing statement 3: -- SCD1: Only current data is stored, with no hist...
+2024-12-13 19:18:48,252 - INFO - Statement 3 executed successfully.
+2024-12-13 19:18:48,253 - DEBUG - Executing statement 4: -- SCD2: Tracks historical changes by adding new r...
+2024-12-13 19:18:48,256 - INFO - Statement 4 executed successfully.
+2024-12-13 19:18:48,257 - DEBUG - Executing statement 5: -- SCD1 with Delete: Only current data is stored, ...
+2024-12-13 19:18:48,260 - INFO - Statement 5 executed successfully.
+2024-12-13 19:18:48,260 - DEBUG - Executing statement 6: -- SCD1: Only current data is stored, with no hist...
+2024-12-13 19:18:48,264 - INFO - Statement 6 executed successfully.
+2024-12-13 19:18:48,264 - DEBUG - Executing statement 7: -- SCD4: Historical snapshots are stored, with eac...
+2024-12-13 19:18:48,268 - INFO - Statement 7 executed successfully.
+2024-12-13 19:18:48,269 - DEBUG - Executing statement 8: -- SCD1 with Delete: Only current data is stored, ...
+2024-12-13 19:18:48,273 - INFO - Statement 8 executed successfully.
+2024-12-13 19:18:48,273 - DEBUG - Executing statement 9: -- SCD3: Tracks one historical version by keeping ...
+2024-12-13 19:18:48,277 - INFO - Statement 9 executed successfully.
+2024-12-13 19:18:48,277 - DEBUG - Executing statement 10: -- SCD4: Historical snapshots are stored, with eac...
+2024-12-13 19:18:48,279 - INFO - Statement 10 executed successfully.
+2024-12-13 19:18:48,280 - DEBUG - Executing statement 11: -- Dim_SOR: Used for tracking staging raw data and...
+2024-12-13 19:18:48,283 - INFO - Statement 11 executed successfully.
+2024-12-13 19:18:48,283 - DEBUG - Executing statement 12: -- FactOrders: Captures transactional data and lin...
+2024-12-13 19:18:48,286 - INFO - Statement 12 executed successfully.
+2024-12-13 19:18:48,286 - INFO - All statements executed successfully from: infrastructure_initiation/dimensional_db_table_creation.sql
+2024-12-13 19:18:48,287 - INFO - Tables created successfully from: infrastructure_initiation/dimensional_db_table_creation.sql
+2024-12-13 19:18:48,287 - INFO - Table creation completed successfully.
+2024-12-13 19:18:48,295 - INFO - Data successfully ingested from: pipeline_dimensional_data/queries/update_fact.sql
+2024-12-13 19:18:48,296 - INFO - Fact table ingestion completed successfully.
+2024-12-13 19:18:48,303 - INFO - Faulty rows ingested from: pipeline_dimensional_data/queries/update_fact_error.sql
+2024-12-13 19:18:48,303 - INFO - FactError table ingestion completed successfully.
+2024-12-13 19:18:48,303 - INFO - Execution 9a818578-222c-4fa8-914f-b2c435d70357 completed successfully!
+2024-12-13 19:18:48,303 - INFO - Execution completed!
+2024-12-13 19:18:48,304 - INFO - Final Pipeline Status: {'create_tables': {'success': True}, 'ingest_fact': {'success': True}, 'ingest_fact_error': {'success': True}}
+2024-12-13 19:19:04,240 - INFO - Starting pipeline execution from 2023-01-01 to 2024-12-31.
+2024-12-13 19:19:04,240 - INFO - Starting Dimensional Data Flow Execution ID: 6fca11e3-7dbb-40bf-9f0f-95c80fb9a1c3
+2024-12-13 19:19:04,243 - INFO - Connecting to the database...
+2024-12-13 19:19:04,243 - INFO - Connection established successfully.
+2024-12-13 19:19:04,244 - INFO - Loaded SQL script from: infrastructure_initiation/dimensional_db_table_creation.sql
+2024-12-13 19:19:04,244 - INFO - SQL script contains 12 statements.
+2024-12-13 19:19:04,244 - DEBUG - Executing statement 1: USE ORDER_DDS...
+2024-12-13 19:19:04,245 - INFO - Statement 1 executed successfully.
+2024-12-13 19:19:04,245 - DEBUG - Executing statement 2: -- ===============================================...
+2024-12-13 19:19:04,248 - INFO - Statement 2 executed successfully.
+2024-12-13 19:19:04,248 - DEBUG - Executing statement 3: -- SCD1: Only current data is stored, with no hist...
+2024-12-13 19:19:04,251 - INFO - Statement 3 executed successfully.
+2024-12-13 19:19:04,251 - DEBUG - Executing statement 4: -- SCD2: Tracks historical changes by adding new r...
+2024-12-13 19:19:04,254 - INFO - Statement 4 executed successfully.
+2024-12-13 19:19:04,254 - DEBUG - Executing statement 5: -- SCD1 with Delete: Only current data is stored, ...
+2024-12-13 19:19:04,257 - INFO - Statement 5 executed successfully.
+2024-12-13 19:19:04,257 - DEBUG - Executing statement 6: -- SCD1: Only current data is stored, with no hist...
+2024-12-13 19:19:04,260 - INFO - Statement 6 executed successfully.
+2024-12-13 19:19:04,260 - DEBUG - Executing statement 7: -- SCD4: Historical snapshots are stored, with eac...
+2024-12-13 19:19:04,263 - INFO - Statement 7 executed successfully.
+2024-12-13 19:19:04,263 - DEBUG - Executing statement 8: -- SCD1 with Delete: Only current data is stored, ...
+2024-12-13 19:19:04,266 - INFO - Statement 8 executed successfully.
+2024-12-13 19:19:04,266 - DEBUG - Executing statement 9: -- SCD3: Tracks one historical version by keeping ...
+2024-12-13 19:19:04,269 - INFO - Statement 9 executed successfully.
+2024-12-13 19:19:04,269 - DEBUG - Executing statement 10: -- SCD4: Historical snapshots are stored, with eac...
+2024-12-13 19:19:04,273 - INFO - Statement 10 executed successfully.
+2024-12-13 19:19:04,273 - DEBUG - Executing statement 11: -- Dim_SOR: Used for tracking staging raw data and...
+2024-12-13 19:19:04,278 - INFO - Statement 11 executed successfully.
+2024-12-13 19:19:04,279 - DEBUG - Executing statement 12: -- FactOrders: Captures transactional data and lin...
+2024-12-13 19:19:04,281 - INFO - Statement 12 executed successfully.
+2024-12-13 19:19:04,281 - INFO - All statements executed successfully from: infrastructure_initiation/dimensional_db_table_creation.sql
+2024-12-13 19:19:04,281 - INFO - Tables created successfully from: infrastructure_initiation/dimensional_db_table_creation.sql
+2024-12-13 19:19:04,282 - INFO - Table creation completed successfully.
+2024-12-13 19:19:04,288 - INFO - Data successfully ingested from: pipeline_dimensional_data/queries/update_fact.sql
+2024-12-13 19:19:04,288 - INFO - Fact table ingestion completed successfully.
+2024-12-13 19:19:04,293 - INFO - Faulty rows ingested from: pipeline_dimensional_data/queries/update_fact_error.sql
+2024-12-13 19:19:04,293 - INFO - FactError table ingestion completed successfully.
+2024-12-13 19:19:04,293 - INFO - Execution 6fca11e3-7dbb-40bf-9f0f-95c80fb9a1c3 completed successfully!
+2024-12-13 19:19:04,293 - INFO - Execution completed!
+2024-12-13 19:19:04,293 - INFO - Final Pipeline Status: {'create_tables': {'success': True}, 'ingest_fact': {'success': True}, 'ingest_fact_error': {'success': True}}
+2024-12-13 19:19:38,640 - INFO - Starting pipeline execution from 2023-01-01 to 2024-12-31.
+2024-12-13 19:19:38,641 - INFO - Starting Dimensional Data Flow Execution ID: 866cfd3d-0f4c-402c-b007-ab6ee54e7569
+2024-12-13 19:19:38,647 - INFO - Connecting to the database...
+2024-12-13 19:19:38,647 - INFO - Connection established successfully.
+2024-12-13 19:19:38,648 - INFO - Loaded SQL script from: infrastructure_initiation/dimensional_db_table_creation.sql
+2024-12-13 19:19:38,649 - INFO - SQL script contains 12 statements.
+2024-12-13 19:19:38,649 - DEBUG - Executing statement 1: USE ORDER_DDS...
+2024-12-13 19:19:38,651 - INFO - Statement 1 executed successfully.
+2024-12-13 19:19:38,652 - DEBUG - Executing statement 2: -- ===============================================...
+2024-12-13 19:19:38,655 - INFO - Statement 2 executed successfully.
+2024-12-13 19:19:38,656 - DEBUG - Executing statement 3: -- SCD1: Only current data is stored, with no hist...
+2024-12-13 19:19:38,659 - INFO - Statement 3 executed successfully.
+2024-12-13 19:19:38,659 - DEBUG - Executing statement 4: -- SCD2: Tracks historical changes by adding new r...
+2024-12-13 19:19:38,663 - INFO - Statement 4 executed successfully.
+2024-12-13 19:19:38,663 - DEBUG - Executing statement 5: -- SCD1 with Delete: Only current data is stored, ...
+2024-12-13 19:19:38,666 - INFO - Statement 5 executed successfully.
+2024-12-13 19:19:38,666 - DEBUG - Executing statement 6: -- SCD1: Only current data is stored, with no hist...
+2024-12-13 19:19:38,671 - INFO - Statement 6 executed successfully.
+2024-12-13 19:19:38,671 - DEBUG - Executing statement 7: -- SCD4: Historical snapshots are stored, with eac...
+2024-12-13 19:19:38,674 - INFO - Statement 7 executed successfully.
+2024-12-13 19:19:38,674 - DEBUG - Executing statement 8: -- SCD1 with Delete: Only current data is stored, ...
+2024-12-13 19:19:38,677 - INFO - Statement 8 executed successfully.
+2024-12-13 19:19:38,678 - DEBUG - Executing statement 9: -- SCD3: Tracks one historical version by keeping ...
+2024-12-13 19:19:38,681 - INFO - Statement 9 executed successfully.
+2024-12-13 19:19:38,681 - DEBUG - Executing statement 10: -- SCD4: Historical snapshots are stored, with eac...
+2024-12-13 19:19:38,684 - INFO - Statement 10 executed successfully.
+2024-12-13 19:19:38,684 - DEBUG - Executing statement 11: -- Dim_SOR: Used for tracking staging raw data and...
+2024-12-13 19:19:38,689 - INFO - Statement 11 executed successfully.
+2024-12-13 19:19:38,689 - DEBUG - Executing statement 12: -- FactOrders: Captures transactional data and lin...
+2024-12-13 19:19:38,692 - INFO - Statement 12 executed successfully.
+2024-12-13 19:19:38,692 - INFO - All statements executed successfully from: infrastructure_initiation/dimensional_db_table_creation.sql
+2024-12-13 19:19:38,692 - INFO - Tables created successfully from: infrastructure_initiation/dimensional_db_table_creation.sql
+2024-12-13 19:19:38,692 - INFO - Table creation completed successfully.
+2024-12-13 19:19:38,700 - INFO - Data successfully ingested from: pipeline_dimensional_data/queries/update_fact.sql
+2024-12-13 19:19:38,701 - INFO - Fact table ingestion completed successfully.
+2024-12-13 19:19:38,709 - INFO - Faulty rows ingested from: pipeline_dimensional_data/queries/update_fact_error.sql
+2024-12-13 19:19:38,710 - INFO - FactError table ingestion completed successfully.
+2024-12-13 19:19:38,710 - INFO - Execution 866cfd3d-0f4c-402c-b007-ab6ee54e7569 completed successfully!
+2024-12-13 19:19:38,710 - INFO - Execution completed!
+2024-12-13 19:19:38,710 - INFO - Final Pipeline Status: {'create_tables': {'success': True}, 'ingest_fact': {'success': True}, 'ingest_fact_error': {'success': True}}
+2024-12-13 19:21:09,414 - INFO - Starting pipeline execution from 2023-01-01 to 2024-12-31.
+2024-12-13 19:21:09,414 - INFO - Starting Dimensional Data Flow Execution ID: 10efdb9e-a9f6-4ae7-b76d-b77b91aa409b
+2024-12-13 19:21:09,419 - INFO - Connecting to the database...
+2024-12-13 19:21:09,419 - INFO - Connection established successfully.
+2024-12-13 19:21:09,420 - INFO - Loaded SQL script from: infrastructure_initiation/dimensional_db_table_creation.sql
+2024-12-13 19:21:09,420 - INFO - SQL script contains 12 statements.
+2024-12-13 19:21:09,420 - DEBUG - Executing statement 1: USE ORDER_DDS...
+2024-12-13 19:21:09,423 - ERROR - Error executing statement 1: ('08004', "[08004] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]Database 'ORDER_DDS' does not exist. Make sure that the name is entered correctly. (911) (SQLExecDirectW)")
+Traceback (most recent call last):
+  File "/Users/hrag03/Downloads/Business_Intelligence_Project/utils.py", line 60, in execute_sql_script_from_file
+    cursor.execute(statement)
+pyodbc.OperationalError: ('08004', "[08004] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]Database 'ORDER_DDS' does not exist. Make sure that the name is entered correctly. (911) (SQLExecDirectW)")
+2024-12-13 19:21:09,423 - DEBUG - Executing statement 2: -- ===============================================...
+2024-12-13 19:21:09,429 - INFO - Statement 2 executed successfully.
+2024-12-13 19:21:09,429 - DEBUG - Executing statement 3: -- SCD1: Only current data is stored, with no hist...
+2024-12-13 19:21:09,432 - INFO - Statement 3 executed successfully.
+2024-12-13 19:21:09,432 - DEBUG - Executing statement 4: -- SCD2: Tracks historical changes by adding new r...
+2024-12-13 19:21:09,438 - INFO - Statement 4 executed successfully.
+2024-12-13 19:21:09,439 - DEBUG - Executing statement 5: -- SCD1 with Delete: Only current data is stored, ...
+2024-12-13 19:21:09,444 - INFO - Statement 5 executed successfully.
+2024-12-13 19:21:09,444 - DEBUG - Executing statement 6: -- SCD1: Only current data is stored, with no hist...
+2024-12-13 19:21:09,447 - INFO - Statement 6 executed successfully.
+2024-12-13 19:21:09,447 - DEBUG - Executing statement 7: -- SCD4: Historical snapshots are stored, with eac...
+2024-12-13 19:21:09,451 - INFO - Statement 7 executed successfully.
+2024-12-13 19:21:09,451 - DEBUG - Executing statement 8: -- SCD1 with Delete: Only current data is stored, ...
+2024-12-13 19:21:09,454 - INFO - Statement 8 executed successfully.
+2024-12-13 19:21:09,454 - DEBUG - Executing statement 9: -- SCD3: Tracks one historical version by keeping ...
+2024-12-13 19:21:09,457 - INFO - Statement 9 executed successfully.
+2024-12-13 19:21:09,458 - DEBUG - Executing statement 10: -- SCD4: Historical snapshots are stored, with eac...
+2024-12-13 19:21:09,462 - INFO - Statement 10 executed successfully.
+2024-12-13 19:21:09,463 - DEBUG - Executing statement 11: -- Dim_SOR: Used for tracking staging raw data and...
+2024-12-13 19:21:09,468 - INFO - Statement 11 executed successfully.
+2024-12-13 19:21:09,469 - DEBUG - Executing statement 12: -- FactOrders: Captures transactional data and lin...
+2024-12-13 19:21:09,471 - INFO - Statement 12 executed successfully.
+2024-12-13 19:21:09,471 - INFO - All statements executed successfully from: infrastructure_initiation/dimensional_db_table_creation.sql
+2024-12-13 19:21:09,471 - INFO - Tables created successfully from: infrastructure_initiation/dimensional_db_table_creation.sql
+2024-12-13 19:21:09,471 - INFO - Table creation completed successfully.
+2024-12-13 19:21:09,487 - ERROR - Data ingestion failed: ('08004', "[08004] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]Database 'ORDER_DDS' does not exist. Make sure that the name is entered correctly. (911) (SQLExecDirectW)")
+Traceback (most recent call last):
+  File "/Users/hrag03/Downloads/Business_Intelligence_Project/pipeline_dimensional_data/tasks.py", line 32, in ingest_fact_table_task
+    cursor.execute(sql_script, start_date, end_date)
+pyodbc.OperationalError: ('08004', "[08004] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]Database 'ORDER_DDS' does not exist. Make sure that the name is entered correctly. (911) (SQLExecDirectW)")
+2024-12-13 19:21:09,488 - ERROR - Execution 10efdb9e-a9f6-4ae7-b76d-b77b91aa409b failed: Fact table ingestion failed.
+Traceback (most recent call last):
+  File "/Users/hrag03/Downloads/Business_Intelligence_Project/pipeline_dimensional_data/flow.py", line 57, in exec
+    raise Exception("Fact table ingestion failed.")
+Exception: Fact table ingestion failed.
+2024-12-13 19:21:09,489 - INFO - Execution completed!
+2024-12-13 19:21:09,489 - INFO - Final Pipeline Status: {'create_tables': {'success': True}, 'ingest_fact': {'success': False, 'error': '(\'08004\', "[08004] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]Database \'ORDER_DDS\' does not exist. Make sure that the name is entered correctly. (911) (SQLExecDirectW)")'}, 'error': 'Fact table ingestion failed.'}
+2024-12-13 19:26:36,513 - INFO - Starting pipeline execution from 2023-01-01 to 2024-12-31.
+2024-12-13 19:26:36,514 - INFO - Starting Dimensional Data Flow Execution ID: d3c087ef-0ae3-483d-bbe5-a020568c026a
+2024-12-13 19:26:36,518 - INFO - Connecting to the database...
+2024-12-13 19:26:36,518 - INFO - Connection established successfully.
+2024-12-13 19:26:36,519 - INFO - Loaded SQL script from: infrastructure_initiation/dimensional_db_table_creation.sql
+2024-12-13 19:26:36,520 - INFO - SQL script contains 12 statements.
+2024-12-13 19:26:36,520 - DEBUG - Executing statement 1: USE ORDER_DDS...
+2024-12-13 19:26:36,521 - INFO - Statement 1 executed successfully.
+2024-12-13 19:26:36,521 - DEBUG - Executing statement 2: -- ===============================================...
+2024-12-13 19:26:36,525 - INFO - Statement 2 executed successfully.
+2024-12-13 19:26:36,525 - DEBUG - Executing statement 3: -- SCD1: Only current data is stored, with no hist...
+2024-12-13 19:26:36,528 - INFO - Statement 3 executed successfully.
+2024-12-13 19:26:36,528 - DEBUG - Executing statement 4: -- SCD2: Tracks historical changes by adding new r...
+2024-12-13 19:26:36,534 - INFO - Statement 4 executed successfully.
+2024-12-13 19:26:36,534 - DEBUG - Executing statement 5: -- SCD1 with Delete: Only current data is stored, ...
+2024-12-13 19:26:36,538 - INFO - Statement 5 executed successfully.
+2024-12-13 19:26:36,538 - DEBUG - Executing statement 6: -- SCD1: Only current data is stored, with no hist...
+2024-12-13 19:26:36,541 - INFO - Statement 6 executed successfully.
+2024-12-13 19:26:36,542 - DEBUG - Executing statement 7: -- SCD4: Historical snapshots are stored, with eac...
+2024-12-13 19:26:36,544 - INFO - Statement 7 executed successfully.
+2024-12-13 19:26:36,544 - DEBUG - Executing statement 8: -- SCD1 with Delete: Only current data is stored, ...
+2024-12-13 19:26:36,548 - INFO - Statement 8 executed successfully.
+2024-12-13 19:26:36,548 - DEBUG - Executing statement 9: -- SCD3: Tracks one historical version by keeping ...
+2024-12-13 19:26:36,551 - INFO - Statement 9 executed successfully.
+2024-12-13 19:26:36,551 - DEBUG - Executing statement 10: -- SCD4: Historical snapshots are stored, with eac...
+2024-12-13 19:26:36,556 - INFO - Statement 10 executed successfully.
+2024-12-13 19:26:36,556 - DEBUG - Executing statement 11: -- Dim_SOR: Used for tracking staging raw data and...
+2024-12-13 19:26:36,562 - INFO - Statement 11 executed successfully.
+2024-12-13 19:26:36,562 - DEBUG - Executing statement 12: -- FactOrders: Captures transactional data and lin...
+2024-12-13 19:26:36,563 - INFO - Statement 12 executed successfully.
+2024-12-13 19:26:36,564 - INFO - All statements executed successfully from: infrastructure_initiation/dimensional_db_table_creation.sql
+2024-12-13 19:26:36,564 - INFO - Tables created successfully from: infrastructure_initiation/dimensional_db_table_creation.sql
+2024-12-13 19:26:36,564 - INFO - Table creation completed successfully.
+2024-12-13 19:26:36,577 - INFO - Data successfully ingested from: pipeline_dimensional_data/queries/update_fact.sql
+2024-12-13 19:26:36,578 - INFO - Fact table ingestion completed successfully.
+2024-12-13 19:26:36,584 - INFO - Faulty rows ingested from: pipeline_dimensional_data/queries/update_fact_error.sql
+2024-12-13 19:26:36,584 - INFO - FactError table ingestion completed successfully.
+2024-12-13 19:26:36,584 - INFO - Execution d3c087ef-0ae3-483d-bbe5-a020568c026a completed successfully!
+2024-12-13 19:26:36,584 - INFO - Execution completed!
+2024-12-13 19:26:36,584 - INFO - Final Pipeline Status: {'create_tables': {'success': True}, 'ingest_fact': {'success': True}, 'ingest_fact_error': {'success': True}}
+2024-12-13 19:36:25,335 - INFO - Starting pipeline execution from 2023-01-01 to 2024-12-31.
+2024-12-13 19:36:25,336 - INFO - Starting Dimensional Data Flow Execution ID: 8c4d6e68-369b-4ab8-9691-c04af1e1c278
+2024-12-13 19:36:25,338 - INFO - Connecting to the database...
+2024-12-13 19:36:25,339 - INFO - Connection established successfully.
+2024-12-13 19:36:25,340 - INFO - Loaded SQL script from: infrastructure_initiation/dimensional_db_table_creation.sql
+2024-12-13 19:36:25,340 - INFO - SQL script contains 12 statements.
+2024-12-13 19:36:25,340 - DEBUG - Executing statement 1: USE ORDER_DDS...
+2024-12-13 19:36:25,342 - INFO - Statement 1 executed successfully.
+2024-12-13 19:36:25,343 - DEBUG - Executing statement 2: -- ===============================================...
+2024-12-13 19:36:25,345 - INFO - Statement 2 executed successfully.
+2024-12-13 19:36:25,345 - DEBUG - Executing statement 3: -- SCD1: Only current data is stored, with no hist...
+2024-12-13 19:36:25,348 - INFO - Statement 3 executed successfully.
+2024-12-13 19:36:25,348 - DEBUG - Executing statement 4: -- SCD2: Tracks historical changes by adding new r...
+2024-12-13 19:36:25,350 - INFO - Statement 4 executed successfully.
+2024-12-13 19:36:25,351 - DEBUG - Executing statement 5: -- SCD1 with Delete: Only current data is stored, ...
+2024-12-13 19:36:25,353 - INFO - Statement 5 executed successfully.
+2024-12-13 19:36:25,353 - DEBUG - Executing statement 6: -- SCD1: Only current data is stored, with no hist...
+2024-12-13 19:36:25,355 - INFO - Statement 6 executed successfully.
+2024-12-13 19:36:25,355 - DEBUG - Executing statement 7: -- SCD4: Historical snapshots are stored, with eac...
+2024-12-13 19:36:25,358 - INFO - Statement 7 executed successfully.
+2024-12-13 19:36:25,358 - DEBUG - Executing statement 8: -- SCD1 with Delete: Only current data is stored, ...
+2024-12-13 19:36:25,361 - INFO - Statement 8 executed successfully.
+2024-12-13 19:36:25,362 - DEBUG - Executing statement 9: -- SCD3: Tracks one historical version by keeping ...
+2024-12-13 19:36:25,365 - INFO - Statement 9 executed successfully.
+2024-12-13 19:36:25,366 - DEBUG - Executing statement 10: -- SCD4: Historical snapshots are stored, with eac...
+2024-12-13 19:36:25,369 - INFO - Statement 10 executed successfully.
+2024-12-13 19:36:25,369 - DEBUG - Executing statement 11: -- Dim_SOR: Used for tracking staging raw data and...
+2024-12-13 19:36:25,373 - INFO - Statement 11 executed successfully.
+2024-12-13 19:36:25,373 - DEBUG - Executing statement 12: -- FactOrders: Captures transactional data and lin...
+2024-12-13 19:36:25,375 - INFO - Statement 12 executed successfully.
+2024-12-13 19:36:25,376 - INFO - All statements executed successfully from: infrastructure_initiation/dimensional_db_table_creation.sql
+2024-12-13 19:36:25,376 - INFO - Tables created successfully from: infrastructure_initiation/dimensional_db_table_creation.sql
+2024-12-13 19:36:25,376 - INFO - Table creation completed successfully.
+2024-12-13 19:36:25,385 - INFO - Data successfully ingested from: pipeline_dimensional_data/queries/update_fact.sql
+2024-12-13 19:36:25,385 - INFO - Fact table ingestion completed successfully.
+2024-12-13 19:36:25,392 - INFO - Faulty rows ingested from: pipeline_dimensional_data/queries/update_fact_error.sql
+2024-12-13 19:36:25,392 - INFO - FactError table ingestion completed successfully.
+2024-12-13 19:36:25,392 - INFO - Execution 8c4d6e68-369b-4ab8-9691-c04af1e1c278 completed successfully!
+2024-12-13 19:36:25,392 - INFO - Execution completed!
+2024-12-13 19:36:25,392 - INFO - Final Pipeline Status: {'create_tables': {'success': True}, 'ingest_fact': {'success': True}, 'ingest_fact_error': {'success': True}}
+2024-12-13 19:41:53,515 - INFO - All tables and constraints dropped successfully.
+2024-12-13 19:41:53,527 - INFO - Starting pipeline execution from 2023-01-01 to 2024-12-31.
+2024-12-13 19:41:53,528 - INFO - Starting Dimensional Data Flow Execution ID: 2a267379-b283-4352-b1f4-e668d1260b10
+2024-12-13 19:41:53,530 - INFO - Connecting to the database...
+2024-12-13 19:41:53,531 - INFO - Connection established successfully.
+2024-12-13 19:41:53,532 - INFO - Loaded SQL script from: infrastructure_initiation/dimensional_db_table_creation.sql
+2024-12-13 19:41:53,532 - INFO - SQL script contains 12 statements.
+2024-12-13 19:41:53,532 - DEBUG - Executing statement 1: USE ORDER_DDS...
+2024-12-13 19:41:53,534 - INFO - Statement 1 executed successfully.
+2024-12-13 19:41:53,534 - DEBUG - Executing statement 2: -- ===============================================...
+2024-12-13 19:41:53,536 - INFO - Statement 2 executed successfully.
+2024-12-13 19:41:53,537 - DEBUG - Executing statement 3: -- SCD1: Only current data is stored, with no hist...
+2024-12-13 19:41:53,542 - INFO - Statement 3 executed successfully.
+2024-12-13 19:41:53,542 - DEBUG - Executing statement 4: -- SCD2: Tracks historical changes by adding new r...
+2024-12-13 19:41:53,545 - INFO - Statement 4 executed successfully.
+2024-12-13 19:41:53,546 - DEBUG - Executing statement 5: -- SCD1 with Delete: Only current data is stored, ...
+2024-12-13 19:41:53,548 - INFO - Statement 5 executed successfully.
+2024-12-13 19:41:53,549 - DEBUG - Executing statement 6: -- SCD1: Only current data is stored, with no hist...
+2024-12-13 19:41:53,553 - INFO - Statement 6 executed successfully.
+2024-12-13 19:41:53,553 - DEBUG - Executing statement 7: -- SCD4: Historical snapshots are stored, with eac...
+2024-12-13 19:41:53,556 - INFO - Statement 7 executed successfully.
+2024-12-13 19:41:53,556 - DEBUG - Executing statement 8: -- SCD1 with Delete: Only current data is stored, ...
+2024-12-13 19:41:53,559 - INFO - Statement 8 executed successfully.
+2024-12-13 19:41:53,559 - DEBUG - Executing statement 9: -- SCD3: Tracks one historical version by keeping ...
+2024-12-13 19:41:53,562 - INFO - Statement 9 executed successfully.
+2024-12-13 19:41:53,562 - DEBUG - Executing statement 10: -- SCD4: Historical snapshots are stored, with eac...
+2024-12-13 19:41:53,566 - INFO - Statement 10 executed successfully.
+2024-12-13 19:41:53,567 - DEBUG - Executing statement 11: -- Dim_SOR: Used for tracking staging raw data and...
+2024-12-13 19:41:53,573 - INFO - Statement 11 executed successfully.
+2024-12-13 19:41:53,573 - DEBUG - Executing statement 12: -- FactOrders: Captures transactional data and lin...
+2024-12-13 19:41:53,575 - INFO - Statement 12 executed successfully.
+2024-12-13 19:41:53,575 - INFO - All statements executed successfully from: infrastructure_initiation/dimensional_db_table_creation.sql
+2024-12-13 19:41:53,575 - INFO - Tables created successfully from: infrastructure_initiation/dimensional_db_table_creation.sql
+2024-12-13 19:41:53,575 - INFO - Table creation completed successfully.
+2024-12-13 19:41:53,586 - INFO - Data successfully ingested from: pipeline_dimensional_data/queries/update_fact.sql
+2024-12-13 19:41:53,586 - INFO - Fact table ingestion completed successfully.
+2024-12-13 19:41:53,590 - INFO - Faulty rows ingested from: pipeline_dimensional_data/queries/update_fact_error.sql
+2024-12-13 19:41:53,590 - INFO - FactError table ingestion completed successfully.
+2024-12-13 19:41:53,590 - INFO - Execution 2a267379-b283-4352-b1f4-e668d1260b10 completed successfully!
+2024-12-13 19:41:53,590 - INFO - Execution completed!
+2024-12-13 19:41:53,590 - INFO - Final Pipeline Status: {'create_tables': {'success': True}, 'ingest_fact': {'success': True}, 'ingest_fact_error': {'success': True}}
