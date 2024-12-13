@@ -1,5 +1,3 @@
-import os
-from datetime import datetime
 from utils import get_db_config, execute_sql_script_from_file
 import pyodbc
 from loggings import logger
