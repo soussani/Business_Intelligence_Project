@@ -27,6 +27,7 @@ share/python-wheels/
 *.egg
 MANIFEST
 *.cfg
+!sql_server_config_template.cfg
 
 # PyInstaller
 #  Usually these files are written by a python script from a template
