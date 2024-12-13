@@ -137,5 +137,3 @@ def reset_db():
     except Exception as e:
         print(f"Failed to drop database tables: {e}")
         return {'success': False, 'error': str(e)}
-    finally:
-        conn.close()

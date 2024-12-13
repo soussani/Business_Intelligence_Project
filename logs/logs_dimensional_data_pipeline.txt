@@ -256,3 +256,43 @@ pyodbc.ProgrammingError: ('42S01', "[42S01] [Microsoft][ODBC Driver 18 for SQL S
 2024-12-13 17:11:13,311 - INFO - Execution 89c06f1b-deab-405c-9a25-57dfcd64a23d completed successfully!
 2024-12-13 17:11:13,311 - INFO - Execution completed!
 2024-12-13 17:11:13,311 - INFO - Final Pipeline Status: {'create_tables': {'success': True}, 'ingest_fact': {'success': True}, 'ingest_fact_error': {'success': True}}
+2024-12-13 17:26:48,323 - INFO - Starting pipeline execution from 2023-01-01 to 2024-12-31.
+2024-12-13 17:26:48,324 - INFO - Starting Dimensional Data Flow Execution ID: 507950e1-d8b8-4de6-876f-524d0389ac89
+2024-12-13 17:26:48,325 - INFO - Connecting to the database...
+2024-12-13 17:26:48,325 - INFO - Connection established successfully.
+2024-12-13 17:26:48,327 - INFO - Loaded SQL script from: infrastructure_initiation/dimensional_db_table_creation.sql
+2024-12-13 17:26:48,327 - INFO - SQL script contains 12 statements.
+2024-12-13 17:26:48,327 - DEBUG - Executing statement 1: USE ORDER_DDS...
+2024-12-13 17:26:48,329 - INFO - Statement 1 executed successfully.
+2024-12-13 17:26:48,329 - DEBUG - Executing statement 2: -- ===============================================...
+2024-12-13 17:26:48,335 - INFO - Statement 2 executed successfully.
+2024-12-13 17:26:48,336 - DEBUG - Executing statement 3: -- SCD1: Only current data is stored, with no hist...
+2024-12-13 17:26:48,341 - INFO - Statement 3 executed successfully.
+2024-12-13 17:26:48,342 - DEBUG - Executing statement 4: -- SCD2: Tracks historical changes by adding new r...
+2024-12-13 17:26:48,347 - INFO - Statement 4 executed successfully.
+2024-12-13 17:26:48,347 - DEBUG - Executing statement 5: -- SCD1 with Delete: Only current data is stored, ...
+2024-12-13 17:26:48,351 - INFO - Statement 5 executed successfully.
+2024-12-13 17:26:48,352 - DEBUG - Executing statement 6: -- SCD1: Only current data is stored, with no hist...
+2024-12-13 17:26:48,357 - INFO - Statement 6 executed successfully.
+2024-12-13 17:26:48,357 - DEBUG - Executing statement 7: -- SCD4: Historical snapshots are stored, with eac...
+2024-12-13 17:26:48,361 - INFO - Statement 7 executed successfully.
+2024-12-13 17:26:48,361 - DEBUG - Executing statement 8: -- SCD1 with Delete: Only current data is stored, ...
+2024-12-13 17:26:48,367 - INFO - Statement 8 executed successfully.
+2024-12-13 17:26:48,367 - DEBUG - Executing statement 9: -- SCD3: Tracks one historical version by keeping ...
+2024-12-13 17:26:48,371 - INFO - Statement 9 executed successfully.
+2024-12-13 17:26:48,371 - DEBUG - Executing statement 10: -- SCD4: Historical snapshots are stored, with eac...
+2024-12-13 17:26:48,377 - INFO - Statement 10 executed successfully.
+2024-12-13 17:26:48,377 - DEBUG - Executing statement 11: -- Dim_SOR: Used for tracking staging raw data and...
+2024-12-13 17:26:48,385 - INFO - Statement 11 executed successfully.
+2024-12-13 17:26:48,385 - DEBUG - Executing statement 12: -- FactOrders: Captures transactional data and lin...
+2024-12-13 17:26:48,387 - INFO - Statement 12 executed successfully.
+2024-12-13 17:26:48,387 - INFO - All statements executed successfully from: infrastructure_initiation/dimensional_db_table_creation.sql
+2024-12-13 17:26:48,387 - INFO - Tables created successfully from: infrastructure_initiation/dimensional_db_table_creation.sql
+2024-12-13 17:26:48,387 - INFO - Table creation completed successfully.
+2024-12-13 17:26:48,398 - INFO - Data successfully ingested from: pipeline_dimensional_data/queries/update_fact.sql
+2024-12-13 17:26:48,398 - INFO - Fact table ingestion completed successfully.
+2024-12-13 17:26:48,405 - INFO - Faulty rows ingested from: pipeline_dimensional_data/queries/update_fact_error.sql
+2024-12-13 17:26:48,405 - INFO - FactError table ingestion completed successfully.
+2024-12-13 17:26:48,405 - INFO - Execution 507950e1-d8b8-4de6-876f-524d0389ac89 completed successfully!
+2024-12-13 17:26:48,405 - INFO - Execution completed!
+2024-12-13 17:26:48,405 - INFO - Final Pipeline Status: {'create_tables': {'success': True}, 'ingest_fact': {'success': True}, 'ingest_fact_error': {'success': True}}
