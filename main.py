@@ -25,13 +25,16 @@ def main():
         logger.info("Resetting the database...")
         reset_db()
 
+        # Establish database connection
+        conn = get_db_connection()
+
         # Run table creation scripts
         logger.info("Creating tables...")
         execute_sql_script_from_file("infrastructure_initiation/staging_raw_table_creation.sql")
 
         # Load raw data
         logger.info("Loading raw data into staging tables...")
-        load_raw_data_to_staging("raw_data_source.xlsx")
+        load_raw_data_to_staging("raw_data_source.xlsx", conn)
 
         # Parse arguments
         args = get_args()
