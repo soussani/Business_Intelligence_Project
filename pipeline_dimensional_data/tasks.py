@@ -80,7 +80,7 @@ def ingest_fact_error_task(sql_file_path: str, start_date: str, end_date: str):
 def run_pipeline(start_date: str, end_date: str):
 
     # Define SQL file paths
-    create_tables_file = "pipeline_dimensional_data/queries/create_tables.sql"
+    create_tables_file = "infrastructure_initiation/dimensional_db_table_creation.sql"
     update_fact_file = "pipeline_dimensional_data/queries/update_fact.sql"
     update_fact_error_file = "pipeline_dimensional_data/queries/update_fact_error.sql"
 
@@ -106,3 +106,36 @@ def run_pipeline(start_date: str, end_date: str):
     logger.info("Pipeline completed successfully!")
     return tasks_status
 
+
+def reset_db():
+    """
+    Drops all tables in the database, resetting it completely.
+    """
+    try:
+        conn = get_db_connection()
+        cursor = conn.cursor()
+
+        cursor.execute("""
+                DECLARE @sql NVARCHAR(MAX) = N'';
+                SELECT @sql += N'ALTER TABLE ' + QUOTENAME(s.name) + '.' + QUOTENAME(t.name) + 
+                              ' DROP CONSTRAINT ' + QUOTENAME(fk.name) + ';'
+                FROM sys.foreign_keys fk
+                INNER JOIN sys.tables t ON fk.parent_object_id = t.object_id
+                INNER JOIN sys.schemas s ON t.schema_id = s.schema_id;
+                EXEC sp_executesql @sql;
+                """)
+        cursor.execute("""
+                DECLARE @sql NVARCHAR(MAX) = N'';
+                SELECT @sql += N'DROP TABLE ' + QUOTENAME(s.name) + '.' + QUOTENAME(t.name) + ';'
+                FROM sys.tables t
+                INNER JOIN sys.schemas s ON t.schema_id = s.schema_id;
+                EXEC sp_executesql @sql;
+                """)
+        conn.commit()
+        print("All tables and constraints dropped successfully.")
+        return {'success': True}
+    except Exception as e:
+        print(f"Failed to drop database tables: {e}")
+        return {'success': False, 'error': str(e)}
+    finally:
+        conn.close()

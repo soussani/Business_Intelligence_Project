@@ -2,6 +2,7 @@ import sys
 import argparse
 from pipeline_dimensional_data.flow import DimensionalDataFlow
 from loggings import logger
+from pipeline_dimensional_data.tasks import reset_db
 
 
 def get_args():
@@ -18,6 +19,8 @@ def main():
     """clear
     Main function to execute the dimensional data pipeline.
     """
+    reset_db()
+
     try:
 
         # Parse arguments
