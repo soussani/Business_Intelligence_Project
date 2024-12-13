@@ -1,7 +1,4 @@
-USE ORDER_DDS;
-
--- Staging Table for Categories
-CREATE TABLE Staging_Categories (
+CREATE TABLE StagingCategories (
     Staging_Raw_ID INT IDENTITY(1,1) PRIMARY KEY,
     CategoryID INT,
     CategoryName NVARCHAR(255),
@@ -9,38 +6,43 @@ CREATE TABLE Staging_Categories (
 );
 
 -- Staging Table for Customers
-CREATE TABLE Staging_Customers (
+CREATE TABLE StagingCustomers (
     Staging_Raw_ID INT IDENTITY(1,1) PRIMARY KEY,
-    CustomerID INT,
-    CustomerName NVARCHAR(255),
-    ContactInfo NVARCHAR(MAX) -- Modify according to source data attributes
+    CustomerID NVARCHAR(10),
+    CompanyName NVARCHAR(255),
+    ContactName NVARCHAR(255),
+    ContactTitle NVARCHAR(255),
+    Address NVARCHAR(255),
+    City NVARCHAR(255),
+    Region NVARCHAR(255),
+    PostalCode NVARCHAR(255),
+    Country NVARCHAR(255),
+    Phone NVARCHAR(255),
+    Fax NVARCHAR(255)
 );
+
 
 -- Staging Table for Employees
 CREATE TABLE Staging_Employees (
     Staging_Raw_ID INT IDENTITY(1,1) PRIMARY KEY,
     EmployeeID INT,
-    EmployeeName NVARCHAR(255), -- Modify if necessary
-    ReportsTo INT -- Foreign key relation to EmployeeID
+    LastName NVARCHAR(255),
+    FirstName NVARCHAR(255),
+    Title NVARCHAR(255),
+    TitleOfCourtesy NVARCHAR(255),
+    BirthDate DATETIME,
+    HireDate DATETIME,
+    Address NVARCHAR(255),
+    City NVARCHAR(100),
+    Region NVARCHAR(100),
+    PostalCode NVARCHAR(20),
+    Country NVARCHAR(100),
+    HomePhone NVARCHAR(50),
+    Extension NVARCHAR(10),
+    Notes NVARCHAR(MAX),
+    ReportsTo INT,
+    PhotoPath NVARCHAR(255)
 );
-
-USE ORDER_DDS;
-
-CREATE TABLE dbo.Staging_Orders (
-    Staging_Raw_ID INT IDENTITY(1,1) PRIMARY KEY, -- Unique identifier for staging rows
-    OrderID INT,                                  -- Order identifier
-    CustomerID INT,                               -- Foreign key to DimCustomers
-    EmployeeID INT,                               -- Foreign key to DimEmployees
-    ShipVia INT,                                  -- Foreign key to DimShippers
-    OrderDate DATE,                               -- Order date
-    TerritoryID INT,                              -- Foreign key to DimTerritories
-    ProductID INT,                                -- Foreign key to DimProducts
-    Quantity INT,                                 -- Quantity of product in the order
-    TotalAmount DECIMAL(18,2),                    -- Total amount of the order
-    Discount DECIMAL(18,2)                        -- Discount applied to the order
-);
-
-
 
 -- Staging Table for Products
 CREATE TABLE Staging_Products (
@@ -49,31 +51,46 @@ CREATE TABLE Staging_Products (
     ProductName NVARCHAR(255),
     SupplierID INT,
     CategoryID INT,
-    QuantityPerUnit NVARCHAR(255),
-    UnitPrice DECIMAL(18,2)
+    QuantityPerUnit NVARCHAR(100),
+    UnitPrice MONEY,
+    UnitsInStock INT,
+    UnitsOnOrder INT,
+    ReorderLevel INT,
+    Discontinued BIT
 );
 
--- Staging Table for Regions
-CREATE TABLE Staging_Regions (
+-- Staging Table for Region
+CREATE TABLE Staging_Region (
     Staging_Raw_ID INT IDENTITY(1,1) PRIMARY KEY,
     RegionID INT,
-    RegionDescription NVARCHAR(255)
+    RegionDescription NVARCHAR(255),
+    RegionCategory NVARCHAR(255),
+    RegionImportance NVARCHAR(50)
 );
 
 -- Staging Table for Shippers
 CREATE TABLE Staging_Shippers (
     Staging_Raw_ID INT IDENTITY(1,1) PRIMARY KEY,
     ShipperID INT,
-    ShipperName NVARCHAR(255),
-    Phone NVARCHAR(50) -- Example column
+    CompanyName NVARCHAR(255),
+    Phone NVARCHAR(50)
 );
 
 -- Staging Table for Suppliers
 CREATE TABLE Staging_Suppliers (
     Staging_Raw_ID INT IDENTITY(1,1) PRIMARY KEY,
     SupplierID INT,
-    SupplierName NVARCHAR(255),
-    ContactInfo NVARCHAR(MAX) -- Example column
+    CompanyName NVARCHAR(255),
+    ContactName NVARCHAR(255),
+    ContactTitle NVARCHAR(255),
+    Address NVARCHAR(255),
+    City NVARCHAR(100),
+    Region NVARCHAR(100),
+    PostalCode NVARCHAR(20),
+    Country NVARCHAR(100),
+    Phone NVARCHAR(50),
+    Fax NVARCHAR(50),
+    HomePage NVARCHAR(MAX)
 );
 
 -- Staging Table for Territories
@@ -81,7 +98,28 @@ CREATE TABLE Staging_Territories (
     Staging_Raw_ID INT IDENTITY(1,1) PRIMARY KEY,
     TerritoryID INT,
     TerritoryDescription NVARCHAR(255),
+    TerritoryCode NVARCHAR(50),
     RegionID INT
+);
+
+-- Staging Table for Orders
+CREATE TABLE Staging_Orders (
+    Staging_Raw_ID INT IDENTITY(1,1) PRIMARY KEY,
+    OrderID INT,
+    CustomerID INT,
+    EmployeeID INT,
+    OrderDate DATETIME,
+    RequiredDate DATETIME,
+    ShippedDate DATETIME,
+    ShipVia INT,
+    Freight MONEY,
+    ShipName NVARCHAR(255),
+    ShipAddress NVARCHAR(255),
+    ShipCity NVARCHAR(100),
+    ShipRegion NVARCHAR(100),
+    ShipPostalCode NVARCHAR(20),
+    ShipCountry NVARCHAR(100),
+    TerritoryID INT
 );
 
 -- Staging Table for Order Details
@@ -89,10 +127,12 @@ CREATE TABLE Staging_OrderDetails (
     Staging_Raw_ID INT IDENTITY(1,1) PRIMARY KEY,
     OrderID INT,
     ProductID INT,
-    UnitPrice DECIMAL(18,2),
+    UnitPrice MONEY,
     Quantity INT,
-    Discount DECIMAL(18,2)
+    Discount FLOAT
 );
+
+
 
 -- For task 8 adding new FactError table
 

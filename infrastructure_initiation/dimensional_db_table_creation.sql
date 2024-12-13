@@ -60,6 +60,7 @@ CREATE TABLE DimEmployees (
     Notes NVARCHAR(255),
     ReportsTo INT,                             -- Foreign key reference to EmployeeID
     PhotoPath NVARCHAR(255),
+    IsDeleted BIT DEFAULT 0                    -- Soft deletion marker
 );
 -- SCD1 with Delete: Only current data is stored, and inactive records are removed.
 
@@ -79,7 +80,7 @@ CREATE TABLE DimProducts (
     UnitsInStock INT,
     UnitsOnOrder INT,
     ReorderLevel INT,
-    Discontinued BIT,
+    Discontinued BIT
 );
 -- SCD1: Only current data is stored, with no history tracking.
 
@@ -107,7 +108,8 @@ CREATE TABLE DimShippers (
     ShipperKey INT IDENTITY(1,1) PRIMARY KEY,  -- Surrogate Key
     ShipperID INT,                             -- Natural Key
     CompanyName NVARCHAR(255),
-    Phone NVARCHAR(50)
+    Phone NVARCHAR(50),
+    IsDeleted BIT DEFAULT 0                    -- Soft deletion marker
 );
 -- SCD1 with Delete: Only current data is stored, and inactive records are removed.
 
@@ -120,7 +122,7 @@ CREATE TABLE DimSuppliers (
     SupplierKey INT IDENTITY(1,1) PRIMARY KEY, -- Surrogate Key
     SupplierID INT,                            -- Natural Key
     CompanyName NVARCHAR(255),
-    ContactName NVARCHAR(MAX),          -- Current version of contact info
+    ContactName NVARCHAR(MAX),                -- Current version of contact info
     ContactTitle NVARCHAR(255),
     Address NVARCHAR(255),
     City NVARCHAR(255),
@@ -130,7 +132,7 @@ CREATE TABLE DimSuppliers (
     Phone NVARCHAR(255),
     Fax NVARCHAR(255),
     HomePage NVARCHAR(255),
-    PreviousContactInfo NVARCHAR(MAX)          -- Previous version of contact info
+    PreviousContactInfo NVARCHAR(MAX)         -- Previous version of contact info
 );
 -- SCD3: Tracks one historical version by keeping current and previous values.
 
