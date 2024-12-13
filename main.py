@@ -28,6 +28,9 @@ def main():
         # Establish database connection
         conn = get_db_connection()
 
+        #Create db
+        logger.info("Creating database...")
+        execute_sql_script_from_file("infrastructure_initiation/dimensional_db_creation.sql")
         # Run table creation scripts
         logger.info("Creating tables...")
         execute_sql_script_from_file("infrastructure_initiation/staging_raw_table_creation.sql")
