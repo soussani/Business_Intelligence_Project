@@ -1,9 +1,12 @@
 # Business Intelligence Project
 
 
-## Project Overview
+## Project OverviewDimensional Data Pipeline Project Documentation
 
-This project automates ETL (Extract, Transform, Load) operations on a SQL Server database using Python. The database is managed through SQL Server, while the ETL logic is implemented using various Python scripts.
+
+## Overview
+
+This project implements an end-to-end ETL (Extract, Transform, Load) pipeline to process raw data from staging tables into dimensional tables. The pipeline is designed for SQL Server and includes functionality to reset databases, load raw data, execute table creation scripts, and run ETL workflows.
 
 ---
 
@@ -15,6 +18,15 @@ This project automates ETL (Extract, Transform, Load) operations on a SQL Server
 - Logging with `loguru`
 
 ---
+
+## Execution Workflow
+
+Reset the Database: Clears all existing data and structures.
+Create Tables: Executes SQL scripts to create staging and dimensional tables.
+Load Raw Data: Processes and loads data from Excel sheets into staging tables.
+Run ETL Workflow: Transforms data from staging tables to dimensional tables and populates fact tables.
+
+--- 
 
 ## Setup Instructions
 
@@ -80,6 +92,19 @@ Logs are generated using the loguru library. Relevant logs include:
 * Run pip install -r requirements.txt to install dependencies.
 5. Permission Errors:
 * Ensure your database user has the required permissions.
+
+## Advanced Features
+
+- Parameterized Queries
+SQL queries are designed with parameterization to enhance security and flexibility.
+
+- 
+Modular Design
+The project is modular, separating concerns into distinct modules:
+
+flow.py: Manages ETL workflows.
+tasks.py: Handles database reset logic.
+utils.py: Provides utility functions for SQL execution and data processing.
 
 ## Contributors 🎉
 
