@@ -1,15 +1,14 @@
 USE ORDER_DDS;
 
 -- Declare Parameters
-DECLARE @DatabaseName NVARCHAR(255) = 'ORDER_DDS';  -- Database name
-DECLARE @SchemaName NVARCHAR(255) = 'dbo';          -- Schema name
-DECLARE @FactErrorTable NVARCHAR(255) = 'FactError'; -- Fact error table name
-DECLARE @StartDate DATE;                            -- Start date parameter
-DECLARE @EndDate DATE;                              -- End date parameter
+DECLARE @StartDate DATE;
+DECLARE @EndDate DATE;
 
--- Set the start and end date parameters
-SET @StartDate = '2023-01-01'; -- Replace with actual start date
-SET @EndDate = '2024-12-31';   -- Replace with actual end date
+-- Calculate the actual date range
+SELECT 
+    @StartDate = MIN(OrderDate), 
+    @EndDate = MAX(OrderDate)
+FROM dbo.Staging_Orders;
 
 -- Insert faulty rows into the FactError table
 INSERT INTO dbo.FactError (
@@ -60,7 +59,7 @@ LEFT JOIN dbo.DimShippers ds
 LEFT JOIN dbo.DimProducts dp
     ON sod.ProductID = dp.ProductID
 -- Filter by Date Range
-WHERE so.OrderDate BETWEEN @StartDate AND @EndDate -- Dynamic date range for filtering
+WHERE so.OrderDate BETWEEN @StartDate AND @EndDate
 -- Conditions for faulty rows
 AND (
     dc.CustomerKey IS NULL OR
