@@ -1,18 +1,13 @@
-
 -- (SCD1 - Overwrite)
 USE ORDER_DDS;
 
 MERGE DimCategories AS target
 USING (
     SELECT 
-        sc.Staging_Raw_ID,
         sc.CategoryID,
         sc.CategoryName,
-        sc.Description,
-        ds.SORKey
-    FROM StagingCategories sc
-    JOIN Dim_SOR ds 
-        ON ds.StagingTableName = 'StagingCategories'
+        sc.Description
+    FROM Staging_Categories sc
 ) AS source
 ON target.CategoryID = source.CategoryID
 
@@ -25,4 +20,5 @@ WHEN MATCHED THEN
 -- Insert new records
 WHEN NOT MATCHED BY TARGET THEN
     INSERT (CategoryID, CategoryName, Description)
-    VALUES (source.CategoryID, source.CategoryName, source.Description);
+    VALUES (source.CategoryID, source.CategoryName, source.Description)
+;

@@ -27,7 +27,7 @@ def ingest_fact_table_task(sql_file_path: str, start_date: str, end_date: str):
             sql_script = sql_file.read()
 
         with conn.cursor() as cursor:
-            cursor.execute(sql_script, start_date, end_date)
+            cursor.execute(sql_script)
             conn.commit()
             logger.info(f"Data successfully ingested from: {sql_file_path}")
         return {'success': True}
@@ -47,7 +47,7 @@ def ingest_fact_error_task(sql_file_path: str, start_date: str, end_date: str):
             sql_script = sql_file.read()
 
         with conn.cursor() as cursor:
-            cursor.execute(sql_script, start_date, end_date)
+            cursor.execute(sql_script)
             conn.commit()
             logger.info(f"Faulty rows ingested from: {sql_file_path}")
         return {'success': True}

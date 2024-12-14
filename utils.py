@@ -1,8 +1,9 @@
+import os
 import pyodbc
 import uuid
 import pandas as pd
 from loggings import logger
-from pipeline_dimensional_data.config_db import get_db_config, get_db_connection, ensure_database_exists
+from pipeline_dimensional_data.config_db import get_db_config, ensure_database_exists
 import numpy as np
 from decimal import Decimal
 
@@ -70,7 +71,7 @@ def execute_sql_script_from_file(file_path: str, config_file='sql_server_config.
             with conn.cursor() as cursor:
                 for i, statement in enumerate(sql_statements):
                     statement = statement.strip()
-                    if statement:  # Skip empty statements
+                    if statement:
                         logger.debug(f"Executing statement {i + 1}: {statement[:50]}...")
                         try:
                             cursor.execute(statement)
@@ -161,6 +162,55 @@ def load_raw_data_to_staging(raw_data_path: str):
 
     except Exception as e:
         logger.error(f"Error loading raw data to staging: {e}", exc_info=True)
+    finally:
+        if conn:
+            conn.close()
+            logger.info("Database connection closed.")
+
+
+
+def update_dimensional_tables(query_directory: str = "pipeline_dimensional_data/queries"):
+    """
+    Automatically updates dimensional tables by executing all SQL scripts in the specified directory.
+
+    Args:
+        query_directory (str): Path to the directory containing SQL query files.
+    """
+    conn = get_db_connection()
+    try:
+        sql_files = [
+            os.path.join(query_directory, file)
+            for file in os.listdir(query_directory)
+            if file.endswith('.sql')
+        ]
+
+        if not sql_files:
+            logger.warning(f"No SQL scripts found in directory: {query_directory}")
+            return
+
+        for script_path in sql_files:
+            try:
+                logger.info(f"Executing script: {script_path}")
+
+                with open(script_path, 'r', encoding='utf-8') as sql_file:
+                    sql_script = sql_file.read()
+
+                cursor = conn.cursor()
+                cursor.execute(sql_script)
+                conn.commit()
+
+                logger.info(f"Successfully executed script: {script_path}")
+
+            except FileNotFoundError:
+                logger.error(f"File not found: {script_path}", exc_info=True)
+            except pyodbc.Error as e:
+                logger.error(f"Error executing script {script_path}: {str(e)}", exc_info=True)
+            except Exception as e:
+                logger.error(f"An unexpected error occurred while executing {script_path}: {str(e)}", exc_info=True)
+
+    except Exception as e:
+        logger.error(f"Error during the update process: {str(e)}", exc_info=True)
+
     finally:
         if conn:
             conn.close()

@@ -20,7 +20,7 @@ CREATE TABLE DimCategories (
 -- ====================================================================
 CREATE TABLE DimCustomers (
     CustomerKey INT IDENTITY(1,1) PRIMARY KEY, -- Surrogate Key
-    CustomerID INT,                            -- Natural Key
+    CustomerID NVARCHAR(10),                            -- Natural Key
     CustomerName NVARCHAR(255),
     ContactName NVARCHAR(255),
     ContactTitle NVARCHAR(255),
@@ -57,7 +57,7 @@ CREATE TABLE DimEmployees (
     Country NVARCHAR(255),
     HomePhone NVARCHAR(255),
     Extension INT,
-    Notes NVARCHAR(255),
+    Notes NVARCHAR(MAX),
     ReportsTo INT,                             -- Foreign key reference to EmployeeID
     PhotoPath NVARCHAR(255),
     IsDeleted BIT DEFAULT 0                    -- Soft deletion marker

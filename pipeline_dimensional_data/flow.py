@@ -7,7 +7,7 @@ from pipeline_dimensional_data.tasks import (
     ingest_fact_error_task,
 )
 
-from utils import generate_uuid
+from utils import generate_uuid, update_dimensional_tables
 from loggings import logger
 
 

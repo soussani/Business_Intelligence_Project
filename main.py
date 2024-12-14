@@ -3,7 +3,7 @@ import argparse
 from pipeline_dimensional_data.flow import DimensionalDataFlow
 from loggings import logger
 from pipeline_dimensional_data.tasks import reset_db
-from utils import get_db_connection, execute_sql_script_from_file, load_raw_data_to_staging
+from utils import execute_sql_script_from_file, load_raw_data_to_staging, update_dimensional_tables
 
 
 def get_args():
@@ -24,9 +24,6 @@ def main():
         # Reset the database
         logger.info("Resetting the database...")
         reset_db()
-
-        # Establish database connection
-        conn = get_db_connection()
 
         #Create db
         logger.info("Creating database...")
@@ -55,6 +52,10 @@ def main():
             raise TypeError(f"Expected a dictionary, got {type(pipeline_status)}")
 
         logger.info("Execution completed!")
+
+        update_dimensional_tables()
+        logger.info("Dim Tables update completed!")
+
         logger.info(f"Final Pipeline Status: {pipeline_status}")
 
     except Exception as e:

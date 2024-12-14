@@ -11,7 +11,6 @@ DECLARE @EndDate DATE;                              -- End date parameter
 SET @StartDate = '2023-01-01'; -- Replace with actual start date
 SET @EndDate = '2024-12-31';   -- Replace with actual end date
 
-
 -- Insert faulty rows into the FactError table
 INSERT INTO dbo.FactError (
     ErrorID,              -- Surrogate key
@@ -23,41 +22,35 @@ INSERT INTO dbo.FactError (
     ProductID,            -- Missing product
     OrderDate,            -- Date of the order
     Quantity,             -- Invalid quantity
---     TotalAmount,          -- Invalid amount
+    TotalAmount,          -- Invalid amount
     Discount,             -- Invalid discount
-    ErrorReason,          -- Reason for failure
-    SORKey                -- Surrogate key from Dim_SOR
+    ErrorReason           -- Reason for failure
 )
-SELECT 
+SELECT
     NEWID() AS ErrorID,                -- Generate unique ID for each error
     so.Staging_Raw_ID,                 -- From staging raw table
     so.OrderID,                        -- Order identifier
     so.CustomerID,                     -- Invalid customer reference
     so.EmployeeID,                     -- Invalid employee reference
     so.ShipVia,                        -- Invalid shipper reference
-    sod.ProductID,                      -- Invalid product reference
+    sod.ProductID,                     -- Invalid product reference
     so.OrderDate,                      -- Order date
-    sod.Quantity,                       -- Quantity ordered
---     so.TotalAmount,                    -- Total amount of the order
-    sod.Discount,                       -- Discount applied
+    sod.Quantity,                      -- Quantity ordered
+    sod.UnitPrice * sod.Quantity AS TotalAmount, -- Total amount of the order
+    sod.Discount,                      -- Discount applied
     CASE
         WHEN dc.CustomerKey IS NULL THEN 'Missing Customer'
         WHEN de.EmployeeKey IS NULL THEN 'Missing Employee'
         WHEN ds.ShipperKey IS NULL THEN 'Missing Shipper'
         WHEN dp.ProductKey IS NULL THEN 'Missing Product'
         WHEN sod.Quantity <= 0 THEN 'Invalid Quantity'
---         WHEN sod.TotalAmount <= 0 THEN 'Invalid Amount'
+        WHEN sod.UnitPrice * sod.Quantity <= 0 THEN 'Invalid Amount'
         WHEN sod.Discount < 0 THEN 'Invalid Discount'
         ELSE 'Unknown Error'
-    END AS ErrorReason,
-    sor.SORKey                        -- Surrogate key from Dim_SOR
+    END AS ErrorReason
 FROM dbo.Staging_Orders so
 JOIN dbo.Staging_OrderDetails sod
     ON sod.OrderID = so.OrderID
-LEFT JOIN dbo.Dim_SOR sor
-    ON sor.StagingTableName = 'Staging_Orders'
-
--- Left Join with Dimension Tables
 LEFT JOIN dbo.DimCustomers dc
     ON so.CustomerID = dc.CustomerID
 LEFT JOIN dbo.DimEmployees de
@@ -66,9 +59,8 @@ LEFT JOIN dbo.DimShippers ds
     ON so.ShipVia = ds.ShipperID
 LEFT JOIN dbo.DimProducts dp
     ON sod.ProductID = dp.ProductID
-
 -- Filter by Date Range
-WHERE so.OrderDate BETWEEN ? AND ? -- Dynamic date range for filtering
+WHERE so.OrderDate BETWEEN @StartDate AND @EndDate -- Dynamic date range for filtering
 -- Conditions for faulty rows
 AND (
     dc.CustomerKey IS NULL OR
@@ -76,6 +68,6 @@ AND (
     ds.ShipperKey IS NULL OR
     dp.ProductKey IS NULL OR
     sod.Quantity <= 0 OR
---     so.TotalAmount <= 0 OR
+    sod.UnitPrice * sod.Quantity <= 0 OR
     sod.Discount < 0
 );
