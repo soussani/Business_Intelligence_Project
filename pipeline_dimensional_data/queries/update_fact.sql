@@ -8,9 +8,11 @@ DECLARE @FactTableName NVARCHAR(255) = 'FactOrders';-- Fact table name
 DECLARE @StartDate DATE;                            -- Start date parameter
 DECLARE @EndDate DATE;                              -- End date parameter
 
--- Set the start and end date parameters
-SET @StartDate = '2023-01-01'; -- Replace with actual start date
-SET @EndDate = '2024-12-31';   -- Replace with actual end date
+-- Set the start and end date parameters dynamically
+SELECT 
+    @StartDate = MIN(OrderDate), 
+    @EndDate = MAX(OrderDate)
+FROM dbo.Staging_Orders;
 
 -- MERGE new data into the FactOrders table
 MERGE dbo.FactOrders AS target
