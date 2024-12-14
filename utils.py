@@ -215,3 +215,164 @@ def update_dimensional_tables(query_directory: str = "pipeline_dimensional_data/
         if conn:
             conn.close()
             logger.info("Database connection closed.")
+
+def update_fact_orders():
+    """
+    Updates the FactOrders table based on data in the staging and dimension tables.
+    Automatically calculates the earliest and latest OrderDate from Staging_Orders.
+    """
+    conn = get_db_connection()
+    
+    try:
+        # Calculate dynamic date range
+        date_query = """
+        SELECT MIN(OrderDate) AS StartDate, MAX(OrderDate) AS EndDate
+        FROM dbo.Staging_Orders;
+        """
+        cursor = conn.cursor()
+        cursor.execute(date_query)
+        start_date, end_date = cursor.fetchone()
+
+        if not start_date or not end_date:
+            logger.warning("No orders found in Staging_Orders. Skipping FactOrders update.")
+            return
+
+        fact_orders_query = f"""
+        USE ORDER_DDS;
+
+        MERGE dbo.FactOrders AS target
+        USING (
+            SELECT
+                so.OrderID,
+                dc.CustomerKey,
+                de.EmployeeKey,
+                ds.ShipperKey,
+                dp.ProductKey,
+                so.OrderDate,
+                sod.Quantity,
+                sod.UnitPrice * sod.Quantity AS TotalAmount,
+                sod.Discount
+            FROM dbo.Staging_Orders so
+            JOIN dbo.Staging_OrderDetails sod
+                ON sod.OrderID = so.OrderID
+            JOIN dbo.DimCustomers dc
+                ON so.CustomerID = dc.CustomerID
+            JOIN dbo.DimEmployees de
+                ON so.EmployeeID = de.EmployeeID
+            JOIN dbo.DimShippers ds
+                ON so.ShipVia = ds.ShipperID
+            JOIN dbo.DimProducts dp
+                ON sod.ProductID = dp.ProductID
+            WHERE so.OrderDate BETWEEN '{start_date}' AND '{end_date}'
+        ) AS source
+        ON target.OrderID = source.OrderID
+           AND target.ProductKey = source.ProductKey
+        WHEN MATCHED THEN
+            UPDATE SET
+                target.CustomerKey = source.CustomerKey,
+                target.EmployeeKey = source.EmployeeKey,
+                target.ShipperKey = source.ShipperKey,
+                target.ProductKey = source.ProductKey,
+                target.OrderDate = source.OrderDate,
+                target.Quantity = source.Quantity,
+                target.TotalAmount = source.TotalAmount,
+                target.Discount = source.Discount
+        WHEN NOT MATCHED BY TARGET THEN
+            INSERT (OrderID, CustomerKey, EmployeeKey, ShipperKey, ProductKey, OrderDate, Quantity, TotalAmount, Discount)
+            VALUES (source.OrderID, source.CustomerKey, source.EmployeeKey, source.ShipperKey, source.ProductKey, source.OrderDate, source.Quantity, source.TotalAmount, source.Discount);
+        """
+        
+        logger.info("Updating FactOrders table...")
+        cursor.execute(fact_orders_query)
+        conn.commit()
+        logger.info("FactOrders table updated successfully.")
+    
+    except Exception as e:
+        logger.error(f"Failed to update FactOrders table: {e}", exc_info=True)
+    
+    finally:
+        if conn:
+            conn.close()
+            logger.info("Database connection closed.")
+
+
+def update_fact_error_table():
+    """
+    Updates the FactError table by detecting faulty records in the FactOrders pipeline.
+    Dynamically calculates the earliest and latest OrderDate from Staging_Orders.
+    """
+    conn = get_db_connection()
+    
+    try:
+        # Determine date range
+        date_query = """
+        SELECT MIN(OrderDate) AS StartDate, MAX(OrderDate) AS EndDate
+        FROM dbo.Staging_Orders;
+        """
+        cursor = conn.cursor()
+        cursor.execute(date_query)
+        start_date, end_date = cursor.fetchone()
+
+        if not start_date or not end_date:
+            logger.warning("No orders found in Staging_Orders. Skipping FactError update.")
+            return
+        
+        fact_error_query = f"""
+        USE ORDER_DDS;
+
+        INSERT INTO dbo.FactError (
+            ErrorID, Staging_Raw_ID, OrderID, CustomerID, EmployeeID, 
+            ShipVia, ProductID, OrderDate, Quantity, TotalAmount, Discount, ErrorReason
+        )
+        SELECT
+            NEWID() AS ErrorID,
+            so.Staging_Raw_ID,
+            so.OrderID,
+            so.CustomerID,
+            so.EmployeeID,
+            so.ShipVia,
+            sod.ProductID,
+            so.OrderDate,
+            sod.Quantity,
+            sod.UnitPrice * sod.Quantity AS TotalAmount,
+            sod.Discount,
+            CASE
+                WHEN dc.CustomerKey IS NULL THEN 'Missing Customer'
+                WHEN de.EmployeeKey IS NULL THEN 'Missing Employee'
+                WHEN ds.ShipperKey IS NULL THEN 'Missing Shipper'
+                WHEN dp.ProductKey IS NULL THEN 'Missing Product'
+                WHEN sod.Quantity <= 0 THEN 'Invalid Quantity'
+                WHEN sod.UnitPrice * sod.Quantity <= 0 THEN 'Invalid Amount'
+                WHEN sod.Discount < 0 THEN 'Invalid Discount'
+                ELSE 'Unknown Error'
+            END AS ErrorReason
+        FROM dbo.Staging_Orders so
+        JOIN dbo.Staging_OrderDetails sod ON sod.OrderID = so.OrderID
+        LEFT JOIN dbo.DimCustomers dc ON so.CustomerID = dc.CustomerID
+        LEFT JOIN dbo.DimEmployees de ON so.EmployeeID = de.EmployeeID
+        LEFT JOIN dbo.DimShippers ds ON so.ShipVia = ds.ShipperID
+        LEFT JOIN dbo.DimProducts dp ON sod.ProductID = dp.ProductID
+        WHERE so.OrderDate BETWEEN '{start_date}' AND '{end_date}'
+        AND (
+            dc.CustomerKey IS NULL OR
+            de.EmployeeKey IS NULL OR
+            ds.ShipperKey IS NULL OR
+            dp.ProductKey IS NULL OR
+            sod.Quantity <= 0 OR
+            sod.UnitPrice * sod.Quantity <= 0 OR
+            sod.Discount < 0
+        );
+        """
+        
+        logger.info("Inserting records into FactError table...")
+        cursor.execute(fact_error_query)
+        conn.commit()
+        logger.info("FactError table updated successfully.")
+    
+    except Exception as e:
+        logger.error(f"Failed to update FactError table: {e}", exc_info=True)
+    
+    finally:
+        if conn:
+            conn.close()
+            logger.info("Database connection closed.")
