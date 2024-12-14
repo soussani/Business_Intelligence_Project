@@ -1,4 +1,4 @@
-CREATE TABLE StagingCategories (
+CREATE TABLE Staging_Categories (
     Staging_Raw_ID INT IDENTITY(1,1) PRIMARY KEY,
     CategoryID INT,
     CategoryName NVARCHAR(255),
@@ -6,7 +6,7 @@ CREATE TABLE StagingCategories (
 );
 
 -- Staging Table for Customers
-CREATE TABLE StagingCustomers (
+CREATE TABLE Staging_Customers (
     Staging_Raw_ID INT IDENTITY(1,1) PRIMARY KEY,
     CustomerID NVARCHAR(10),
     CompanyName NVARCHAR(255),
@@ -106,11 +106,11 @@ CREATE TABLE Staging_Territories (
 CREATE TABLE Staging_Orders (
     Staging_Raw_ID INT IDENTITY(1,1) PRIMARY KEY,
     OrderID INT,
-    CustomerID INT,
+    CustomerID NVARCHAR(255),
     EmployeeID INT,
-    OrderDate DATETIME,
-    RequiredDate DATETIME,
-    ShippedDate DATETIME,
+    OrderDate NVARCHAR(255),
+    RequiredDate NVARCHAR(255),
+    ShippedDate NVARCHAR(255),
     ShipVia INT,
     Freight MONEY,
     ShipName NVARCHAR(255),
@@ -140,7 +140,7 @@ CREATE TABLE dbo.FactError (
     ErrorID UNIQUEIDENTIFIER PRIMARY KEY, -- Unique error identifier
     Staging_Raw_ID INT,                   -- Link to staging row
     OrderID INT,                          -- Natural key
-    CustomerID INT,                       -- Failed key from DimCustomers
+    CustomerID NVARCHAR(255),                       -- Failed key from DimCustomers
     EmployeeID INT,                       -- Failed key from DimEmployees
     ShipVia INT,                          -- Failed key from DimShippers
     ProductID INT,                        -- Failed key from DimProducts
