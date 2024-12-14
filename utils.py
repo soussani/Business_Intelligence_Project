@@ -216,10 +216,11 @@ def update_dimensional_tables(query_directory: str = "pipeline_dimensional_data/
             conn.close()
             logger.info("Database connection closed.")
 
+
 def update_fact_orders(start_date, end_date):
     """
     Updates the FactOrders table based on data in the staging and dimension tables.
-    Automatically calculates the earliest and latest OrderDate from Staging_Orders.
+    The SQL logic is read from an external file for better separation of concerns.
     """
     conn = get_db_connection()
 
@@ -227,59 +228,23 @@ def update_fact_orders(start_date, end_date):
         cursor = conn.cursor()
 
         if not start_date or not end_date:
-            logger.warning("No orders found in Staging_Orders. Skipping FactOrders update.")
+            logger.warning("No valid date range provided. Skipping FactOrders update.")
             return
-
-        fact_orders_query = f"""
-        USE ORDER_DDS;
-
-        MERGE dbo.FactOrders AS target
-        USING (
-            SELECT
-                so.OrderID,
-                dc.CustomerKey,
-                de.EmployeeKey,
-                ds.ShipperKey,
-                dp.ProductKey,
-                so.OrderDate,
-                sod.Quantity,
-                sod.UnitPrice * sod.Quantity AS TotalAmount,
-                sod.Discount
-            FROM dbo.Staging_Orders so
-            JOIN dbo.Staging_OrderDetails sod
-                ON sod.OrderID = so.OrderID
-            JOIN dbo.DimCustomers dc
-                ON so.CustomerID = dc.CustomerID
-            JOIN dbo.DimEmployees de
-                ON so.EmployeeID = de.EmployeeID
-            JOIN dbo.DimShippers ds
-                ON so.ShipVia = ds.ShipperID
-            JOIN dbo.DimProducts dp
-                ON sod.ProductID = dp.ProductID
-            WHERE so.OrderDate BETWEEN '{start_date}' AND '{end_date}'
-        ) AS source
-        ON target.OrderID = source.OrderID
-           AND target.ProductKey = source.ProductKey
-        WHEN MATCHED THEN
-            UPDATE SET
-                target.CustomerKey = source.CustomerKey,
-                target.EmployeeKey = source.EmployeeKey,
-                target.ShipperKey = source.ShipperKey,
-                target.ProductKey = source.ProductKey,
-                target.OrderDate = source.OrderDate,
-                target.Quantity = source.Quantity,
-                target.TotalAmount = source.TotalAmount,
-                target.Discount = source.Discount
-        WHEN NOT MATCHED BY TARGET THEN
-            INSERT (OrderID, CustomerKey, EmployeeKey, ShipperKey, ProductKey, OrderDate, Quantity, TotalAmount, Discount)
-            VALUES (source.OrderID, source.CustomerKey, source.EmployeeKey, source.ShipperKey, source.ProductKey, source.OrderDate, source.Quantity, source.TotalAmount, source.Discount);
-        """
         
+        # Load SQL file and format with dynamic dates
+        sql_file_path = os.path.join("pipeline_dimensional_data", "queries", "update_fact.sql")
+        
+        with open(sql_file_path, "r", encoding="utf-8") as file:
+            fact_orders_query = file.read().format(start_date=start_date, end_date=end_date)
+
+        # Execute the query
         logger.info("Updating FactOrders table...")
         cursor.execute(fact_orders_query)
         conn.commit()
         logger.info("FactOrders table updated successfully.")
-    
+
+    except FileNotFoundError:
+        logger.error(f"SQL file not found: {sql_file_path}", exc_info=True)
     except Exception as e:
         logger.error(f"Failed to update FactOrders table: {e}", exc_info=True)
     
@@ -288,14 +253,13 @@ def update_fact_orders(start_date, end_date):
             conn.close()
             logger.info("Database connection closed.")
 
-
 def update_fact_error_table():
     """
     Updates the FactError table by detecting faulty records in the FactOrders pipeline.
     Dynamically calculates the earliest and latest OrderDate from Staging_Orders.
     """
     conn = get_db_connection()
-    
+
     try:
         # Determine date range
         date_query = """
@@ -309,10 +273,8 @@ def update_fact_error_table():
         if not start_date or not end_date:
             logger.warning("No orders found in Staging_Orders. Skipping FactError update.")
             return
-        
-        fact_error_query = f"""
-        USE ORDER_DDS;
 
+        fact_error_query = """
         INSERT INTO dbo.FactError (
             ErrorID, Staging_Raw_ID, OrderID, CustomerID, EmployeeID, 
             ShipVia, ProductID, OrderDate, Quantity, TotalAmount, Discount, ErrorReason
@@ -345,7 +307,7 @@ def update_fact_error_table():
         LEFT JOIN dbo.DimEmployees de ON so.EmployeeID = de.EmployeeID
         LEFT JOIN dbo.DimShippers ds ON so.ShipVia = ds.ShipperID
         LEFT JOIN dbo.DimProducts dp ON sod.ProductID = dp.ProductID
-        WHERE so.OrderDate BETWEEN '{start_date}' AND '{end_date}'
+        WHERE so.OrderDate BETWEEN ? AND ?
         AND (
             dc.CustomerKey IS NULL OR
             de.EmployeeKey IS NULL OR
@@ -356,16 +318,40 @@ def update_fact_error_table():
             sod.Discount < 0
         );
         """
-        
+
         logger.info("Inserting records into FactError table...")
-        cursor.execute(fact_error_query)
+        cursor.execute(fact_error_query, (start_date, end_date))
         conn.commit()
         logger.info("FactError table updated successfully.")
-    
+
     except Exception as e:
         logger.error(f"Failed to update FactError table: {e}", exc_info=True)
-    
+
     finally:
         if conn:
             conn.close()
             logger.info("Database connection closed.")
+
+
+def populate_dim_sor():
+    conn = get_db_connection()
+    sql_file_path = os.path.join("pipeline_dimensional_data", "queries", "update_dim_sor.sql")
+    
+    try:
+        # Read SQL script from file
+        with open(sql_file_path, "r", encoding="utf-8") as file:
+            query = file.read()
+
+        cursor = conn.cursor()
+        cursor.execute(query)
+        conn.commit()
+        print("Dim_SOR table populated successfully.")
+        
+    except FileNotFoundError:
+        print(f"SQL file not found: {sql_file_path}", exc_info=True)
+        
+    except Exception as e:
+        print(f"Failed to populate Dim_SOR: {e}", exc_info=True)
+        
+    finally:
+        conn.close()
