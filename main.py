@@ -54,7 +54,7 @@ def main():
         logger.info("Execution completed!")
 
         update_dimensional_tables()
-        update_fact_orders()
+        update_fact_orders(start_date, end_date)
         update_fact_error_table()
         logger.info("Dim Tables update completed!")
 

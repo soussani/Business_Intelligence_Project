@@ -216,22 +216,15 @@ def update_dimensional_tables(query_directory: str = "pipeline_dimensional_data/
             conn.close()
             logger.info("Database connection closed.")
 
-def update_fact_orders():
+def update_fact_orders(start_date, end_date):
     """
     Updates the FactOrders table based on data in the staging and dimension tables.
     Automatically calculates the earliest and latest OrderDate from Staging_Orders.
     """
     conn = get_db_connection()
-    
+
     try:
-        # Calculate dynamic date range
-        date_query = """
-        SELECT MIN(OrderDate) AS StartDate, MAX(OrderDate) AS EndDate
-        FROM dbo.Staging_Orders;
-        """
         cursor = conn.cursor()
-        cursor.execute(date_query)
-        start_date, end_date = cursor.fetchone()
 
         if not start_date or not end_date:
             logger.warning("No orders found in Staging_Orders. Skipping FactOrders update.")
