@@ -4,6 +4,7 @@ import pandas as pd
 from loggings import logger
 from pipeline_dimensional_data.config_db import get_db_config, get_db_connection, ensure_database_exists
 import numpy as np
+from decimal import Decimal
 
 # Generate unique UUID for task execution tracking
 def generate_uuid() -> str:
@@ -90,12 +91,41 @@ def execute_sql_script_from_file(file_path: str, config_file='sql_server_config.
 def execute_sql_inserts(df, table_name, conn):
     cursor = conn.cursor()
     for index, row in df.iterrows():
-        placeholders = ", ".join(["?" for _ in row])
-        insert_query = f"INSERT INTO {table_name} ({', '.join(df.columns)}) VALUES ({placeholders})"
-        cursor.execute(insert_query, tuple(row))
+        try:
+            cleaned_row = []
+            for col, x, dtype in zip(df.columns, row, df.dtypes):
+                if table_name == "Staging_Customers" and col == "CustomerID":
+                    cleaned_row.append(str(x).strip() if pd.notnull(x) else None)
+                elif table_name == "Staging_Employees" and col in ["EmployeeID", "ReportsTo"]:
+                    cleaned_row.append(int(x) if pd.notnull(x) else None)
+                elif table_name == "Staging_Employees" and col in ["BirthDate", "HireDate"]:
+                    cleaned_row.append(pd.to_datetime(x, errors='coerce') if pd.notnull(x) else None)
+                elif table_name == "Staging_OrderDetails" and col in ["OrderID", "ProductID", "Quantity"]:
+                    cleaned_row.append(int(x) if pd.notnull(x) else None)
+                elif table_name == "Staging_Orders" and col in ["OrderDate", "ShippedDate", "RequiredDate"]:
+                    cleaned_row.append(pd.to_datetime(x, errors='coerce') if pd.notnull(x) else None)
+                elif dtype.kind == 'i':
+                    cleaned_row.append(int(x) if pd.notnull(x) else None)
+                elif dtype.kind == 'f':
+                    cleaned_row.append(Decimal(str(x)).quantize(Decimal("0.00")) if pd.notnull(x) else None)
+                elif dtype.kind == 'O':
+                    cleaned_row.append(str(x).strip() if pd.notnull(x) else None)
+                elif table_name == "Staging_Categories" and col == "CategoryID":
+                    cleaned_row.append(int(x) if pd.notnull(x) else None)
+                elif table_name == "Staging_Categories" and col in ["CategoryName", "Description"]:
+                    cleaned_row.append(str(x).strip() if pd.notnull(x) else None)
+
+                else:
+                    cleaned_row.append(None)
+            placeholders = ", ".join(["?" for _ in cleaned_row])
+            insert_query = f"INSERT INTO {table_name} ({', '.join(df.columns)}) VALUES ({placeholders})"
+            cursor.execute(insert_query, tuple(cleaned_row))
+        except Exception as e:
+            logger.error(f"Failed to insert row {index} into {table_name}: {e}", exc_info=True)
     conn.commit()
     logger.info(f"Inserted {len(df)} rows into {table_name}.")
 
+#Loading raw data in db
 def load_raw_data_to_staging(raw_data_path: str):
     """
     Loads raw data from an Excel file into staging tables in the database.
@@ -111,6 +141,11 @@ def load_raw_data_to_staging(raw_data_path: str):
         df_suppliers['Phone'] = df_suppliers['Phone'].astype(str)
         df_suppliers.replace({np.nan: None, np.inf: None, -np.inf: None}, inplace=True)
         df_territories = pd.read_excel(raw_data_path, sheet_name='Territories')
+        df_orders = pd.read_excel(raw_data_path, sheet_name='Orders')
+        df_customers = pd.read_excel(raw_data_path, sheet_name='Customers')
+        df_employees = pd.read_excel(raw_data_path, sheet_name='Employees')
+        df_order_details = pd.read_excel(raw_data_path, sheet_name='OrderDetails')
+        df_categories = pd.read_excel(raw_data_path, sheet_name='Categories')
 
         # Insert data into respective tables
         execute_sql_inserts(df_products, 'Staging_Products', conn)
@@ -118,6 +153,11 @@ def load_raw_data_to_staging(raw_data_path: str):
         execute_sql_inserts(df_shippers, 'Staging_Shippers', conn)
         execute_sql_inserts(df_suppliers, 'Staging_Suppliers', conn)
         execute_sql_inserts(df_territories, 'Staging_Territories', conn)
+        execute_sql_inserts(df_orders, 'Staging_Orders', conn)
+        execute_sql_inserts(df_customers, 'Staging_Customers', conn)
+        execute_sql_inserts(df_employees, 'Staging_Employees', conn)
+        execute_sql_inserts(df_order_details, 'Staging_OrderDetails', conn)
+        execute_sql_inserts(df_categories, 'Staging_Categories', conn)
 
     except Exception as e:
         logger.error(f"Error loading raw data to staging: {e}", exc_info=True)
