@@ -3,7 +3,7 @@ import argparse
 from pipeline_dimensional_data.flow import DimensionalDataFlow
 from loggings import logger
 from pipeline_dimensional_data.tasks import reset_db
-from utils import execute_sql_script_from_file, load_raw_data_to_staging, update_dimensional_tables
+from utils import execute_sql_script_from_file, load_raw_data_to_staging, update_dimensional_tables, update_fact_orders, update_fact_error_table
 
 
 def get_args():
@@ -54,6 +54,8 @@ def main():
         logger.info("Execution completed!")
 
         update_dimensional_tables()
+        update_fact_orders()
+        update_fact_error_table()
         logger.info("Dim Tables update completed!")
 
         logger.info(f"Final Pipeline Status: {pipeline_status}")
